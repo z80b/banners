@@ -1,0 +1,39 @@
+.bf-actions__promocode
+  position relative
+
+  &-hint
+  &-hint-applied
+    position absolute
+    width 195px
+    color #333
+    background-color #fff
+    top -9000000px
+    left 50%
+    bottom 0
+    opacity 0
+    margin-left -97px
+    height 25px
+    font-size 11px
+    line-height 25px
+    text-align center
+
+    &::before
+      content ""
+      position absolute
+      left 50%
+      margin-left -10px
+      width 0
+      height 0
+      border-style solid
+
+  &:hover
+    .bf-actions__promocode-hint
+      transition bottom .15s ease,top .15s ease,opacity .3s ease-in
+      opacity 1
+      bottom 47px
+      top auto
+
+      &::before
+        bottom -10px
+        border-width 10px 10px 0
+        border-color #fff transparent transparent

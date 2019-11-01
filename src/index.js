@@ -1,23 +1,8 @@
-import DomElement from '@js/dom-element.js';
-import pageTpl from '@tpl/page.html';
+import Banner from '@js/banner.js';
 
 require('@css/index.styl');
 
-class Page extends DomElement {
-  constructor(el) {
-    super(el);
-    this.data = {
-      title: 'Page title'
-    };
-    this.render();
-  }
-
-  render() {
-    this.$el.innerHTML = pageTpl(this.data);
-  }
-}
-
 document.addEventListener('DOMContentLoaded', (event) => {
-  const page = new Page('.page');
+  const banner = new Banner('.bf-actions', { slides: 3 });
 });
 
