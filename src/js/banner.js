@@ -59,10 +59,17 @@ class Banner extends Dom {
 
   changePosition(position) {
     console.log('changePosition: ', position, this);
+
+
+    //if (position >= this.slidesCount - 2) position = this.slidesCount - 2;
     if (this.platform == 'mobile') {
       this.$sliderTrack.style.transform = `translate3d(${(0 - position) * this.slideWidth + 2.5}%, 0, 0)`;
     } else {
-      this.$sliderTrack.style.transform = `translate3d(${(1 - position) * this.slideWidth}%, 0, 0)`;
+      if (position < this.slidesCount - 2) {
+        this.$sliderTrack.style.transform = `translate3d(${(1 - position) * this.slideWidth}%, 0, 0)`;
+      } else {
+        this.$sliderTrack.style.transform = `translate3d(${(1 - (this.slidesCount - 2)) * this.slideWidth}%, 0, 0)`;
+      }
     }
     this.position = position;
     this.updateDots();
@@ -75,7 +82,6 @@ class Banner extends Dom {
   }
 
   actionStarted(event) {
-    console.log('actionStarted:', event, this);
     this.changePosition(event.detail.position);
     this.updateDots();
   }

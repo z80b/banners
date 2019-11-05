@@ -15,11 +15,18 @@ class BannerSlide extends Dom{
   init() {
     for (let key in this.$el.dataset) {
       this[key] = this.$el.dataset[key];
-      this.startTime = Date.parse(this.$el.dataset.startDate);
-      this.endTime = Date.parse(this.$el.dataset.endDate) + 86399999;
-      this.time = 0;
-      this.started = false;
     }
+    let dt = this.$el.dataset.actionDate.split(/\s?-\s?/);
+    this.startTime = Date.parse(`2019.${dt[0]}`);
+    this.endTime = Date.parse(`2019.${dt[1]}`); + 86399999;
+    this.props.startDate = `2019.${dt[0]}`;
+    this.props.endDate = `2019.${dt[1]}`;
+    console.log('Dates set:', `2019.${dt[0]}`, `2019.${dt[1]}`);
+    // this.startTime = Date.parse(this.$el.dataset.startDate);
+    // this.endTime = Date.parse(this.$el.dataset.endDate) + 86399999;
+    console.log('Dates set:', this.startTime, this.endTime);
+    this.time = 0;
+    this.started = false;
   }
 
   render() {
