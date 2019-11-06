@@ -5,11 +5,17 @@ const slideTpl = require('@tpl/slide.html');
 class BannerSlide extends Dom{
   constructor(el, index) {
     super(el);
-    this.props = this.$el.dataset;
+    this.props = {
+      title: '',
+      discount: '',
+      date: '',
+      ...this.$el.dataset};
     this.position = index;
     this.init();
     this.render();
-    this.timer = setInterval(this.checkTime.bind(this), 3000);
+    if (!this.checkTime()) {
+      this.timer = setInterval(this.checkTime.bind(this), 3000);
+    }
   }
 
   init() {
@@ -17,20 +23,16 @@ class BannerSlide extends Dom{
       this[key] = this.$el.dataset[key];
     }
     let dt = this.$el.dataset.actionDate.split(/\s?-\s?/);
-    this.startTime = Date.parse(`2019.${dt[0]}`);
-    this.endTime = Date.parse(`2019.${dt[1]}`); + 86399999;
-    this.props.startDate = `2019.${dt[0]}`;
-    this.props.endDate = `2019.${dt[1]}`;
-    console.log('Dates set:', `2019.${dt[0]}`, `2019.${dt[1]}`);
-    // this.startTime = Date.parse(this.$el.dataset.startDate);
-    // this.endTime = Date.parse(this.$el.dataset.endDate) + 86399999;
-    console.log('Dates set:', this.startTime, this.endTime);
+    this.startTime = Date.parse(`2019.${dt[0]}`.replace(/\./g, '/'));
+    this.endTime = Date.parse(`2019.${dt[1]}`.replace(/\./g, '/')); + 86399999;
+    this.props.startDate = `2019.${dt[0]}`.replace(/\./g, '/');
+    this.props.endDate = `2019.${dt[1]}`.replace(/\./g, '/');
     this.time = 0;
     this.started = false;
   }
 
   render() {
-    this.$el.innerHTML = slideTpl({...this.props, date: this.formatDate(this.props.startDate, this.props.endDate)});
+    this.$el.innerHTML = slideTpl(this.props);
   }
 
   formatDate(startDate, endDate) {
@@ -45,13 +47,16 @@ class BannerSlide extends Dom{
   }
 
   checkTime() {
-    let dt = new Date();
-    this.time = dt.getTime();
+    this.time = (new Date()).getTime();
     if (this.time >= this.startTime && this.time <= this.endTime) {
       if (!this.started) {
-        window.dispatchEvent(new CustomEvent('action:ready', {bubbles: true, detail: {
-          position: this.position
-        }}));
+        const event = new CustomEvent('action:ready', {
+          bubbles: true,
+          cancelable: true,
+          detail: {
+            position: this.position
+        }});
+        document.dispatchEvent(event);
         this.started = true;
       }
       this.$el.setAttribute('href', this.href);
@@ -64,6 +69,7 @@ class BannerSlide extends Dom{
       this.removeClass('active');
       this.started = false;
     }
+     return this.started;
   }
 }
 

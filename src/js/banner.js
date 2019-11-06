@@ -11,6 +11,7 @@ class Banner extends Dom {
   }
 
   init() {
+    this.currentTime = (new Date()).getTime();
     this.$slides = this.getElements('.bf-actions-slide');
     this.$sliderTrack = this.getElement('.bf-actions-slider__track');
     this.$dotsBlock = this.getElement('.bf-actions-slider__dots');
@@ -26,8 +27,9 @@ class Banner extends Dom {
     });
     this.calcSizes();
     this.creteDots();
+    this.initPosition();
     this.setInitialized();
-    window.addEventListener('action:ready', this.actionStarted.bind(this));
+    document.addEventListener('action:ready', this.actionStarted.bind(this));
   }
 
   calcSizes() {
@@ -53,22 +55,43 @@ class Banner extends Dom {
     }
   }
 
-  setInitialized() {
-    this.$el.className += ' initialized'
+  setInitialized() { this.$el.className += ' initialized' }
+
+  initPosition() {
+    let actionInProgress = false;
+    let startPosition = 0;
+
+    for (let [key, slide] of this.slides.entries()) {
+      if (this.currentTime < slide.startPosition) {
+        startPosition = key;
+        break;
+      }
+
+      if (this.currentTime > slide.endTime) {
+        startPosition = key;
+      }
+
+      if (this.currentTime >= slide.startTime && this.currentTime <= slide.endTime) {
+        actionInProgress = true;
+        this.changePosition(slide.position);
+        break;
+      }
+    }
+    if (!actionInProgress) {
+      this.changePosition(startPosition);
+    }
   }
 
   changePosition(position) {
-    console.log('changePosition: ', position, this);
-
-
-    //if (position >= this.slidesCount - 2) position = this.slidesCount - 2;
     if (this.platform == 'mobile') {
-      this.$sliderTrack.style.transform = `translate3d(${(0 - position) * this.slideWidth + 2.5}%, 0, 0)`;
+      this.transform(this.$sliderTrack, `translate3d(${(0 - position) * this.slideWidth + 2.5}%, 0, 0)`);
     } else {
-      if (position < this.slidesCount - 2) {
-        this.$sliderTrack.style.transform = `translate3d(${(1 - position) * this.slideWidth}%, 0, 0)`;
+      if (position < this.slidesCount - 2 && position > 0) {
+        this.transform(this.$sliderTrack, `translate3d(${(1 - position) * this.slideWidth}%, 0, 0)`);
+      } else if (position > 0) {
+        this.transform(this.$sliderTrack, `translate3d(${(1 - (this.slidesCount - 2)) * this.slideWidth}%, 0, 0)`);
       } else {
-        this.$sliderTrack.style.transform = `translate3d(${(1 - (this.slidesCount - 2)) * this.slideWidth}%, 0, 0)`;
+        this.transform(this.$sliderTrack, `translate3d(0, 0, 0)`);
       }
     }
     this.position = position;
@@ -79,6 +102,14 @@ class Banner extends Dom {
     this.dots.forEach((el, index) => {
       el.className = this.position == index ? 'bf-actions-slider__dot active' : 'bf-actions-slider__dot';
     });
+  }
+
+  transform(el, value) {
+    el.style.webkitTransform = value;
+    el.style.MozTransform = value;
+    el.style.msTransform = value;
+    el.style.OTransform = value;
+    el.style.transform = value;  
   }
 
   actionStarted(event) {

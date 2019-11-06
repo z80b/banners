@@ -13,12 +13,13 @@
   text-align left
   opacity 1
   filter grayscale(100%)
-  transition .5s all ease
   cursor default
+
+  .initialized &
+     transition .5s opacity ease
 
   &__inner
     opacity 0
-    transition: 1s all ease
 
     .initialized &
       opacity 1
@@ -29,9 +30,9 @@
     &[href]
       cursor pointer
 
-    &:hover
-      opacity .5
-      color #fff
+      &:hover
+        opacity .5
+        color #fff
 
 
   &__date, &__title, &__discount
