@@ -52,11 +52,10 @@ class BannerSlide extends Dom{
       if (!this.started) {
         const event = new CustomEvent('action:ready', {
           bubbles: true,
-          cancelable: true,
           detail: {
             position: this.position
         }});
-        document.dispatchEvent(event);
+        window.dispatchEvent(event);
         this.started = true;
       }
       this.$el.setAttribute('href', this.href);

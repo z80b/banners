@@ -11,7 +11,9 @@
   "author": "Stitch",
   "license": "ISC",
   "dependencies": {
-    "@babel/polyfill": "^7.4.4"
+    "@babel/polyfill": "^7.4.4",
+    "@egjs/flicking": "^3.4.2",
+    "swiper": "^5.2.0"
   },
   "devDependencies": {
     "@babel/cli": "7.4.4",

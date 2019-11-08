@@ -3,13 +3,16 @@
 .bf-actions-slider
     &__content
       overflow hidden
-      height auto
       margin 3.5em auto 0
+      padding 0 2em
+      position relative
+
+      @media (max-width: 520px)
+        padding 0 5em
 
     &__track
-      height 100%
+      display block
       white-space nowrap
-      overflow hidden
       
       .initialized &
         transition: 1s transform ease
