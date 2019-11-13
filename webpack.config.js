@@ -2,8 +2,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const autoprefixer = require('autoprefixer-stylus');
+const autoprefixerStylus = require('autoprefixer-stylus');
+const autoprefixer = require('autoprefixer');
 const path = require('path');
+const overrideBrowserslist = [
+  'ie >= 8',
+  'last 4 version',
+];
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -43,7 +48,8 @@ module.exports = {
             presets: [
               [
                 "@babel/preset-env", {
-                  targets: "> 0.25%, not dead",
+                  targets: '> 0.25%, not dead',
+                  corejs: '3.4.1',
                   useBuiltIns: 'usage',
                   modules: false
                }
@@ -52,6 +58,38 @@ module.exports = {
             // ignore: ['*.ejs']
           }
         }
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // only enable hot in development
+              hmr: process.env.NODE_ENV === 'development',
+              // if hmr does not work, this is a forceful method.
+              reloadAll: true,
+            },
+          },
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                autoprefixer({ overrideBrowserslist })
+              ],
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: require('sass'),
+              sassOptions: {
+                fiber: false,
+              },
+            },
+          }
+        ],
       },
       {
         test: /\.styl$/,
@@ -70,12 +108,7 @@ module.exports = {
           {
             loader: 'stylus-loader',
             options: {
-              use: [autoprefixer({
-                overrideBrowserslist: [
-                  'last 2 version',
-                  '> 1%',
-                ]                
-              })]
+              use: [autoprefixerStylus({ overrideBrowserslist })]
             }
           }
         ],
@@ -106,7 +139,7 @@ module.exports = {
     }),
 
     new HtmlWebpackPlugin({
-      title: "Bannermaker 2.0",
+      title: "Banner factory",
       template: __dirname + "/src/index.html",
       filename: __dirname + "/index.html"
     })
