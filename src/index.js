@@ -1,7 +1,7 @@
 import DomElement from '@js/dom-element.js';
-import pageTpl from '@tpl/page.html';
+import pageTpl from '@tpl/page.tpl';
 
-require('@css/index.styl');
+import '@css/index.styl';
 
 class Page extends DomElement {
   constructor(el) {
