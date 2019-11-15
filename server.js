@@ -1,19 +1,34 @@
-  
-var webpack = require('webpack');
-var config = require('./webpack.config');
-var express = require('express');
+const express = require('express');
+const path =  require('path');
+const cheerio = require('cheerio');
+const fs = require('fs');
 
-var app = express();
-var compiler = webpack(config);
+const router = express.Router();
+const app = express();
 
-app.use(require('webpack-dev-middleware')(compiler, {
-  publicPath: __dirname,
-  historyApiFallback: true,
-  mode: 'development'
-}));
+// app.use(require('webpack-dev-middleware')(compiler, {
+//   publicPath: __dirname,
+//   historyApiFallback: true,
+//   mode: 'development'
+// }));
 
-app.use('/static', express.static(__dirname + '/public'));
+router.get('/',function(req,res){
+  const html = fs.readFileSync(__dirname + '/src/index.html', 'utf8');
+  const banner = fs.readFileSync(__dirname + '/src/banner.html', 'utf8');
+  const $ = cheerio.load(html);
+  $('.page__banner-slot').append(banner);
+  res.send($.html());
 
+});
+
+app.get('/dist/:file', function(req, res) {
+  res.sendFile(path.join(__dirname + req.url));
+});
+//router.get('/dist', express.static(__dirname + '/dist'));
+router.get('/static', express.static(__dirname + '/public'));
+
+// app.use('/static', express.static(__dirname + '/public'));
+app.use('/', router);
 app.listen(3000, function(err) {
   if (err) {
     return console.error(err);

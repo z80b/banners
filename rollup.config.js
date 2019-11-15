@@ -3,9 +3,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import { uglify } from 'rollup-plugin-uglify';
 import stylus from 'rollup-plugin-stylus-compiler';
-// import stylus from 'rollup-plugin-stylus';
-import css from 'rollup-plugin-css-porter';
-import html from 'rollup-plugin-template-html';
+// import html from 'rollup-plugin-template-html';
 import underscorify from 'rollup-plugin-underscorify';
 import alias from 'rollup-plugin-import-alias';
 import postcss from 'rollup-plugin-postcss';
@@ -36,13 +34,17 @@ const plugins = [
     include: 'node_modules/**',
   }),
 
-  uglify(),
   stylus(),
-  css({
-    minified: false,
-    raw: 'dist/styles.css',
+
+  postcss({
+    include: '**/*.css',
+    extract: true,
+    minimize: process.env.BUILD === 'production',
     plugins: [
-      autoprefixer(),
+      autoprefixer([
+        'ie >= 8',
+        'last 4 version',
+      ]),
     ]
   }),
 
@@ -50,18 +52,23 @@ const plugins = [
     include: ['**/*.tpl'],
     variable: 'props',
   }),
-  
-  html({
-    template: 'src/index.html',
-  }),
+
+  // html({
+  //   template: 'src/index.html',
+  // }),
 ];
+if (process.env.BUILD === 'production') {
+  plugins.push(uglify());
+}
 
 export default {
   input: 'src/index.js',
   output: {
     file: 'dist/index.js',
     format: 'iife',
-    sourcemap: true,
+    sourcemap: process.env.BUILD === 'development',
   },
   plugins: plugins,
 }
+
+console.log(process.env.BUILD);

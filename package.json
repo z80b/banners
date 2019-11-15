@@ -4,7 +4,9 @@
   "description": "banners boilerplate",
   "repository": "https://github.com/z80b/banners.git",
   "scripts": {
-    "build": "./node_modules/.bin/rollup -c"
+    "build": "./node_modules/.bin/rollup -c --environment BUILD:production",
+    "dev": "./node_modules/.bin/rollup -c --environment BUILD:development",
+    "server": "node ./server.js"
   },
   "author": "Stitch",
   "license": "ISC",
@@ -14,18 +16,16 @@
     "@babel/preset-env": "^7.7.1",
     "autoprefixer": "^9.7.1",
     "babel-runtime": "^6.26.0",
-    "handlebars": "^4.5.2",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
     "rollup": "^1.27.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-babel-minify": "^9.1.1",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-css-porter": "^1.0.2",
     "rollup-plugin-import-alias": "^1.0.10",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-postcss": "^2.0.3",
-    "rollup-plugin-stylus": "^1.0.4",
     "rollup-plugin-stylus-compiler": "^1.0.1",
-    "rollup-plugin-stylus-plus": "^2.0.0-beta.1",
     "rollup-plugin-template-html": "0.0.3",
     "rollup-plugin-uglify": "^6.0.3",
     "rollup-plugin-underscorify": "^1.0.0"
