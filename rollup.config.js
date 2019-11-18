@@ -9,6 +9,8 @@ import alias from 'rollup-plugin-import-alias';
 import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
 
+import build from './build.js';
+
 const plugins = [
   alias({
     Paths: {
@@ -56,6 +58,7 @@ const plugins = [
   // html({
   //   template: 'src/index.html',
   // }),
+  build(),
 ];
 if (process.env.BUILD === 'production') {
   plugins.push(uglify());
