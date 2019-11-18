@@ -2,7 +2,8 @@ import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import { uglify } from 'rollup-plugin-uglify';
-import stylus from 'rollup-plugin-stylus-compiler';
+import stylusCompiler from 'rollup-plugin-stylus-compiler';
+import stylus from 'stylus';
 // import html from 'rollup-plugin-template-html';
 import underscorify from 'rollup-plugin-underscorify';
 import alias from 'rollup-plugin-import-alias';
@@ -36,7 +37,9 @@ const plugins = [
     include: 'node_modules/**',
   }),
 
-  stylus(),
+  stylusCompiler({
+    'rawDefine': { 'inline-image': stylus.url() },
+  }),
 
   postcss({
     include: '**/*.css',
@@ -54,11 +57,6 @@ const plugins = [
     include: ['**/*.tpl'],
     variable: 'props',
   }),
-
-  // html({
-  //   template: 'src/index.html',
-  // }),
-  build(),
 ];
 if (process.env.BUILD === 'production') {
   plugins.push(uglify());
@@ -71,6 +69,7 @@ export default {
     format: 'iife',
     sourcemap: process.env.BUILD === 'development',
   },
+  treeshake: process.env.BUILD === 'production',
   plugins: plugins,
 }
 

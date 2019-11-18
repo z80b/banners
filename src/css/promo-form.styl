@@ -1,0 +1,97 @@
+.lp-promo-form
+    @extends $clear-block
+    display inline-block
+    white-space nowrap
+    margin 2em 0 0
+
+    @media (max-width: 580px)
+        margin 0
+    
+    &__form-error
+        absolute top 100% left 0
+        padding 5px 0 0
+        white-space nowrap
+        color #a7a7a7
+        
+    &__element
+        position relative
+        display block
+        float left
+
+        @media (max-width: 580px)
+            display block
+            float none
+            margin 0 0 2%
+        
+    &__email
+        display inline-block
+        font-size 16px
+        font-weight 500
+        line-height 1.8
+        color #111
+        box-sizing border-box
+        background-color #ffd568
+        border solid 1px #ffd568
+        size 300px 60px
+        padding 0 1.5em
+        outline none
+        transition .5s all ease
+
+        @media (max-width: 580px)
+            height 3em
+        
+        ~/__form--focused &
+            border-color #ffd568
+        
+        .widget_invalid &
+            border-color #de023b
+        
+        &::placeholder
+            font-size 1em
+            color #111
+    &__buttons
+        font-size 0
+        float left
+        margin 0 0 0 20px
+
+        @media (max-width: 580px)
+            display inline-block
+            float none
+            margin 0
+          
+    &__submit
+        display inline-block
+        size 110px 60px
+        border solid 1px #888
+        outline none
+        cursor pointer
+        transition .5s all ease
+
+        @media (max-width: 580px)
+            height 4em
+        
+        &:last-child
+            border-left none
+
+        &&::after
+            font-size 16px
+        
+        &--men
+            border-left none
+            
+            &::after
+                content 'Мужчинам'
+
+        &--women
+            &::after
+                content 'Женщинам'
+        
+        &:hover
+            background-color lighten(#eee, 10%)
+            
+        ~/__form--focused &
+            border-color #ffd568
+            
+    &__element.widget_invalid ~ .lp-subscription__buttons
+        .lp-subscription__submit
+            border-color #de023b

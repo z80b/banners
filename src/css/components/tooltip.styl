@@ -1,0 +1,46 @@
+$tooltip
+    position relative
+    
+    &::after
+        content attr(data-tooltip-title)
+        absolute top 18px left 0
+        font-size 13px
+        font-weight 600
+        line-height 22px
+        color #111
+        padding 20px 30px 0
+        display none
+        transition 1s all ease 0
+        z-index 3
+
+    &::before
+        content attr(data-tooltip)
+        white-space pre-line
+        text-align left
+        absolute width 210px top 18px left 0
+        display inline-block
+        font-size 13px
+        font-weight 500
+        line-height 22px
+        color #333
+        padding 45px 30px 30px
+        background-color #fff
+        border solid 1px #888
+        border-radius 3px
+        opacity 0
+        transform scale(0)
+        transform-origin 0 0
+        transition .5s transform cubic-bezier(0.68, 0, 0.27, 1.55)
+        z-index 2
+        
+    &[data-dir=up]::before
+        top auto
+        bottom 18px
+        transform-origin 100% 100%
+            
+    &:hover::before
+        opacity 1
+        transform scale(1)
+        
+    &:hover::after
+        display block
