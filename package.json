@@ -10,7 +10,9 @@
   },
   "author": "Stitch",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "pixi.js": "^5.2.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
