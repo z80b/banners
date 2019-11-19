@@ -1,4 +1,5 @@
-import $ from 'jquery';
+// import $ from 'jquery';
+import post from 'axios';
 import Backbone from 'backbone';
 
 class QuizModel extends Backbone.Model {
@@ -24,8 +25,17 @@ class QuizModel extends Backbone.Model {
   }
   
   update(_data) {
-      let data = Object.assign({ 'sku1': this.get('sku1'), 'sku2': this.get('sku2') }, _data );
-      return $.post('/blackfriday/preparequestions/', data, this.updateHandler.bind(this));
+    let data = Object.assign({ 'sku1': this.get('sku1'), 'sku2': this.get('sku2') }, _data );
+    // return post('/blackfriday/preparequestions/', data, this.updateHandler.bind(this));
+    return post('/blackfriday/preparequestions/', data).then(this.updateHandler.bind(this));
+    //   let response = await fetch('/blackfriday/preparequestions/', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json;charset=utf-8',
+    //     },
+    //     body: JSON.stringify(data),
+    //   });
+    //   this.updateHandler(response);
   }
   
   updateHandler(response) {
