@@ -59,7 +59,8 @@
   position: relative;
 }
 .lp-awards__tabs-content {
-  overflow: hidden;
+  max-width: 584px;
+  margin: auto;
   position: relative;
   top: 0;
   width: 100%;
@@ -68,6 +69,7 @@
   -webkit-transition: 0.5s opacity ease;
   -o-transition: 0.5s opacity ease;
   transition: 0.5s opacity ease;
+  z-index: 2;
 }
 .lp-awards__tabs-switcher:checked + .lp-awards__tabs-content {
   position: relative;
@@ -191,11 +193,14 @@
   min-height: 100px;
   padding: 0 2.5em;
 }
+.lp-game {
+  font-size: 10px;
+}
 .lp-game__title {
   font-size: 2.4em;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: 0.26px;
+  font-weight: 500;
+  line-height: 1.33;
+  letter-spacing: 0.5px;
   text-align: center;
   color: #fff;
   margin: 0;
@@ -252,14 +257,18 @@
       -ms-transform: translateX(-75%);
           transform: translateX(-75%);
 }
+.lp-game__slider-shadow {
+  -webkit-box-shadow: 0 1px 84px 0 #711b00;
+          box-shadow: 0 1px 84px 0 #711b00;
+}
 .lp-game__slider-dots {
   width: 100%;
   text-align: center;
-  padding: 2em 0;
+  padding: 3.2em 0;
 }
 .lp-game__slider-dot {
-  width: 0.8em;
-  height: 0.8em;
+  width: 1.5em;
+  height: 1.5em;
   margin: 0 0.4em;
   display: inline-block;
   background-color: #9c0a0d;
@@ -280,10 +289,10 @@
 .lp-game__slider-button {
   position: absolute;
   top: 0;
-  height: 82%;
-  width: 4em;
+  height: 100%;
+  width: 6em;
   padding: 0;
-  background: 50% 50% no-repeat;
+  background: 50% 55% no-repeat;
   border: none;
   outline: none;
   display: none;
@@ -303,17 +312,17 @@
 }
 .lp-game__slider-button--next {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDE2IDMyIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIiBzdHJva2Utd2lkdGg9IjIiPgogICAgICAgIDxwYXRoIGQ9Ik0yIDJsMTIgMTRMMiAzMCIvPgogICAgPC9nPgo8L3N2Zz4=");
-  right: 4em;
+  right: 0;
 }
 [data-step="3"] .lp-game__slider-button--next {
   display: none;
 }
 .lp-game__slider-button--next:hover {
-  right: 3.8em;
+  right: 0.4em;
 }
 .lp-game__slider-button--prev {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDE2IDMyIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIiBzdHJva2Utd2lkdGg9IjIiPgogICAgICAgIDxwYXRoIGQ9Ik0xNCAybC0xMiAxNEwxNCAzMCIvPgogICAgPC9nPgo8L3N2Zz4=");
-  left: 4em;
+  left: 0;
 }
 [data-step="0"] .lp-game__slider-button--prev {
   display: none;
@@ -326,13 +335,13 @@
   margin: 0;
   display: block;
   position: absolute;
-  top: 47%;
+  top: 51.5%;
   left: 3em;
   color: #888;
   text-align: left;
 }
 .lp-game__slider-button--prev:hover {
-  left: 3.8em;
+  left: 0.4em;
 }
 .lp-game__slide {
   display: table-cell;
@@ -356,8 +365,8 @@
 .lp-game__slide-result {
   position: absolute;
   bottom: 30px;
-  left: 70px;
-  right: 70px;
+  left: 10%;
+  right: 10%;
   background-color: #fff;
   -webkit-box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.122);
           box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.122);
@@ -390,7 +399,7 @@
           box-sizing: border-box;
   width: 50%;
   height: auto;
-  padding: 0 2%;
+  padding: 0;
   margin: 0;
   float: left;
   cursor: pointer;
@@ -431,8 +440,8 @@
           box-sizing: border-box;
   position: absolute;
   top: 0;
-  left: 0.8em;
-  right: 0.8em;
+  left: 0;
+  right: 0;
   width: auto;
   height: 100%;
   border: solid 7px #fff;
@@ -708,7 +717,7 @@ body > .footer {
   display: none;
 }
 .lp-page {
-  background-color: #000;
+  background-color: #d13f19;
   width: 100%;
 }
 .lp-page__content {
@@ -719,12 +728,60 @@ body > .footer {
   width: 1206px;
 }
 .lp-quiz {
+  position: relative;
   font-size: 2.6vw;
   width: 100%;
   margin: auto;
 }
+.lp-quiz__background {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: 50% 60% no-repeat;
+  background-image: url("//a.lmcdn.ru/files/cms/gold-pattern-2.jpg");
+  background-size: 756px 320px;
+  z-index: 1;
+}
+.lp-quiz__background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 300px;
+  height: 100%;
+  display: block;
+  background: 50% 57% repeat-x;
+  background-image: url("//a.lmcdn.ru/files/cms/golden-stars.png");
+  background-size: auto 102px;
+  -webkit-transform: translateX(-460px);
+      -ms-transform: translateX(-460px);
+          transform: translateX(-460px);
+}
+.lp-quiz__background::after {
+  content: '';
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  width: 300px;
+  height: 100%;
+  display: block;
+  background: 50% 57% repeat-x;
+  background-image: url("//a.lmcdn.ru/files/cms/golden-stars.png");
+  background-size: auto 102px;
+  -webkit-transform: translateX(160px);
+      -ms-transform: translateX(160px);
+          transform: translateX(160px);
+}
+@media (max-width: 584px) {
+  .lp-quiz__background {
+    display: none;
+  }
+}
 .lp-quiz__wrapper {
-  background-color: #000;
+  background-color: #c71b1e;
+  position: relative;
 }
 .widescreen .lp-quiz {
   font-size: 16px;

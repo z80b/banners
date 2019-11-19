@@ -8,7 +8,9 @@
     "build": "./node_modules/.bin/rollup -c --environment BUILD:production",
     "dev": "./node_modules/.bin/rollup -c --environment BUILD:development",
     "watch": "./node_modules/.bin/rollup -c -w --environment BUILD:development",
-    "server": "node ./server.js"
+    "server": "node ./server.js",
+    "build:css": "node ./build/css.js --input=src/css/index.styl --output=tmp/index.css",
+    "build:html": "node ./build/html.js"
   },
   "author": "Stitch",
   "license": "ISC",
@@ -23,6 +25,7 @@
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
     "autoprefixer": "^9.7.1",
+    "autoprefixer-stylus": "^1.0.0",
     "babel-runtime": "^6.26.0",
     "cheerio": "^1.0.0-rc.3",
     "curl-request": "^1.1.1",
@@ -39,6 +42,7 @@
     "rollup-plugin-uglify": "^6.0.3",
     "rollup-plugin-underscorify": "^1.0.0",
     "rollup-watch": "^4.3.1",
-    "unzip": "^0.1.11"
+    "unzip": "^0.1.11",
+    "yargs": "^15.0.2"
   }
 }

@@ -102,6 +102,7 @@ class QuizView extends Backbone.View {
   }
   
   onAnswered(model) {
+      console.log('onAnswered:', model);
       let currentStep = model.get('step');
       setTimeout(this.setStep.bind(this, currentStep + 1), 500);
   }

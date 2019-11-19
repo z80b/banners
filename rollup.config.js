@@ -19,7 +19,7 @@ const plugins = [
       '@css': './src/css',
       '@tpl': './src/tpl',
     },
-    Extensions: ['js', 'tpl', 'styl'],
+    Extensions: ['js', 'tpl'],
   }),
 
   babel({
@@ -37,21 +37,21 @@ const plugins = [
     include: 'node_modules/**',
   }),
 
-  stylusCompiler({
-    'rawDefine': { 'inline-image': stylus.url() },
-  }),
+  // stylusCompiler({
+  //   'rawDefine': { 'inline-image': stylus.url() },
+  // }),
 
-  postcss({
-    include: '**/*.css',
-    extract: true,
-    minimize: process.env.BUILD === 'production',
-    plugins: [
-      autoprefixer([
-        'ie >= 8',
-        'last 4 version',
-      ]),
-    ]
-  }),
+  // postcss({
+  //   include: '**/*.css',
+  //   extract: true,
+  //   minimize: process.env.BUILD === 'production',
+  //   plugins: [
+  //     autoprefixer([
+  //       'ie >= 8',
+  //       'last 4 version',
+  //     ]),
+  //   ]
+  // }),
 
   underscorify({
     include: ['**/*.tpl'],
@@ -65,7 +65,7 @@ if (process.env.BUILD === 'production') {
 export default {
   input: 'src/index.js',
   output: {
-    file: 'dist/index.js',
+    file: 'tmp/index.js',
     format: 'iife',
     sourcemap: process.env.BUILD === 'development',
   },

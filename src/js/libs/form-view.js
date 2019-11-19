@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import Backbone from 'backbone';1
+import Backbone from 'backbone';
 
 class LpFormView extends Backbone.View {
   constructor(props) {
@@ -13,7 +13,8 @@ class LpFormView extends Backbone.View {
   }
 
   initialize() {
-      if (LMDA && LMDA.user && LMDA.user.email) {
+      const LMDA = window.LMDA || {};
+      if (LMDA.user && LMDA.user.email) {
           this.$el.find('[name=email]').val(LMDA.user.email);
       }
       this.showError = this.showError.bind(this);

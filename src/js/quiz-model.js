@@ -1,5 +1,4 @@
-// import $ from 'jquery';
-import post from 'axios';
+import $ from 'jquery';
 import Backbone from 'backbone';
 
 class QuizModel extends Backbone.Model {
@@ -26,16 +25,7 @@ class QuizModel extends Backbone.Model {
   
   update(_data) {
     let data = Object.assign({ 'sku1': this.get('sku1'), 'sku2': this.get('sku2') }, _data );
-    // return post('/blackfriday/preparequestions/', data, this.updateHandler.bind(this));
-    return post('/blackfriday/preparequestions/', data).then(this.updateHandler.bind(this));
-    //   let response = await fetch('/blackfriday/preparequestions/', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json;charset=utf-8',
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-    //   this.updateHandler(response);
+    return $.post('/blackfriday/preparequestions/', data, this.updateHandler.bind(this));
   }
   
   updateHandler(response) {
@@ -46,15 +36,17 @@ class QuizModel extends Backbone.Model {
   }
   
   checkResult() {
+      console.log('checkResult');
       const products = this.get('products');
       const answer = this.get('answer');
       const sku1 = this.get('sku1');
       const sku2 = this.get('sku2');
-      
+      console.log(products, answer);
       if (products && products[sku1]) {
           switch(this.get('step')) {
               case 0:
                   if (parseInt(products[sku1].purchase_count) > parseInt(products[sku2].purchase_count)) {
+                    console.log(products, answer);
                       if (answer == sku1) {
                           this.set('result', true);
                           Backbone.trigger('quiz-model:rightanswer', answer, true);

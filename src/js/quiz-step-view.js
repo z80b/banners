@@ -28,6 +28,7 @@ class QuizStepView extends Backbone.View {
   }
   
   slideChecked(event) {
+      console.log('slideChecked');
       if (!this.model.get('answer')) {
           this.model.set('answer', event.currentTarget.getAttribute('data-sku'));
       }
@@ -50,6 +51,12 @@ class QuizStepView extends Backbone.View {
           }
       }
   }
+
+  currency() {
+    if (LMDA && LMDA.country && LMDA.country.currency) {
+      return LMDA.country.currency;
+    } else return 'руб';
+  }
   
   setRsultText(el, step, product) {
       let text = '';
@@ -59,10 +66,10 @@ class QuizStepView extends Backbone.View {
               text = `Этого товара было продано больше`;
               break;
           case 1:
-              text = `Скидка на товар ${product.discount} ${LMDA.country.currency}`;
+              text = `Скидка на товар ${product.discount} ${this.currency()}`;
               break;
           case 2:
-              text = `Цена товара ${product.price} ${LMDA.country.currency}`;                
+              text = `Цена товара ${product.price} ${this.currency()}`;                
               break;
       }
       $(el).text(text);
