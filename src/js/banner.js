@@ -24,18 +24,24 @@ class Banner extends Dom {
     this.slides = [];
     this.dots = [];
     this.$slides.forEach((el, index) => {
-      this.slides.push(new BannerSlide(el, index));
+      this.slides.push(new BannerSlide(el, index, this));
     });
 
     this.calcSizes();
 
     if (this.platform/* == 'desktop'*/) {
       this.slider = new Swiper('.bf-actions-slider__content', {
-        initialSlide: this.getStartPosition(),
+        initialSlide: this.position,
         slidesPerView: 4,
         spaceBetween: 15,
         slideClass: 'bf-actions-slide',
         wrapperClass: 'bf-actions-slider__track',
+        navigation: {
+          prevEl: '.bf-actions-slider__arrow--prev',
+          nextEl: '.bf-actions-slider__arrow--next',
+          disabledClass: 'bf-actions-slider__arrow--disabled',
+          hiddenClass: 'bf-actions-slider__arrow--hidden',
+        }
 
         // pagination: {
         //   el: '.bf-actions-slider__dots',

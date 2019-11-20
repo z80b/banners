@@ -3,8 +3,9 @@ import Dom from '@js/dom.js';
 const slideTpl = require('@tpl/slide.html');
 
 class BannerSlide extends Dom{
-  constructor(el, index) {
+  constructor(el, index, parent) {
     super(el);
+    this.parent = parent;
     this.props = {
       title: '',
       discount: '',
@@ -13,9 +14,7 @@ class BannerSlide extends Dom{
     this.position = index;
     this.init();
     this.render();
-    //if (!this.checkTime()) {
-      this.timer = setInterval(this.checkTime.bind(this), 1000);
-    //}
+    this.timer = setInterval(this.checkTime.bind(this), 1000);
   }
 
   init() {
@@ -27,9 +26,11 @@ class BannerSlide extends Dom{
     this.endTime = Date.parse(`2019.${dt[1]} 23:59:59`.replace(/\./g, '/'));
     this.props.startDate = `2019.${dt[0]}`.replace(/\./g, '/');
     this.props.endDate = `2019.${dt[1]}`.replace(/\./g, '/');
-    this.time = 0;
+    this.time = (new Date()).getTime();
     this.started = false;
-    console.log(this.$el.dataset.actionDate, this);
+    if (this.time >= this.startTime && this.time <= this.endTime) {
+      this.parent.position = this.position;
+    }
   }
 
   render() {
@@ -47,7 +48,7 @@ class BannerSlide extends Dom{
     }
   }
 
-  checkTime() {
+  checkTime(parent = null) {
     this.time = (new Date()).getTime();
     if (this.time >= this.startTime && this.time <= this.endTime) {
       if (!this.started) {
