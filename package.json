@@ -4,13 +4,16 @@
   "description": "banners boilerplate",
   "repository": "https://github.com/z80b/banners.git",
   "scripts": {
-    "start": "npm run watch & npm run server",
-    "build": "./node_modules/.bin/rollup -c --environment BUILD:production",
+    "start": "npm run watch && npm run server",
     "dev": "./node_modules/.bin/rollup -c --environment BUILD:development",
-    "watch": "./node_modules/.bin/rollup -c -w --environment BUILD:development",
+    "watch:js": "./node_modules/.bin/rollup -c -w --environment BUILD:development",
+    "watch:all": "",
     "server": "node ./server.js",
-    "build:css": "node ./build/css.js --input=src/css/index.styl --output=tmp/index.css",
-    "build:html": "node ./build/html.js"
+    "compile:css": "node ./build/build-css.js --input=src/css/index.styl --output=tmp/index.css",
+    "build:css": "node ./build/build-css.js --input=src/css/index.styl --output=tmp/index.css --mode=production",
+    "build:js": "./node_modules/.bin/rollup -c --environment BUILD:production",
+    "build:html": "node ./build/build-html.js",
+    "build": "npm run build:js && npm run build:css && npm run build:html"
   },
   "author": "Stitch",
   "license": "ISC",
@@ -43,6 +46,7 @@
     "rollup-plugin-underscorify": "^1.0.0",
     "rollup-watch": "^4.3.1",
     "unzip": "^0.1.11",
+    "watch": "^1.0.2",
     "yargs": "^15.0.2"
   }
 }
