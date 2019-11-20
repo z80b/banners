@@ -2,6 +2,13 @@
   position relative
 
   &-hint
+    display block
+    font-size 12px
+    font-weight 500
+    color #fff
+    text-align center
+
+
   &-hint-applied
     position absolute
     width 195px
@@ -25,15 +32,3 @@
       width 0
       height 0
       border-style solid
-
-  &:hover
-    .bf-actions__promocode-hint
-      transition bottom .15s ease,top .15s ease,opacity .3s ease-in
-      opacity 1
-      bottom 47px
-      top auto
-
-      &::before
-        bottom -10px
-        border-width 10px 10px 0
-        border-color #fff transparent transparent

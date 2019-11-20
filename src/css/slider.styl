@@ -1,37 +1,75 @@
 @import './slide.styl'
 
 .bf-actions-slider
-    &__content
-      overflow hidden
-      margin 3.5em auto 0
-      padding 0 2em
-      position relative
+  position relative
 
-      @media (max-width: 520px)
-        padding 0 5em
+  &__content
+    overflow hidden
+    margin 0 auto
+    padding 3.5em 0 0
+    position relative
 
-    &__track
-      display block
-      white-space nowrap
-      
-      .initialized &
-        transition: 1s transform ease
+    @media (max-width: 520px)
+      padding 0 5em
 
-    &__dots
-      padding 4em 0
-      text-align center
-      min-height 14px
+  &__track
+    display block
+    white-space nowrap
+    font-size 0
+    text-align left
+    
+    .initialized &
+      transition: 1s transform ease
 
-    &__dot
-      display inline-block
-      width: 12px;
-      height: 12px;
-      border: solid 1px #979797;
-      border-radius 50%
-      margin 0 4px
+  &__dots
+    padding 4em 0
+    text-align center
+    min-height 14px
 
-      &.active
-        background-color #d8d8d8
+  &__dot
+    display inline-block
+    width: 12px;
+    height: 12px;
+    border: solid 1px #979797;
+    border-radius 50%
+    margin 0 4px
+
+    &.active
+      background-color #d8d8d8
+
+  &__pagination
+    position absolute
+    right 0
+    top -30px
+    width 44px
+    height 46px
+
+  &__arrows-text
+    position absolute
+    bottom 0
+    right 0
+    font-size 12px
+    color #c2c2c2
+    text-align right
+    white-space nowrap
+
+  &__arrow
+    position absolute
+    top 0
+    width 10px
+    height 20px
+    background 50% 50% no-repeat
+    background-size cover
+    cursor pointer
+
+    &--prev
+      left 0
+      background-image url("data:image/svg+xml;utf8,<svg width='22' height='42' viewBox='0 0 22 42' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M21 41L1 21L21 1' stroke='white'/></svg>")
+
+    &--next
+      right 0
+      background-image url("data:image/svg+xml;utf8,<svg width='22' height='42' viewBox='0 0 22 42' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M1 1L21 21L1 41' stroke='white'/></svg>")
+
 
 @media (max-width: 520px)
   .bf-actions-slider
