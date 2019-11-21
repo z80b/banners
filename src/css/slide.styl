@@ -10,10 +10,14 @@
   color #fff
   text-align left
   text-decoration none
-  opacity .5
-  filter grayscale(1)
   cursor default
-  border solid 1px #f93c00
+  background-color #000
+  border solid 1px #808080
+
+  &__content
+    position relative
+    opacity .5
+    filter grayscale(1)
 
   .initialized &
      transition .5s opacity ease
@@ -42,8 +46,10 @@
     transition .5s opacity ease
 
   &.active
-    filter none
-    opacity 1
+    border solid 1px #f93c00
+    .bf-actions-slide__content
+      filter none
+      opacity 1
 
     &[href]
       cursor pointer
