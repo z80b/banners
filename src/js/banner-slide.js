@@ -1,8 +1,8 @@
 import Dom from '@js/dom.js';
 
-const slideTpl = require('@tpl/slide.html');
+const slideTpl = require('@tpl/slide.tpl');
 
-class BannerSlide extends Dom{
+class BannerSlide extends Dom {
   constructor(el, index, parent) {
     super(el);
     this.parent = parent;

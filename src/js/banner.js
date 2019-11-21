@@ -2,9 +2,6 @@ import Dom from '@js/dom.js';
 import BannerSlide from '@js/banner-slide.js';
 import Swiper from 'swiper';
 
-
-const slideTpl = require('@tpl/slide.html');
-
 class Banner extends Dom {
   constructor(el) {
     super(el);
