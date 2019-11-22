@@ -1,99 +1,71 @@
 import Dom from '@js/dom.js';
-import BannerSlide from '@js/banner-slide.js';
 import Swiper from 'swiper';
 
 class Banner extends Dom {
   constructor(el) {
     super(el);
-    this.init();
+
+    this.slidesCount = 10;
+    this.visibleSlides = 4;
+    //this.slideWidth = this.$el.clientWidth / this.visibleSlides;
+    // this.image = this.$el.getAttribute('data-image');
+    // this.imageWidth = 5439;
+    // this.imageHeight = 854;
+    // this.$container = this.$el.querySelector('.ny-panorama__content');
+    // this.$image = new Image(this.imageWidth, this.imageHeight);
+    // this.$image.addEventListener('load', this.init.bind(this));
+    // this.$image.src = this.image;
+    this.initSlider();
     return this;
   }
 
   init() {
-    this.currentTime = (new Date()).getTime();
-    this.$slides = this.getElements('.bf-actions-slide');
-    this.$sliderTrack = this.getElement('.bf-actions-slider__track');
-    this.$dotsBlock = this.getElement('.bf-actions-slider__dots');
-    this.platform = document.body.clientWidth < 520 ? 'mobile' : 'desktop';
-    this.slidesCount = this.$slides.length;
-    this.position = 0;
-    this.visibleSlidesCount = 4;
-    this.slides = [];
-    this.dots = [];
-    this.$slides.forEach((el, index) => {
-      this.slides.push(new BannerSlide(el, index, this));
+     
+    this.createSlides();
+  }
+
+  initSlider() {
+    this.slider = new Swiper('.ny-panorama__content', {
+      initialSlide: 0,
+      slidesPerView: 4,
+      autoplay: true,
+      //spaceBetween: 15,
+      slideClass: 'ny-panorama__slide',
+      wrapperClass: 'ny-panorama__track',
+      freeMode: true,
+      loop: true,
+      mousewheel: true,
+      loopAdditionalSlides: 10,
     });
-
-    this.calcSizes();
-
-    if (this.platform/* == 'desktop'*/) {
-      this.slider = new Swiper('.bf-actions-slider__content', {
-        initialSlide: this.position,
-        slidesPerView: 4,
-        spaceBetween: 15,
-        slideClass: 'bf-actions-slide',
-        wrapperClass: 'bf-actions-slider__track',
-        navigation: {
-          prevEl: '.bf-actions-slider__arrow--prev',
-          nextEl: '.bf-actions-slider__arrow--next',
-          disabledClass: 'bf-actions-slider__arrow--disabled',
-          hiddenClass: 'bf-actions-slider__arrow--hidden',
-        }
-
-        // pagination: {
-        //   el: '.bf-actions-slider__dots',
-        //   bulletClass: 'bf-actions-slider__dot',
-        //   bulletActiveClass: 'active',
-        //   clickable: true
-        // }
-      });
-    }
-
-    this.setInitialized();
-    window.addEventListener('action:ready', this.actionStarted.bind(this));
   }
 
-  calcSizes() {
-    this.sliderWidth = this.$el.clientWidth;
+  createSlides() {
+    this.$container.style.width = `${this.slidesCount / this.visibleSlides * 100}%`;
     this.slideWidth = 100 / this.slidesCount;
+    const cropCanvas = document.createElement('canvas');
+    const partWidth = this.imageWidth / 10;
+    cropCanvas.width = this.imageWidth;
+    cropCanvas.height = this.imageHeight;
 
-    this.slides.forEach(slide => {
-      slide.$el.style.width = `${this.slideWidth}%`;
-    }); 
-    this.$sliderTrack.style.width = `${this.slidesCount / this.visibleSlidesCount * 250}%`;
+    for (let slide, i = 0; i < this.slidesCount; i++) {
+      cropCanvas.getContext('2d').drawImage(
+        this.$image,
+        0, 0, this.imageWidth, this.imageHeight,
+        i * this.partWidth, 0, this.partWidth, this.imageHeight);
+      slide = document.createElement('img');
+      slide.className = 'ny-panorama__slide';
+      slide.style.width = `${this.slideWidth}%`;
+      slide.src = cropCanvas.toDataURL('image/jpg');
+      //slide.style.backgroundImage = `url(${cropCanvas.toDataURL('image/png')})`;
+      //slide.style.backgroundPosition = `${i*10}%`;
+      this.$container.appendChild(slide);
+    }
   }
 
-  setInitialized() { this.$el.className += ' initialized' }
+  initPicks() {
 
-  getStartPosition() {
-    let startPosition = 0;
-
-    // for (let [key, slide] of this.slides.entries()) {
-    //   if (this.currentTime < slide.startPosition) {
-    //     startPosition = this.platform == 'desktop' ? key - 1 : key;
-    //     break;
-    //   }
-
-    //   if (this.currentTime > slide.endTime) {
-    //     startPosition = this.platform == 'desktop' ? key - 1 : key;
-    //   }
-
-    //   if (this.currentTime >= slide.startTime && this.currentTime <= slide.endTime) {
-    //     startPosition = this.platform == 'desktop' ? key - 1 : key;
-    //     break;
-    //   }
-    // }
-    // this.slider.slideTo(startPosition);
-    return startPosition;
   }
 
-  changePosition(position) {
-    this.slider.slideTo(position);
-  }
-
-  actionStarted(event) {
-    this.changePosition(event.detail.position);
-  }
 }
 
 export default Banner;

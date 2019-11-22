@@ -15,7 +15,7 @@ function build() {
   fs.writeFile(`${cwd}/${output}`, result, {
     encoding: "utf8",
   }, (fsError) => {
-    if (fsError) console.log(fsError);
+    if (fsError) console.log('fsError:', fsError);
     console.log('Finish build html...');
   })
 }
