@@ -5,7 +5,7 @@ const cwd          = process.cwd();
 const args         = require('yargs').argv;
 const fs           = require('fs');
 
-const styl = fs.readFileSync(cwd + '/' + args.input, 'utf8');
+const styl = fs.readFileSync(cwd + '/src/css/index.styl', 'utf8');
 const sourceMap = args.mode != 'production' ? { inline: true } : false;
 
 function build() {
@@ -21,7 +21,7 @@ function build() {
     .use(axis())
     .use(autoprefixer())
     .render((err, css) => {
-      fs.writeFile(`${cwd}/${args.output}`, css, (fsError) => {
+      fs.writeFile(`${cwd}/tmp/index.css`, css, (fsError) => {
         if (fsError) console.log(fsError);
         console.log('Finish stylus builder.');
       })

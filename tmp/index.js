@@ -1570,7 +1570,19 @@
     return Dom;
   }();
 
-  var slideTpl = require('@tpl/slide.tpl');
+  function slideTpl(props){
+  var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+  __p+='<div class="bf-actions-slide__timer"></div>\n';
+   if (props.teaser) { 
+  __p+='\n  <img class="bf-actions-slide__teaser" src="'+
+  ((__t=( props.teaser ))==null?'':__t)+
+  '"/>\n';
+   } 
+  __p+='\n<img class="bf-actions-slide__image" src="'+
+  ((__t=( props.image ))==null?'':__t)+
+  '"/>\n';
+  return __p;
+  };
 
   var BannerSlide =
   /*#__PURE__*/

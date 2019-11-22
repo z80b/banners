@@ -1,7 +1,6 @@
 import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import { uglify } from 'rollup-plugin-uglify';
 import { terser } from "rollup-plugin-terser";
 import underscorify from 'rollup-plugin-underscorify';
 import alias from 'rollup-plugin-import-alias';
@@ -10,7 +9,6 @@ const plugins = [
   alias({
     Paths: {
       '@js': './src/js',
-      '@css': './src/css',
       '@tpl': './src/tpl',
     },
     Extensions: ['js', 'tpl'],
@@ -37,7 +35,6 @@ const plugins = [
   }),
 ];
 if (process.env.BUILD === 'production') {
-  //plugins.push(uglify());
   plugins.push(terser());
 }
 
@@ -48,8 +45,6 @@ export default {
     format: 'iife',
     sourcemap: process.env.BUILD === 'development',
   },
-  treeshake: process.env.BUILD === 'production',
   plugins: plugins,
+  treeshake: process.env.BUILD === 'production',
 }
-
-console.log(process.env.BUILD);
