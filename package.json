@@ -4,11 +4,11 @@
   "description": "banners boilerplate",
   "repository": "https://github.com/z80b/banners.git",
   "scripts": {
-    "start": "npm run watch && npm run server",
+    "start": "npm run watch & npm run server",
     "dev": "./node_modules/.bin/rollup -c --environment BUILD:development",
     "watch:all": "node ./build/watch.js",
     "watch:js": "./node_modules/.bin/rollup -c -w --environment BUILD:development",
-    "watch": "npm run watch:all & npm run watch:js",
+    "watch": "npm run watch:js & npm run watch:all",
     "server": "node ./server.js",
     "compile:css": "node ./build/build-css.js --input=src/css/index.styl --output=tmp/index.css",
     "build:css": "node ./build/build-css.js --input=src/css/index.styl --output=tmp/index.css --mode=production",

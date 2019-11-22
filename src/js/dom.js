@@ -14,7 +14,7 @@ class Dom {
   }
 
   setClass(className) {
-    if (this.$el.className.search(className) < 0) {
+    if (this.$el.className.search(' ' + className) < 0) {
       this.$el.className += ` ${className}`;
     }
   }

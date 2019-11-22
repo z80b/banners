@@ -3,6 +3,9 @@
 .bf-actions-slider
   position relative
 
+  @media (max-width: 520px)
+    padding 2em 0
+
   &__content
     overflow hidden
     margin 0 auto
@@ -26,6 +29,9 @@
     text-align center
     min-height 14px
 
+    @media (max-width: 520px)
+      display none
+
   &__dot
     display inline-block
     width: 12px;
@@ -43,6 +49,9 @@
     top -30px
     width 44px
     height 46px
+
+    @media (max-width: 520px)
+      display none
 
   &__arrows-text
     position absolute
