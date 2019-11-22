@@ -16,12 +16,14 @@ class Banner extends Dom {
     // this.$image.addEventListener('load', this.init.bind(this));
     // this.$image.src = this.image;
     this.initSlider();
+    console.log('Banner:', this);
     return this;
   }
 
   init() {
      
     this.createSlides();
+    console.log('Banner:', this);
   }
 
   initSlider() {
@@ -37,6 +39,7 @@ class Banner extends Dom {
       mousewheel: true,
       loopAdditionalSlides: 10,
     });
+    this.initPicks();
   }
 
   createSlides() {
@@ -63,7 +66,16 @@ class Banner extends Dom {
   }
 
   initPicks() {
-
+    console.log('initPicks', this, this.$el);
+    const $picks = this.$el.querySelectorAll('.ny-panorama__pick');
+    
+    if ($picks && $picks.length) {
+      for (let i = 0; i < $picks.length; i++) {
+        let position = $picks[i].getAttribute('data-position').split(',');
+        $picks[i].style.top = `${position[1]}px`;
+        $picks[i].style.left = `${position[0]}px`;
+      }
+    }
   }
 
 }

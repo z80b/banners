@@ -5,10 +5,10 @@ const fs      = require('fs');
 console.log('Start build html...');
 
 function build() {
-  const banner = fs.readFileSync(cwd + '/src/banner.html', 'utf8');
+  const banner = fs.readFileSync(cwd + '/src/html/banner.html', 'utf8');
   const styles = fs.readFileSync(cwd + '/tmp/index.css', 'utf8');
   const script = fs.readFileSync(cwd + '/tmp/index.js', 'utf8');
-  const output = args.output || 'dist/banner.html';
+  const output = args.output || 'dest/banner.html';
   const result = `<style>\n${styles}\n</style>\n${banner}\n<script>\n${script}\n</script>`;
 
 

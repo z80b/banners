@@ -8,14 +8,14 @@ const router = express.Router();
 const app = express();
 
 router.get('/',function(req,res){
-  const html = fs.readFileSync(__dirname + '/src/index.html', 'utf8');
-  const banner = fs.readFileSync(__dirname + '/dist/banner.html', 'utf8');
+  const html = fs.readFileSync(__dirname + '/src/html/index.html', 'utf8');
+  const banner = fs.readFileSync(__dirname + '/dest/banner.html', 'utf8');
   const $ = cheerio.load(html);
   $('.page__banner-slot').append(banner);
   res.send($.html());
 });
 
-app.get('/dist/:file', function(req, res) {
+app.get('/dest/:file', function(req, res) {
   res.sendFile(path.join(__dirname + req.url));
 });
 

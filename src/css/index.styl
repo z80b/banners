@@ -1,7 +1,7 @@
 .ny-panorama
   &__content
     width 100%
-    height 300px
+    height 500px
     
     overflow hidden
 
@@ -11,9 +11,33 @@
     transition: 1s transform ease
 
   &__slide
+    position relative
     display inline-block
     width 25%
 
   &__slide-img
     display block
     width 100%
+
+  &__pick
+    absolute top 50% left 50% width 16px height 16px
+    background-color #c71b1e
+    border-radius 50%
+    transition .5s transform ease
+    transform scale(1)
+
+    &::before, &::after
+      content ''
+      display block
+      position absolute
+      background-color #fff
+      cursor pointer
+
+    &::before
+      absolute top 7px left 3px width 10px height 2px
+
+    &::after
+      absolute top 3px left 7px width 2px height 10px
+
+    &:hover
+      transform scale(1.625)
