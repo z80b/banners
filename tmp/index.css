@@ -1,1 +1,114 @@
-.ny-panorama__content{width:100%;height:500px;overflow:hidden}.ny-panorama__track{font-size:0;white-space:nowrap;-webkit-transition:1s -webkit-transform ease;transition:1s -webkit-transform ease;transition:1s transform ease;transition:1s transform ease, 1s -webkit-transform ease}.ny-panorama__slide{position:relative;display:inline-block;width:25%}.ny-panorama__slide-img{display:block;width:100%}.ny-panorama__pick{position:absolute;top:50%;left:50%;width:16px;height:16px;background-color:#c71b1e;border-radius:50%;-webkit-transition:.5s transform ease;transition:.5s transform ease;-webkit-transform:scale(1);transform:scale(1);z-index:3}.ny-panorama__pick::before,.ny-panorama__pick::after{content:'';display:block;position:absolute;background-color:#fff;cursor:pointer}.ny-panorama__pick::before{position:absolute;top:7px;left:3px;width:10px;height:2px}.ny-panorama__pick::after{position:absolute;top:3px;left:7px;width:2px;height:10px}.ny-panorama__pick:hover{-webkit-transform:scale(1.625);transform:scale(1.625)}.ny-panorama-pick{position:absolute;top:0;left:0;width:200px;height:320px;padding:10px;background-color:#fff;z-index:2}.ny-panorama-pick__image{display:block;width:100%}
+.ny-panorama__content {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+}
+.ny-panorama__track {
+  font-size: 0;
+  white-space: nowrap;
+  -webkit-transition: 1s -webkit-transform ease;
+  transition: 1s -webkit-transform ease;
+  -o-transition: 1s -o-transform ease;
+  -moz-transition: 1s transform ease, 1s -moz-transform ease;
+  transition: 1s transform ease;
+  transition: 1s transform ease, 1s -webkit-transform ease, 1s -moz-transform ease, 1s -o-transform ease;
+}
+.ny-panorama__slide {
+  position: relative;
+  display: inline-block;
+  width: 25%;
+}
+.ny-panorama__slide-img {
+  display: block;
+  width: 100%;
+}
+.ny-panorama__pick {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  background-color: #c71b1e;
+  -webkit-border-radius: 50%;
+     -moz-border-radius: 50%;
+          border-radius: 50%;
+  -webkit-transition: 0.5s -webkit-transform ease;
+  transition: 0.5s -webkit-transform ease;
+  -o-transition: 0.5s -o-transform ease;
+  -moz-transition: 0.5s transform ease, 0.5s -moz-transform ease;
+  transition: 0.5s transform ease;
+  transition: 0.5s transform ease, 0.5s -webkit-transform ease, 0.5s -moz-transform ease, 0.5s -o-transform ease;
+  -webkit-transform: scale(1);
+     -moz-transform: scale(1);
+      -ms-transform: scale(1);
+       -o-transform: scale(1);
+          transform: scale(1);
+  z-index: 3;
+}
+.ny-panorama__pick::before,
+.ny-panorama__pick::after {
+  content: '';
+  display: block;
+  position: absolute;
+  background-color: #fff;
+  cursor: pointer;
+}
+.ny-panorama__pick::before {
+  position: absolute;
+  top: 7px;
+  left: 3px;
+  width: 10px;
+  height: 2px;
+}
+.ny-panorama__pick::after {
+  position: absolute;
+  top: 3px;
+  left: 7px;
+  width: 2px;
+  height: 10px;
+}
+.ny-panorama__pick:hover {
+  -webkit-transform: scale(1.625);
+     -moz-transform: scale(1.625);
+      -ms-transform: scale(1.625);
+       -o-transform: scale(1.625);
+          transform: scale(1.625);
+}
+.ny-panorama-popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140px;
+  height: auto;
+  padding: 10px;
+  background-color: #fff;
+  z-index: 2;
+  white-space: normal;
+  display: none;
+}
+.ny-panorama-popup__image {
+  display: block;
+  width: 100%;
+}
+.ny-panorama-popup__title {
+  font-size: 8px;
+  font-weight: 700;
+  color: #000;
+  padding: 10px 0 0;
+}
+.ny-panorama-popup__text {
+  font-size: 8px;
+  font-weight: 500;
+  color: #000;
+  padding: 10px 0;
+}
+.ny-panorama-popup__button {
+  display: block;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+  color: #000;
+  background-color: #f0d382;
+  cursor: pointer;
+}
