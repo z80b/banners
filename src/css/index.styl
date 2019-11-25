@@ -25,6 +25,7 @@
     border-radius 50%
     transition .5s transform ease
     transform scale(1)
+    z-index 3
 
     &::before, &::after
       content ''
@@ -41,3 +42,14 @@
 
     &:hover
       transform scale(1.625)
+
+  &-pick
+    absolute top 0 left 0
+    size 200px 320px
+    padding 10px
+    background-color #fff
+    z-index 2
+
+    &__image
+      display block
+      width 100%
