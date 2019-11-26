@@ -3,6 +3,7 @@ export const sendEvent = (name, props = {}) => {
     bubbles: true,
     detail: props
   });
+  console.log('sendEvent:', name, props);
   window.dispatchEvent(event);
 }
 

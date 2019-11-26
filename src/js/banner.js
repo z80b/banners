@@ -10,23 +10,16 @@ class Banner extends Dom {
 
     this.slidesCount = 10;
     this.visibleSlides = 4;
-    //this.slideWidth = this.$el.clientWidth / this.visibleSlides;
-    // this.image = this.$el.getAttribute('data-image');
-    // this.imageWidth = 5439;
-    // this.imageHeight = 854;
-    // this.$container = this.$el.querySelector('.ny-panorama__content');
-    // this.$image = new Image(this.imageWidth, this.imageHeight);
-    // this.$image.addEventListener('load', this.init.bind(this));
-    // this.$image.src = this.image;
+    this.init();
     this.initSlider();
-    // this.$el.addEventListener('click', this.hidePopups.bind(this), false);
-    console.log('Banner:', this);
     return this;
   }
 
   init() {
     const $imgs = this.$el.querySelectorAll('.ny-panorama__slide-img');
+    console.log($imgs);
     $imgs.forEach(el => {
+      console.log(el);
       el.addEventListener('click', () => {
         sendEvent('background:click');
       });
@@ -58,8 +51,8 @@ class Banner extends Dom {
         const position = $picks[i].getAttribute('data-position').split(',');
         const $popup = document.createElement('div');
         $popup.className = 'ny-panorama-popup';
-        $picks[i].style.top = `${position[1]}px`;
-        $picks[i].style.left = `${position[0]}px`;
+        $picks[i].style.top = `${position[1]}%`;
+        $picks[i].style.left = `${position[0]}%`;
         if (parseInt(position[1]) + 310 > this.$el.clientHeight) {
           $popup.style.top = `${parseInt(position[1]) - 310 + 8}px`;
         } else $popup.style.top = `${parseInt(position[1]) + 8}px`;

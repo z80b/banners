@@ -1,6 +1,6 @@
 .ny-panorama__content {
   width: 100%;
-  height: 500px;
+  height: auto;
   overflow: hidden;
 }
 .ny-panorama__track {
@@ -34,7 +34,7 @@
   left: 50%;
   width: 16px;
   height: 16px;
-  background-color: #c71b1e;
+  background-color: #000;
   -webkit-border-radius: 50%;
      -moz-border-radius: 50%;
           border-radius: 50%;

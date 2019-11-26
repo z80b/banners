@@ -10,14 +10,16 @@ class Popup extends Dom {
   }
 
   init() {
-
+    waitEvent('background:click', this.hidePopup.bind(this));
   }
 
   showPopup() {
     this.$el.style.display = 'block';
   }
 
-  hidePopup() {}
+  hidePopup() {
+    this.$el.style.display = 'none';
+  }
 
 
 }
