@@ -12,6 +12,12 @@
   -moz-transition: 1s transform ease, 1s -moz-transform ease;
   transition: 1s transform ease;
   transition: 1s transform ease, 1s -webkit-transform ease, 1s -moz-transform ease, 1s -o-transform ease;
+  -webkit-transition: 0s -webkit-transform cubic-bezier(0, 0, 0, 0);
+  transition: 0s -webkit-transform cubic-bezier(0, 0, 0, 0);
+  -o-transition: 0s -o-transform cubic-bezier(0, 0, 0, 0);
+  -moz-transition: 0s transform cubic-bezier(0, 0, 0, 0), 0s -moz-transform cubic-bezier(0, 0, 0, 0);
+  transition: 0s transform cubic-bezier(0, 0, 0, 0);
+  transition: 0s transform cubic-bezier(0, 0, 0, 0), 0s -webkit-transform cubic-bezier(0, 0, 0, 0), 0s -moz-transform cubic-bezier(0, 0, 0, 0), 0s -o-transform cubic-bezier(0, 0, 0, 0);
 }
 .ny-panorama__slide {
   position: relative;

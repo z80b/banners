@@ -1,4 +1,5 @@
 import Dom from '@js/dom.js';
+import { sendEvent } from '@js/utils.js';
 import Popup from '@js/popup.js';
 import Swiper from 'swiper';
 import panoramaPick from '@tpl/pick-popup.tpl';
@@ -24,9 +25,12 @@ class Banner extends Dom {
   }
 
   init() {
-     
-    this.createSlides();
-    console.log('Banner:', this);
+    const $imgs = this.$el.querySelectorAll('.ny-panorama__slide-img');
+    $imgs.forEach(el => {
+      el.addEventListener('click', () => {
+        sendEvent('background:click');
+      });
+    });
   }
 
   initSlider() {
@@ -38,7 +42,7 @@ class Banner extends Dom {
       slideClass: 'ny-panorama__slide',
       wrapperClass: 'ny-panorama__track',
       freeMode: true,
-      loop: true,
+      // loop: true,
       mousewheel: true,
       loopAdditionalSlides: 10,
     });
