@@ -4,10 +4,9 @@
   "description": "banners boilerplate",
   "repository": "https://github.com/z80b/banners.git",
   "scripts": {
-    "start": "gulp watch",
-    "dev": "gulp dev",
-    "build": "gulp build --mode=production",
-    "server": "node ./server.js"
+    "start": "gulp start",
+    "dev": "gulp build",
+    "build": "gulp build --mode=production"
   },
   "author": "Stitch",
   "license": "ISC",

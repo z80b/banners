@@ -1,14 +1,15 @@
-const gulp = require('gulp');
-const args = require('yargs').argv;
-const browsersync = require("browser-sync").create();
-const rollup = require('rollup');
-const babel = require('rollup-plugin-babel');
-const resolve = require('rollup-plugin-node-resolve');
-const commonjs = require('rollup-plugin-commonjs');
-const terser = require("rollup-plugin-terser").terser;
+const gulp         = require('gulp');
+const args         = require('yargs').argv;
+const browsersync  = require("browser-sync").create();
+const fileinclude  = require('gulp-file-include');
+
+const rollup       = require('rollup');
+const babel        = require('rollup-plugin-babel');
+const resolve      = require('rollup-plugin-node-resolve');
+const commonjs     = require('rollup-plugin-commonjs');
+const terser       = require("rollup-plugin-terser").terser;
 const underscorify = require('rollup-plugin-underscorify');
-const alias = require('rollup-plugin-import-alias');
-const fileinclude = require('gulp-file-include');
+const alias        = require('rollup-plugin-import-alias');
 
 const stylus       = require('gulp-stylus');
 const axis         = require('axis');
@@ -54,7 +55,7 @@ if (args.mode == 'production') {
 function browserSync(done) {
   browsersync.init({
     server: {
-      baseDir: "./dest/"
+      baseDir: "./tmp/"
     },
     port: 3000,
     serveStatic: [{
@@ -75,6 +76,7 @@ function buildScripts() {
   return rollup.rollup({
     input: 'src/js/index.js',
     plugins: rollupPlugins,
+    treeshake: args.mode == 'production',
   }).then(bundle => {
     return bundle.write({
       file: 'tmp/index.js',
@@ -102,21 +104,34 @@ function buildHtml() {
       prefix: '@@',
       basepath: __dirname,
     }))
+    .pipe(gulp.dest('tmp/'));
+}
+
+function buildBanner() {
+  return gulp.src('src/html/banner.html')
+    .pipe(fileinclude({
+      prefix: '@@',
+      basepath: __dirname,
+    }))
     .pipe(gulp.dest('dest/'));
 }
 
 function watchFiles() {
+  // gulp.series(buildScripts, buildStyles, buildHtml);
   gulp.watch('./src/css/**/*.styl', gulp.series(buildStyles, buildHtml, browserSyncReload));
   gulp.watch('./src/js/**/*.js', gulp.series(buildScripts, buildHtml, browserSyncReload));
+  gulp.watch('./src/tpl/**/*.tpl', gulp.series(buildScripts, buildHtml, browserSyncReload));
   gulp.watch('./src/html/*.html', gulp.series(buildHtml, browserSyncReload));
 }
 
-const build = gulp.series(buildScripts, buildStyles, buildHtml);
+const build = gulp.series(buildScripts, buildStyles, buildBanner);
 const watch = gulp.parallel(watchFiles, browserSync);
+const start = gulp.series(buildScripts, buildStyles, buildHtml, watch);
 
 exports.styles = buildStyles;
 exports.scripts = buildScripts;
 exports.html = buildScripts;
 exports.build = build;
 exports.watch = watch;
+exports.start = start;
 exports.default = build;
