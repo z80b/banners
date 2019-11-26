@@ -39,13 +39,6 @@ class Banner extends Dom {
           disabledClass: 'bf-actions-slider__arrow--disabled',
           hiddenClass: 'bf-actions-slider__arrow--hidden',
         }
-
-        // pagination: {
-        //   el: '.bf-actions-slider__dots',
-        //   bulletClass: 'bf-actions-slider__dot',
-        //   bulletActiveClass: 'active',
-        //   clickable: true
-        // }
       });
     } else {
       this.slider = new Swiper('.bf-actions-slider__content', {
@@ -55,13 +48,6 @@ class Banner extends Dom {
         slideClass: 'bf-actions-slide',
         wrapperClass: 'bf-actions-slider__track',
         watchOverflow: true,
-
-        // pagination: {
-        //   el: '.bf-actions-slider__dots',
-        //   bulletClass: 'bf-actions-slider__dot',
-        //   bulletActiveClass: 'active',
-        //   clickable: true
-        // }
       });
     }
 

@@ -1,6 +1,12 @@
 @import './slider.styl'
 @import './promo-button.styl'
 
+.width-wrapper.js-width-wrapper-banner-catalog,
+.widescreen .width-wrapper.js-width-wrapper-banner-catalog {
+  width 100%
+  padding 0 20px 0 0
+}
+
 .ibanner__promocode-hint
   position absolute
   top -90000000px
@@ -13,36 +19,45 @@
   color #fff
   text-align center
   padding 0
+  background 50% 50% no-repeat
+  background-image url('https://a.lmcdn.ru/files/cms/blackfriday.png')
+  background-size 58% auto
   background-color #000
 
-  &__conditions
-    display block
-    font-size 1em
+  &__description
+    font-size 12px
+    font-weight 400
+    line-height 16px
+    text-align left
+    padding 24px 0
+    color #c2c2c2
+    white-space normal
+
+    @media (max-width: 520px)
+      display none
+
+  &__info
+    position absolute
+    right -1.7em
+    top .5em
+    display none
+    font-size .5em
     font-weight 500
     text-decoration none
-    color #808080
+    size 1em 1em
+    color #fff
+    border solid 1px #fff
+    border-radius 50%
     transition .5s all ease
 
-    &::after
-      content '?'
-      border solid 1px #808080
-      border-radius 50%
-      display inline-block
-      width 1em
-      height 1em
-      margin-left .5em
-      //transition .5s all ease
-
-    &:hover
-      color #fff
-
-      &::after
-        border-color #fff
+    @media (max-width: 520px)
+      display block
 
   &__title
-    font-size 3.6em
+    position relative
+    font-size 3.2em
     font-weight 500
-    margin 1.2em 0 .4em
+    margin 1em 0 .3em
     display inline-block
 
   &__promocode
@@ -56,8 +71,8 @@
       display inline-block
 
   &__content
-    min-width 960px
     max-width 1206px
+    min-width 720px
     margin 0 auto
     position relative
 
@@ -72,10 +87,8 @@
   .bf-actions
 
     &__title
-      font-size 1.8em
-
-      span
-        display block
+      font-size 2.8em
 
     &__promocode
-      font-size 2.4em
+      font-size 1em
+      display inline-block

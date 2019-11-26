@@ -1,22 +1,29 @@
 .bf-actions-slide
   position relative
-  color red
   display inline-block
   font-size 10px
   width 25%
+  height 175px
   padding 0
   margin 0
   box-sizing border-box
   color #fff
   text-align left
   text-decoration none
-  opacity .5
-  filter grayscale(1)
   cursor default
-  border solid 1px #f93c00
+  background-color #000
+  border solid 1px #808080
+  opacity 0
+
+  &__content
+    position relative
+    height 100%
+    opacity .5
+    filter grayscale(1)
 
   .initialized &
-     transition .5s opacity ease
+     // transition .5s opacity ease
+     opacity 1
 
   &__inner
     opacity 0
@@ -31,27 +38,33 @@
     object-position 50% 50%
 
   &__teaser
-    position absolute
-    top 0
-    left 0
-    width 100%
-    height 100%
+    absolute top 0 left 0 width 100% height 100%
     object-fit cover
     object-position 50% 50%
     opacity 0
     transition .5s opacity ease
+    z-index 3
 
   &.active
-    filter none
-    opacity 1
-
-    &[href]
+    border solid 1px #f93c00
+    .bf-actions-slide__content
+      filter none
+      opacity 1
       cursor pointer
       background-color #f93c00
 
+    &[href]
       &:hover
         .bf-actions-slide__teaser
           opacity 1
+
+  &.soon
+    border solid 1px #f93c00
+    .bf-actions-slide__content
+      filter none
+      opacity 1
+      cursor pointer
+      background none
 
 
   &__date, &__title, &__discount
@@ -66,14 +79,19 @@
 
   &__title
     top 6.5em
+    font-size 1.7em
+    right 0
+    text-overflow ellipsis
+    overflow hidden
+    white-space normal
 
   &__date
     top 19px
 
   &__discount
-    font-size 7.2em
-    font-weight 700
-    top 50px
+    font-size 5em
+    font-weight 600
+    top 45px
 
   &__timer
     width 100%
@@ -86,6 +104,15 @@
     text-align left
     text-decoration none
     padding 0 0 0 20px
+
+    @media (max-width: 1000px)
+      font-size 14px
+
+    @media (max-width: 900px)
+      font-size 12px
+
+    @media (max-width: 780px)
+      font-size 10px
 
 @media (max-width: 520px)
   .bf-actions-slide

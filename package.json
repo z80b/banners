@@ -4,46 +4,35 @@
   "description": "banners boilerplate",
   "repository": "https://github.com/z80b/banners.git",
   "scripts": {
-    "start": "npm run watch & npm run server",
-    "dev": "./node_modules/.bin/rollup -c --environment BUILD:development",
-    "watch:all": "node ./build/watch.js",
-    "watch:js": "./node_modules/.bin/rollup -c -w --environment BUILD:development",
-    "watch": "npm run watch:js & npm run watch:all",
-    "server": "node ./server.js",
-    "compile:css": "node ./build/build-css.js --input=src/css/index.styl --output=tmp/index.css",
-    "build:css": "node ./build/build-css.js --input=src/css/index.styl --output=tmp/index.css --mode=production",
-    "build:js": "./node_modules/.bin/rollup -c --environment BUILD:production",
-    "build:html": "node ./build/build-html.js",
-    "build": "npm run build:js && npm run build:css && npm run build:html"
+    "start": "gulp start",
+    "dev": "gulp build",
+    "build": "gulp build --mode=production"
   },
   "author": "Stitch",
   "license": "ISC",
   "dependencies": {
     "axis": "^1.0.0",
-    "swiper": "^5.2.1"
+    "gulp-include": "^2.4.1",
+    "swiper": "4.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
     "autoprefixer-stylus": "^1.0.0",
     "babel-runtime": "^6.26.0",
-    "cheerio": "^1.0.0-rc.3",
-    "curl-request": "^1.1.1",
-    "express": "^4.17.1",
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-file-include": "^2.1.1",
+    "gulp-stylus": "^2.7.0",
+    "gulp-twig": "^1.2.0",
     "rollup": "^1.27.0",
     "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-babel-minify": "^9.1.1",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-import-alias": "^1.0.10",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-postcss": "^2.0.3",
-    "rollup-plugin-stylus-compiler": "^1.0.1",
-    "rollup-plugin-template-html": "0.0.3",
     "rollup-plugin-terser": "^5.1.2",
-    "rollup-plugin-uglify": "^6.0.3",
     "rollup-plugin-underscorify": "^1.0.0",
-    "rollup-watch": "^4.3.1",
-    "watch": "^1.0.2",
     "yargs": "^15.0.2"
   }
 }

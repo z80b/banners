@@ -13,6 +13,7 @@ class BannerSlide extends Dom {
     this.position = index;
     this.init();
     this.render();
+    this.checkTime();
     this.timer = setInterval(this.checkTime.bind(this), 1000);
   }
 
@@ -20,16 +21,19 @@ class BannerSlide extends Dom {
     for (let key in this.$el.dataset) {
       this[key] = this.$el.dataset[key];
     }
+    const cdt = new Date();
+    const cdtStr = `${cdt.getFullYear()}/${cdt.getMonth() + 1}/${cdt.getDate()}`;
     let dt = this.$el.dataset.actionDate.split(/\s?-\s?/);
-    this.startTime = Date.parse(`2019.${dt[0]} 00:00:00`.replace(/\./g, '/'));
-    this.endTime = Date.parse(`2019.${dt[1]} 23:59:59`.replace(/\./g, '/'));
-    this.props.startDate = `2019.${dt[0]}`.replace(/\./g, '/');
-    this.props.endDate = `2019.${dt[1]}`.replace(/\./g, '/');
+    this.startTime = Date.parse(`${cdtStr} ${dt[0]}:00`);
+    this.endTime = Date.parse(`${cdtStr} ${dt[1]}:00`);
+    this.props.startDate = `${cdtStr} ${dt[0]}:00`;
+    this.props.endDate = `${cdtStr} ${dt[1]}:00`;
     this.time = (new Date()).getTime();
     this.started = false;
     if (this.time >= this.startTime && this.time <= this.endTime) {
       this.parent.position = this.position;
     }
+    console.log(this);
   }
 
   render() {
@@ -61,12 +65,16 @@ class BannerSlide extends Dom {
       }
       this.$el.setAttribute('href', this.href);
       this.setClass('active');
+      this.removeClass('soon');
     } else if (this.time < this.startTime) {
-      this.$el.removeAttribute('href');
-      this.setClass('active');
+      //this.$el.removeAttribute('href');
+      this.$el.setAttribute('href', this.href);
+      this.removeClass('active');
+      this.setClass('soon');
     } else {
       this.$el.removeAttribute('href');
       this.removeClass('active');
+      this.removeClass('soon');
       this.started = false;
     }
     this.renderTimer((new Date()).getTime(), this.startTime, this.endTime);
