@@ -452,14 +452,21 @@
         <div class="bf-actions-slider__track">
           <a
             class="bf-actions__slide bf-actions-slide"
-            data-action-date="15:00-15:44"
+            data-action-date="00:00-00:20"
             data-href=""
             data-image="https://a.lmcdn.ru/files/cms/action-02.png"
             data-teaser="https://a.lmcdn.ru/files/cms/action-hover-01.jpg">
           </a>
           <a
             class="bf-actions__slide bf-actions-slide"
-            data-action-date="16:20-16:50"
+            data-action-date="00:20-01:30"
+            data-href=""
+            data-image="https://a.lmcdn.ru/files/cms/action-02.png"
+            data-teaser="https://a.lmcdn.ru/files/cms/action-hover-01.jpg">
+          </a>
+          <a
+            class="bf-actions__slide bf-actions-slide"
+            data-action-date="01:40-02:00"
             data-href="/a/36612/new_7/?bs=1&pc=КУПИТЬ"
             data-title="на товары раздела Premium"
             data-discount="50"
@@ -483,7 +490,7 @@
           </a>
           <a
             class="bf-actions__slide bf-actions-slide"
-            data-action-date="20:00-21:30"
+            data-action-date="21:00-22:30"
             data-href="#"
             data-title="на товары<br/>раздела Premium"
             data-discount="45"
@@ -2068,6 +2075,21 @@
     return Dom;
   }();
 
+  var getMoscowTime = function getMoscowTime() {
+    var dt = new Date();
+    var timeString = dt.toLocaleTimeString('ru-RU', {
+      timeZone: 'Europe/Moscow'
+    });
+    return Date.parse("".concat(getDate(dt), " ").concat(timeString));
+  };
+  var getDate = function getDate() {
+    var dt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
+    return "".concat(dt.getFullYear(), "/").concat(two(dt.getMonth() + 1), "/").concat(two(dt.getDate()));
+  };
+  var two = function two(num) {
+    return parseInt(num) > 9 ? num : "0".concat(num);
+  };
+
   function slideTpl(props){
   var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
   __p+='<div class="bf-actions-slide__content">\n  <div class="bf-actions-slide__timer"></div>\n  ';
@@ -2133,14 +2155,9 @@
         var cdt = new Date();
         var cdtStr = "".concat(cdt.getFullYear(), "/").concat(cdt.getMonth() + 1, "/").concat(cdt.getDate());
         var dt = this.$el.dataset.actionDate.split(/\s?-\s?/);
-        this.timeOffset = new Date().getTimezoneOffset() * 60000;
-        this.startTime = Date.parse("".concat(cdtStr, " ").concat(dt[0], ":00")) - 3 * 60 * 60 * 1000;
-        this.endTime = Date.parse("".concat(cdtStr, " ").concat(dt[1], ":00")) - 3 * 60 * 60 * 1000;
-        this.props.startDate = "".concat(cdtStr, " ").concat(dt[0], ":00");
-        this.props.endDate = "".concat(cdtStr, " ").concat(dt[1], ":00"); // this.timeOffset = window.LMDA ? (new Date()).getTime() - (LMDA.nginxTime || LMDA.pageState.request.timestamp) * 1000 : 0;
-        // console.log('timeOffset:', this.timeOffset, (new Date()).getTime(), (LMDA.nginxTime || LMDA.pageState.request.timestamp));
-
-        this.time = new Date().getTime();
+        this.startTime = Date.parse("".concat(getDate(), " ").concat(dt[0], ":00"));
+        this.endTime = Date.parse("".concat(getDate(), " ").concat(dt[1], ":00"));
+        this.time = getMoscowTime();
         this.started = false;
 
         if (this.time >= this.startTime && this.time <= this.endTime) {
@@ -2169,7 +2186,7 @@
       key: "checkTime",
       value: function checkTime() {
         var parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-        this.time = new Date().getTime() + this.timeOffset;
+        this.time = getMoscowTime();
 
         if (this.time >= this.startTime && this.time <= this.endTime) {
           if (!this.started) {
@@ -10852,7 +10869,7 @@
       value: function init() {
         var _this2 = this;
 
-        this.currentTime = new Date().getTime();
+        this.currentTime = getMoscowTime();
         this.$slides = this.getElements('.bf-actions-slide');
         this.$sliderTrack = this.getElement('.bf-actions-slider__track');
         this.$dotsBlock = this.getElement('.bf-actions-slider__dots');
@@ -10869,7 +10886,8 @@
 
         if (this.platform == 'desktop') {
           this.slider = new Swiper('.bf-actions-slider__content', {
-            initialSlide: this.position,
+            initialSlide: this.getStartPosition(),
+            // centeredSlides: true,
             slidesPerView: 4,
             spaceBetween: 15,
             slideClass: 'bf-actions-slide',
@@ -10931,21 +10949,20 @@
                 key = _step$value[0],
                 slide = _step$value[1];
 
-            if (this.currentTime < slide.startPosition) {
-              startPosition = this.platform == 'desktop' ? key - 1 : key;
+            if (this.currentTime >= slide.startTime && this.currentTime <= slide.endTime) {
+              startPosition = key;
+              break;
+            }
+
+            if (this.currentTime < slide.startTime) {
+              startPosition = key;
               break;
             }
 
             if (this.currentTime > slide.endTime) {
-              startPosition = this.platform == 'desktop' ? key - 1 : key;
+              startPosition = key;
             }
-
-            if (this.currentTime >= slide.startTime && this.currentTime <= slide.endTime) {
-              startPosition = this.platform == 'desktop' ? key - 1 : key;
-              break;
-            }
-          } // this.slider.slideTo(startPosition);
-
+          }
         } catch (err) {
           _didIteratorError = true;
           _iteratorError = err;
@@ -10961,6 +10978,7 @@
           }
         }
 
+        console.log(startPosition);
         return startPosition;
       }
     }, {

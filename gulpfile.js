@@ -104,6 +104,7 @@ function buildHtml() {
       prefix: '@@',
       basepath: __dirname,
     }))
+    // .pipe(twig())
     .pipe(gulp.dest('tmp/'));
 }
 

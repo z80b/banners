@@ -1,5 +1,6 @@
 import Dom from '@js/dom.js';
 import BannerSlide from '@js/banner-slide.js';
+import { getMoscowTime } from '@js/utils.js';
 import Swiper from 'swiper';
 
 class Banner extends Dom {
@@ -10,7 +11,7 @@ class Banner extends Dom {
   }
 
   init() {
-    this.currentTime = (new Date()).getTime();
+    this.currentTime = getMoscowTime();
     this.$slides = this.getElements('.bf-actions-slide');
     this.$sliderTrack = this.getElement('.bf-actions-slider__track');
     this.$dotsBlock = this.getElement('.bf-actions-slider__dots');
@@ -28,7 +29,8 @@ class Banner extends Dom {
 
     if (this.platform == 'desktop') {
       this.slider = new Swiper('.bf-actions-slider__content', {
-        initialSlide: this.position,
+        initialSlide: this.getStartPosition(),
+        // centeredSlides: true,
         slidesPerView: 4,
         spaceBetween: 15,
         slideClass: 'bf-actions-slide',
@@ -76,21 +78,21 @@ class Banner extends Dom {
     let startPosition = 0;
 
     for (let [key, slide] of this.slides.entries()) {
-      if (this.currentTime < slide.startPosition) {
-        startPosition = this.platform == 'desktop' ? key - 1 : key;
+      if (this.currentTime >= slide.startTime && this.currentTime <= slide.endTime) {
+        startPosition = key;
+        break;
+      }
+
+      if (this.currentTime < slide.startTime) {
+        startPosition = key;
         break;
       }
 
       if (this.currentTime > slide.endTime) {
-        startPosition = this.platform == 'desktop' ? key - 1 : key;
-      }
-
-      if (this.currentTime >= slide.startTime && this.currentTime <= slide.endTime) {
-        startPosition = this.platform == 'desktop' ? key - 1 : key;
-        break;
+        startPosition = key;
       }
     }
-    // this.slider.slideTo(startPosition);
+    console.log(startPosition);
     return startPosition;
   }
 
