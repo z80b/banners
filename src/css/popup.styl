@@ -5,7 +5,19 @@
     background-color #fff
     z-index 2
     white-space normal
-    display none
+    transition .3s transform ease
+    transform-origin 0 0
+    transform scale(0)
+    box-shadow 0px 0px 15px 0px #000
+
+    &--opened
+      transition .5s transform ease
+      transform scale(1)
+
+    [data-direction=up] &
+      transform-origin 0 100%
+      top auto
+      bottom 0
 
     &__image
       display block
