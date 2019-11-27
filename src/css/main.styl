@@ -1,21 +1,19 @@
 .ny-panorama
   &__content
     width 100%
-    height auto
-    
-    overflow hidden
+    // height 420px
+    overflow-x hidden
 
   &__track
     font-size 0
     white-space nowrap
-    transition: 1s transform ease
+    //transition: 1s transform ease
     transition: 0s transform cubic-bezier(0, 0, 0, 0)
 
   &__slide
     position relative
     display inline-block
     width 25%
-    outline solid 1px #000
 
   &__slide-img
     display block
@@ -23,6 +21,9 @@
 
   &__pick
     position absolute
+
+  &__popup
+    z-index 4
 
   &__dot
     absolute top -8px left -8px width 16px height 16px

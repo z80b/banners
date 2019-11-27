@@ -1,4 +1,4 @@
-<div class="ny-panorama-popup">
+<div class="ny-panorama__popup ny-panorama-popup">
   <img class="ny-panorama-popup__image" src="<%= props.src %>"/>
   <div class="ny-panorama-popup__title"><%= props.title %></div>
   <div class="ny-panorama-popup__text"><%= props.text %></div>

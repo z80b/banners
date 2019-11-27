@@ -19,7 +19,7 @@ class PanoramaPick extends Dom {
 
   render() {
     this.$el.innerHTML = panoramaPick({
-      src: '/static/MP002XW1247P_9518641_1_v1.jpg',
+      src: '/static/MP002XW1247P_9518641_1_v1.png',
       title: 'Массивные кроссовки',
       text: 'Коллекция, объединила в себе женственные силуэты и спортивный стиль.',
     });
@@ -29,6 +29,7 @@ class PanoramaPick extends Dom {
   showPopup() {
     this.inAction = true;
     sendMessage('popup:close');
+    this.$el.style.zIndex = 5;
     this.$popup.style.display = 'block';
     setTimeout(() => {
       addClass(this.$popup, 'ny-panorama-popup--opened');
@@ -39,6 +40,7 @@ class PanoramaPick extends Dom {
 
   hidePopup() {
     if (!this.inAction) {
+      this.$el.style.zIndex = 'auto';
       removeClass(this.$popup, 'ny-panorama-popup--opened');
       setTimeout(() => { this.$popup.style.display = 'none' }, 500);
     }

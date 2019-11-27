@@ -1,17 +1,10 @@
 .ny-panorama__content {
   width: 100%;
-  height: auto;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 .ny-panorama__track {
   font-size: 0;
   white-space: nowrap;
-  -webkit-transition: 1s -webkit-transform ease;
-  transition: 1s -webkit-transform ease;
-  -o-transition: 1s -o-transform ease;
-  -moz-transition: 1s transform ease, 1s -moz-transform ease;
-  transition: 1s transform ease;
-  transition: 1s transform ease, 1s -webkit-transform ease, 1s -moz-transform ease, 1s -o-transform ease;
   -webkit-transition: 0s -webkit-transform cubic-bezier(0, 0, 0, 0);
   transition: 0s -webkit-transform cubic-bezier(0, 0, 0, 0);
   -o-transition: 0s -o-transform cubic-bezier(0, 0, 0, 0);
@@ -23,7 +16,6 @@
   position: relative;
   display: inline-block;
   width: 25%;
-  outline: solid 1px #000;
 }
 .ny-panorama__slide-img {
   display: block;
@@ -31,6 +23,9 @@
 }
 .ny-panorama__pick {
   position: absolute;
+}
+.ny-panorama__popup {
+  z-index: 4;
 }
 .ny-panorama__dot {
   position: absolute;
@@ -89,8 +84,11 @@
   top: 0;
   left: 0;
   width: 140px;
-  height: auto;
-  padding: 10px;
+  height: 214px;
+  padding: 32px 10px 24px 10px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
   background-color: #fff;
   z-index: 2;
   white-space: normal;
@@ -138,7 +136,7 @@
 }
 .ny-panorama-popup__image {
   display: block;
-  width: 100%;
+  height: 65px;
 }
 .ny-panorama-popup__title {
   font-size: 8px;
@@ -153,6 +151,10 @@
   padding: 10px 0;
 }
 .ny-panorama-popup__button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
   display: block;
   font-size: 8px;
   font-weight: 700;

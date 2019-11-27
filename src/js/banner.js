@@ -26,15 +26,32 @@ class Banner extends Dom {
   initSlider() {
     this.slider = new Swiper('.ny-panorama__content', {
       initialSlide: 0,
-      slidesPerView: 4,
-      // autoplay: true,
-      // spaceBetween: 15,
+      slidesPerView: 10,
+      autoHeight: true,
+      autoplay: {
+        delay: 0,
+        reverseDirection: true,
+        disableOnInteraction: false,
+      },
+      speed: 6000,
       slideClass: 'ny-panorama__slide',
       wrapperClass: 'ny-panorama__track',
       freeMode: true,
-      // loop: true,
       mousewheel: true,
-      loopAdditionalSlides: 10,
+      breakpoints: {
+        960: {
+          slidesPerView: 4,
+        },
+        1206: {
+          slidesPerView: 5,
+        },
+        2500: {
+          slidesPerView: 7,
+        },
+        5000: {
+          slidesPerView: 10,
+        }
+      }
     });
     this.initPicks();
   }
