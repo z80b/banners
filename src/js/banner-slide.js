@@ -24,16 +24,19 @@ class BannerSlide extends Dom {
     const cdt = new Date();
     const cdtStr = `${cdt.getFullYear()}/${cdt.getMonth() + 1}/${cdt.getDate()}`;
     let dt = this.$el.dataset.actionDate.split(/\s?-\s?/);
-    this.startTime = Date.parse(`${cdtStr} ${dt[0]}:00`);
-    this.endTime = Date.parse(`${cdtStr} ${dt[1]}:00`);
+    this.timeOffset = (new Date()).getTimezoneOffset() * 60000;
+    this.startTime = Date.parse(`${cdtStr} ${dt[0]}:00`) - 3 * 60 * 60 * 1000;
+    this.endTime = Date.parse(`${cdtStr} ${dt[1]}:00`) - 3 * 60 * 60 * 1000;
     this.props.startDate = `${cdtStr} ${dt[0]}:00`;
     this.props.endDate = `${cdtStr} ${dt[1]}:00`;
+    // this.timeOffset = window.LMDA ? (new Date()).getTime() - (LMDA.nginxTime || LMDA.pageState.request.timestamp) * 1000 : 0;
+    
+    // console.log('timeOffset:', this.timeOffset, (new Date()).getTime(), (LMDA.nginxTime || LMDA.pageState.request.timestamp));
     this.time = (new Date()).getTime();
     this.started = false;
     if (this.time >= this.startTime && this.time <= this.endTime) {
       this.parent.position = this.position;
     }
-    console.log(this);
   }
 
   render() {
@@ -52,7 +55,7 @@ class BannerSlide extends Dom {
   }
 
   checkTime(parent = null) {
-    this.time = (new Date()).getTime();
+    this.time = (new Date()).getTime() + this.timeOffset;
     if (this.time >= this.startTime && this.time <= this.endTime) {
       if (!this.started) {
         const event = new CustomEvent('action:ready', {
@@ -77,7 +80,7 @@ class BannerSlide extends Dom {
       this.removeClass('soon');
       this.started = false;
     }
-    this.renderTimer((new Date()).getTime(), this.startTime, this.endTime);
+    this.renderTimer(this.time, this.startTime, this.endTime);
     return this.started;
   }
 
