@@ -16,6 +16,7 @@ class BannerSlide extends Dom {
     this.render();
     this.checkTime();
     this.timer = setInterval(this.checkTime.bind(this), 1000);
+    console.log(this);
   }
 
   init() {
@@ -35,6 +36,10 @@ class BannerSlide extends Dom {
   }
 
   render() {
+    this.props.discountClass = 'bf-actions-slide__discount';
+    if (this.props.discountPrefix) {
+      this.props.discountClass = 'bf-actions-slide__discount bf-actions-slide__discount--prefix';
+    }
     this.$el.innerHTML = slideTpl(this.props);
   }
 

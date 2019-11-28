@@ -67,7 +67,7 @@
       background none
 
 
-  &__date, &__title, &__discount
+  &__date, &__title, &__discount, &__prefix
     position absolute
     left 20px
     z-index 2
@@ -92,6 +92,13 @@
     font-size 5em
     font-weight 600
     top 45px
+
+    &--prefix
+      left 50px
+
+  &__prefix
+    font-size 2em
+    top 65px
 
   &__timer
     width 100%

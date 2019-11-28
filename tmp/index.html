@@ -102,7 +102,8 @@
 }
 .bf-actions-slide__date,
 .bf-actions-slide__title,
-.bf-actions-slide__discount {
+.bf-actions-slide__discount,
+.bf-actions-slide__prefix {
   position: absolute;
   left: 20px;
   z-index: 2;
@@ -129,6 +130,13 @@
   font-size: 5em;
   font-weight: 600;
   top: 45px;
+}
+.bf-actions-slide__discount--prefix {
+  left: 50px;
+}
+.bf-actions-slide__prefix {
+  font-size: 2em;
+  top: 60px;
 }
 .bf-actions-slide__timer {
   width: 100%;
@@ -470,6 +478,7 @@
             data-href="/a/36612/new_7/?bs=1&pc=КУПИТЬ"
             data-title="на товары раздела Premium"
             data-discount="50"
+            data-discount-prefix="до"
             data-teaser="https://a.lmcdn.ru/files/cms/action-hover-01.jpg">
           </a>
           <a
@@ -2093,8 +2102,16 @@
   function slideTpl(props){
   var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
   __p+='<div class="bf-actions-slide__content">\n  <div class="bf-actions-slide__timer"></div>\n  ';
+   if (props.discountPrefix) { 
+  __p+='\n    <div class="bf-actions-slide__prefix">'+
+  ((__t=( props.discountPrefix ))==null?'':__t)+
+  '</div>\n  ';
+   } 
+  __p+='\n  ';
    if (props.discount) { 
-  __p+='\n    <div class="bf-actions-slide__discount">'+
+  __p+='\n    <div class="'+
+  ((__t=( props.discountClass ))==null?'':__t)+
+  '">'+
   ((__t=( props.discount ))==null?'':__t)+
   '%</div>\n  ';
    } 
@@ -2142,6 +2159,7 @@
       _this.checkTime();
 
       _this.timer = setInterval(_this.checkTime.bind(_assertThisInitialized(_this)), 1000);
+      console.log(_assertThisInitialized(_this));
       return _this;
     }
 
@@ -2167,6 +2185,12 @@
     }, {
       key: "render",
       value: function render() {
+        this.props.discountClass = 'bf-actions-slide__discount';
+
+        if (this.props.discountPrefix) {
+          this.props.discountClass = 'bf-actions-slide__discount bf-actions-slide__discount--prefix';
+        }
+
         this.$el.innerHTML = slideTpl(this.props);
       }
     }, {
