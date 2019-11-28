@@ -1,16 +1,14 @@
 .ny-panorama__content {
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 .ny-panorama__track {
   font-size: 0;
   white-space: nowrap;
-  -webkit-transition: 0s -webkit-transform cubic-bezier(0, 0, 0, 0);
-  transition: 0s -webkit-transform cubic-bezier(0, 0, 0, 0);
-  -o-transition: 0s -o-transform cubic-bezier(0, 0, 0, 0);
-  -moz-transition: 0s transform cubic-bezier(0, 0, 0, 0), 0s -moz-transform cubic-bezier(0, 0, 0, 0);
-  transition: 0s transform cubic-bezier(0, 0, 0, 0);
-  transition: 0s transform cubic-bezier(0, 0, 0, 0), 0s -webkit-transform cubic-bezier(0, 0, 0, 0), 0s -moz-transform cubic-bezier(0, 0, 0, 0), 0s -o-transform cubic-bezier(0, 0, 0, 0);
+  -webkit-transition-timing-function: linear;
+     -moz-transition-timing-function: linear;
+       -o-transition-timing-function: linear;
+          transition-timing-function: linear;
 }
 .ny-panorama__slide {
   position: relative;

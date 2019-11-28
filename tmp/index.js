@@ -1612,12 +1612,13 @@
   function (_Dom) {
     _inherits(PanoramaPick, _Dom);
 
-    function PanoramaPick(el) {
+    function PanoramaPick(el, $parent) {
       var _this;
 
       _classCallCheck(this, PanoramaPick);
 
       _this = _possibleConstructorReturn(this, _getPrototypeOf(PanoramaPick).call(this, el));
+      _this.$parent = $parent;
       _this.inAction = false;
       waitMessage('popup:close', _this.hidePopup.bind(_assertThisInitialized(_this)));
 
@@ -1631,14 +1632,27 @@
       value: function afterRender() {
         this.$dot = this.$el.querySelector('.ny-panorama__dot');
         this.$popup = this.$el.querySelector('.ny-panorama-popup');
+
+        if (this.$el.offsetTop + this.$popup.clientHeight > this.$parent.clientHeight) {
+          this.$el.setAttribute('data-direction', 'up');
+        } else this.$el.setAttribute('data-direction', 'down');
+
         this.$popup.style.display = 'none';
         this.$dot.addEventListener('click', this.showPopup.bind(this));
       }
     }, {
       key: "render",
       value: function render() {
+        this.setPosition();
         this.$el.innerHTML = panoramaPick(this.$el.dataset);
         this.afterRender();
+      }
+    }, {
+      key: "setPosition",
+      value: function setPosition() {
+        var position = this.$el.getAttribute('data-position').split(',');
+        this.$el.style.top = "".concat(position[1], "%");
+        this.$el.style.left = "".concat(position[0], "%");
       }
     }, {
       key: "showPopup",
@@ -10290,16 +10304,16 @@
           initialSlide: 0,
           slidesPerView: 10,
           autoHeight: true,
-          // autoplay: {
-          //   delay: 0,
-          //   //reverseDirection: false,
-          //   waitForTransition: false,
-          // },
+          autoplay: {
+            delay: 0 //reverseDirection: false,
+            // waitForTransition: false,
+
+          },
           speed: 8000,
           slideClass: 'ny-panorama__slide',
           wrapperClass: 'ny-panorama__track',
           freeMode: true,
-          // mousewheel: true,
+          mousewheel: true,
           breakpoints: {
             960: {
               slidesPerView: 4
@@ -10313,25 +10327,22 @@
             5000: {
               slidesPerView: 10
             }
+          },
+          on: {
+            init: this.initPicks.bind(this)
           }
-        });
-        this.initPicks(); // this.$el.addEventListener('mouseover', this.slider.autoplay.start);
+        }); // this.initPicks();
+        // this.$el.addEventListener('mouseover', this.slider.autoplay.start);
         // this.$el.addEventListener('mouseout', this.slider.autoplay.stop);
       }
     }, {
       key: "initPicks",
       value: function initPicks() {
-        console.log('initPicks', this, this.$el);
-        var $picks = this.$el.querySelectorAll('.ny-panorama__pick');
+        var _this2 = this;
 
-        if ($picks && $picks.length) {
-          for (var i = 0; i < $picks.length; i++) {
-            var position = $picks[i].getAttribute('data-position').split(',');
-            $picks[i].style.top = "".concat(position[1], "%");
-            $picks[i].style.left = "".concat(position[0], "%");
-            new PanoramaPick($picks[i]);
-          }
-        }
+        this.$el.querySelectorAll('.ny-panorama__pick').forEach(function ($pick) {
+          return new PanoramaPick($pick, _this2.$el);
+        });
       }
     }]);
 

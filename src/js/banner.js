@@ -28,16 +28,16 @@ class Banner extends Dom {
       initialSlide: 0,
       slidesPerView: 10,
       autoHeight: true,
-      // autoplay: {
-      //   delay: 0,
-      //   //reverseDirection: false,
-      //   waitForTransition: false,
-      // },
+      autoplay: {
+        delay: 0,
+        //reverseDirection: false,
+        // waitForTransition: false,
+      },
       speed: 8000,
       slideClass: 'ny-panorama__slide',
       wrapperClass: 'ny-panorama__track',
       freeMode: true,
-      // mousewheel: true,
+      mousewheel: true,
       breakpoints: {
         960: {
           slidesPerView: 4,
@@ -52,24 +52,19 @@ class Banner extends Dom {
           slidesPerView: 10,
         }
       },
+      on: {
+        init: this.initPicks.bind(this),
+      }
     });
-    this.initPicks();
+    // this.initPicks();
     // this.$el.addEventListener('mouseover', this.slider.autoplay.start);
     // this.$el.addEventListener('mouseout', this.slider.autoplay.stop);
   }
 
   initPicks() {
-    console.log('initPicks', this, this.$el);
-    const $picks = this.$el.querySelectorAll('.ny-panorama__pick');
-    
-    if ($picks && $picks.length) {
-      for (let i = 0; i < $picks.length; i++) {
-        const position = $picks[i].getAttribute('data-position').split(',');
-        $picks[i].style.top = `${position[1]}%`;
-        $picks[i].style.left = `${position[0]}%`;
-        new PanoramaPick($picks[i]);
-      }
-    }
+    this.$el
+      .querySelectorAll('.ny-panorama__pick')
+      .forEach($pick => new PanoramaPick($pick, this.$el));
   }
 }
 

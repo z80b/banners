@@ -4,8 +4,9 @@ import { addClass, removeClass } from '@js/utils/dom.js';
 import panoramaPick from '@tpl/pick-popup.tpl';
 
 class PanoramaPick extends Dom {
-  constructor(el) {
+  constructor(el, $parent) {
     super(el)
+    this.$parent = $parent;
     this.inAction = false;
     waitMessage('popup:close', this.hidePopup.bind(this));
     this.render();
@@ -14,13 +15,25 @@ class PanoramaPick extends Dom {
   afterRender() {
     this.$dot = this.$el.querySelector('.ny-panorama__dot');
     this.$popup = this.$el.querySelector('.ny-panorama-popup');
+
+    if ((this.$el.offsetTop + this.$popup.clientHeight) > this.$parent.clientHeight) {
+      this.$el.setAttribute('data-direction', 'up');
+    } else this.$el.setAttribute('data-direction', 'down');
+
     this.$popup.style.display = 'none';
     this.$dot.addEventListener('click', this.showPopup.bind(this));
   }
 
   render() {
+    this.setPosition();
     this.$el.innerHTML = panoramaPick(this.$el.dataset);
     this.afterRender();
+  }
+
+  setPosition() {
+    const position = this.$el.getAttribute('data-position').split(',');
+    this.$el.style.top = `${position[1]}%`;
+    this.$el.style.left = `${position[0]}%`;
   }
 
   showPopup() {
