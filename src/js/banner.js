@@ -1,5 +1,5 @@
 import Dom from '@js/dom.js';
-import { sendMessage } from '@js/utils.js';
+import { sendMessage } from '@js/utils/events.js';
 import PanoramaPick from '@js/panorama-pick.js';
 import Swiper from 'swiper';
 

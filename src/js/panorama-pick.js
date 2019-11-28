@@ -1,5 +1,6 @@
 import Dom from '@js/dom.js';
-import { sendMessage, waitMessage, addClass, removeClass } from '@js/utils.js';
+import { sendMessage, waitMessage } from '@js/utils/events.js';
+import { addClass, removeClass } from '@js/utils/dom.js';
 import panoramaPick from '@tpl/pick-popup.tpl';
 
 class PanoramaPick extends Dom {

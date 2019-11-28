@@ -1581,6 +1581,7 @@
   var waitMessage = function waitMessage(name, callback) {
     window.addEventListener(name, callback, false);
   };
+
   var addClass = function addClass($el, className) {
     if ($el.className.search(className) < 0) {
       $el.className += " ".concat(className);
