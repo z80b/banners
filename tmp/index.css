@@ -160,7 +160,15 @@
   font-weight: 700;
   line-height: 24px;
   text-align: center;
+  text-decoration: none;
   color: #000;
   background-color: #f0d382;
   cursor: pointer;
+  -webkit-transition: 0.5s background-color ease;
+  -o-transition: 0.5s background-color ease;
+  -moz-transition: 0.5s background-color ease;
+  transition: 0.5s background-color ease;
+}
+.ny-panorama-popup__button:hover {
+  background-color: #e8bc40;
 }

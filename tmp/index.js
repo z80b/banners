@@ -1595,12 +1595,14 @@
   function panoramaPick(props){
   var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
   __p+='<div class="ny-panorama__popup ny-panorama-popup">\n  <img class="ny-panorama-popup__image" src="'+
-  ((__t=( props.src ))==null?'':__t)+
+  ((__t=( props.image ))==null?'':__t)+
   '"/>\n  <div class="ny-panorama-popup__title">'+
   ((__t=( props.title ))==null?'':__t)+
   '</div>\n  <div class="ny-panorama-popup__text">'+
   ((__t=( props.text ))==null?'':__t)+
-  '</div>\n  <a class="ny-panorama-popup__button">Смотреть подборку</a>\n</div>\n<div class="ny-panorama__dot"></div>';
+  '</div>\n  <a class="ny-panorama-popup__button" href="'+
+  ((__t=( props.href ))==null?'':__t)+
+  '">Смотреть подборку</a>\n</div>\n<div class="ny-panorama__dot"></div>';
   return __p;
   };
 
@@ -1634,11 +1636,7 @@
     }, {
       key: "render",
       value: function render() {
-        this.$el.innerHTML = panoramaPick({
-          src: '/static/MP002XW1247P_9518641_1_v1.png',
-          title: 'Массивные кроссовки',
-          text: 'Коллекция, объединила в себе женственные силуэты и спортивный стиль.'
-        });
+        this.$el.innerHTML = panoramaPick(this.$el.dataset);
         this.afterRender();
       }
     }, {
@@ -10291,16 +10289,16 @@
           initialSlide: 0,
           slidesPerView: 10,
           autoHeight: true,
-          autoplay: {
-            delay: 0,
-            reverseDirection: true,
-            disableOnInteraction: false
-          },
-          speed: 6000,
+          // autoplay: {
+          //   delay: 0,
+          //   //reverseDirection: false,
+          //   waitForTransition: false,
+          // },
+          speed: 8000,
           slideClass: 'ny-panorama__slide',
           wrapperClass: 'ny-panorama__track',
           freeMode: true,
-          mousewheel: true,
+          // mousewheel: true,
           breakpoints: {
             960: {
               slidesPerView: 4
@@ -10316,7 +10314,8 @@
             }
           }
         });
-        this.initPicks();
+        this.initPicks(); // this.$el.addEventListener('mouseover', this.slider.autoplay.start);
+        // this.$el.addEventListener('mouseout', this.slider.autoplay.stop);
       }
     }, {
       key: "initPicks",

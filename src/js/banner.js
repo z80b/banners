@@ -28,16 +28,16 @@ class Banner extends Dom {
       initialSlide: 0,
       slidesPerView: 10,
       autoHeight: true,
-      autoplay: {
-        delay: 0,
-        reverseDirection: true,
-        disableOnInteraction: false,
-      },
-      speed: 6000,
+      // autoplay: {
+      //   delay: 0,
+      //   //reverseDirection: false,
+      //   waitForTransition: false,
+      // },
+      speed: 8000,
       slideClass: 'ny-panorama__slide',
       wrapperClass: 'ny-panorama__track',
       freeMode: true,
-      mousewheel: true,
+      // mousewheel: true,
       breakpoints: {
         960: {
           slidesPerView: 4,
@@ -51,9 +51,11 @@ class Banner extends Dom {
         5000: {
           slidesPerView: 10,
         }
-      }
+      },
     });
     this.initPicks();
+    // this.$el.addEventListener('mouseover', this.slider.autoplay.start);
+    // this.$el.addEventListener('mouseout', this.slider.autoplay.stop);
   }
 
   initPicks() {

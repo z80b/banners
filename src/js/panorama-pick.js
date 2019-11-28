@@ -18,11 +18,7 @@ class PanoramaPick extends Dom {
   }
 
   render() {
-    this.$el.innerHTML = panoramaPick({
-      src: '/static/MP002XW1247P_9518641_1_v1.png',
-      title: 'Массивные кроссовки',
-      text: 'Коллекция, объединила в себе женственные силуэты и спортивный стиль.',
-    });
+    this.$el.innerHTML = panoramaPick(this.$el.dataset);
     this.afterRender();
   }
 
