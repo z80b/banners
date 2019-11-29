@@ -10296,9 +10296,8 @@
       _this.slidesCount = 10;
       _this.visibleSlides = 4;
       _this.scrollDirection = 'left';
-      _this.slider = _this.initSlider();
-
-      _this.initEvents();
+      _this.allowScroll = true;
+      _this.slider = _this.initSlider(); // this.initEvents();
 
       console.log('constructor:', _assertThisInitialized(_this));
       return _possibleConstructorReturn(_this, _assertThisInitialized(_this));
@@ -10307,12 +10306,21 @@
     _createClass(Banner, [{
       key: "initEvents",
       value: function initEvents() {
+        var _this2 = this;
+
         var $imgs = this.$el.querySelectorAll('.ny-panorama__slide-img');
         $imgs.forEach(function (el) {
           el.addEventListener('click', function () {
             sendMessage('popup:close');
           });
         });
+        this.$el.addEventListener('mouseover', function () {
+          return _this2.allowScroll = false;
+        });
+        this.$el.addEventListener('mouseout', function () {
+          return _this2.allowScroll = true;
+        });
+        this.$track.addEventListener('transitionend', this.toggleScroll.bind(this));
       }
     }, {
       key: "initSlider",
@@ -10354,13 +10362,14 @@
     }, {
       key: "initAfterSlider",
       value: function initAfterSlider() {
-        var _this2 = this;
+        var _this3 = this;
 
         this.$track = this.$el.querySelector('.ny-panorama__track');
         this.trackWidth;
         this.$el.querySelectorAll('.ny-panorama__pick').forEach(function ($pick) {
-          return new PanoramaPick($pick, _this2.$el);
+          return new PanoramaPick($pick, _this3.$el);
         });
+        this.initEvents();
         this.toggleScroll();
       }
     }, {
@@ -10372,7 +10381,7 @@
         // translate3d(this.$track, `-${trackWidth - viewPortWidth}px`, 0, 0);
 
         console.log('Swiper2:', this.slider.getTranslate());
-        this.slider.setTranslate(trackWidth - viewPortWidth);
+        this.slider.setTranslate(0);
       }
     }, {
       key: "scrollRight",
@@ -10385,9 +10394,19 @@
     }, {
       key: "toggleScroll",
       value: function toggleScroll() {
+        if (!this.allowScroll) return;
+
         if (this.scrollDirection == 'left') {
           this.scrollRight();
         } else this.scrollLeft();
+      }
+    }, {
+      key: "pauseScroll",
+      value: function pauseScroll() {//-----
+      }
+    }, {
+      key: "continueScroll",
+      value: function continueScroll() {//-----
       }
     }]);
 

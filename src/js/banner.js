@@ -11,8 +11,9 @@ class Banner extends Dom {
     this.slidesCount = 10;
     this.visibleSlides = 4;
     this.scrollDirection = 'left';
+    this.allowScroll = true;
     this.slider = this.initSlider();
-    this.initEvents();
+    // this.initEvents();
     console.log('constructor:', this);
     return this;
   }
@@ -24,6 +25,9 @@ class Banner extends Dom {
         sendMessage('popup:close');
       });
     });
+    this.$el.addEventListener('mouseover', () => this.allowScroll = false);
+    this.$el.addEventListener('mouseout', () => this.allowScroll = true);
+    this.$track.addEventListener('transitionend', this.toggleScroll.bind(this));
   }
 
   initSlider() {
@@ -68,7 +72,7 @@ class Banner extends Dom {
     this.$el
       .querySelectorAll('.ny-panorama__pick')
       .forEach($pick => new PanoramaPick($pick, this.$el));
-
+    this.initEvents();
     this.toggleScroll();
   }
 
@@ -79,7 +83,7 @@ class Banner extends Dom {
     // console.log('scrollLeft:', trackWidth, viewPortWidth);
     // translate3d(this.$track, `-${trackWidth - viewPortWidth}px`, 0, 0);
     console.log('Swiper2:', this.slider.getTranslate());
-    this.slider.setTranslate(trackWidth - viewPortWidth);
+    this.slider.setTranslate(0);
   }
 
   scrollRight() {
@@ -90,9 +94,18 @@ class Banner extends Dom {
   }
 
   toggleScroll() {
+    if (!this.allowScroll) return;
     if (this.scrollDirection == 'left') {
       this.scrollRight();
     } else this.scrollLeft();
+  }
+
+  pauseScroll() {
+    //-----
+  }
+
+  continueScroll() {
+    //-----
   }
 }
 
