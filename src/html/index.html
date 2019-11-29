@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title><%= htmlWebpackPlugin.options.title %></title>
+  <title>Banner factory</title>
   <style type="text/css">
   html, body {
     background-color: #000;
@@ -15,6 +15,10 @@
   </style>
 </head>
 <body>
-  <div class="page"></div>
+  <div class="page">
+    <div class="page__banner-slot">
+      @@include('./src/html/banner.html')
+    </div>
+  </div>
 </body>
 </html>

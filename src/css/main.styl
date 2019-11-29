@@ -1,0 +1,51 @@
+.ny-panorama
+  &__content
+    width 100%
+    // height 420px
+    overflow hidden
+
+  &__track
+    font-size 0
+    white-space nowrap
+    transition-property transform
+    transition-duration 0
+    transition-timing-function linear
+
+  &__slide
+    position relative
+    display inline-block
+    width 25%
+
+  &__slide-img
+    display block
+    width 100%
+
+  &__pick
+    position absolute
+
+  &__popup
+    z-index 4
+
+  &__dot
+    absolute top -8px left -8px width 16px height 16px
+    background-color #000
+    border-radius 50%
+    transition .5s transform ease
+    transform scale(1)
+    z-index 3
+
+    &::before, &::after
+      content ''
+      display block
+      position absolute
+      background-color #fff
+      cursor pointer
+
+    &::before
+      absolute top 7px left 3px width 10px height 2px
+
+    &::after
+      absolute top 3px left 7px width 2px height 10px
+
+    &:hover
+      transform scale(1.625)

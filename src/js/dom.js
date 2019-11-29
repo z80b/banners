@@ -1,4 +1,4 @@
-class DomElement {
+class Dom {
   constructor(el) {
     if (typeof(el) == 'object') {
       this.$el = el;
@@ -26,4 +26,4 @@ class DomElement {
   }
 }
 
-export default DomElement;
+export default Dom;
