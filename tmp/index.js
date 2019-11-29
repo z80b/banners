@@ -1582,18 +1582,6 @@
     window.addEventListener(name, callback, false);
   };
 
-  var getTransformName = function getTransformName($el) {
-    ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"].forEach(function (transform) {
-      if (document.body.style[transform]) return transform;
-    });
-    return '';
-  };
-  var translate3d = function translate3d($el, x, y, z) {
-    var transform = getTransformName($el);
-    $el.style[transform] = "translate3d(".concat(x, ", ").concat(y, ", ").concat(z, ")");
-    console.log('translate3D', $el.style[transform], "translate3d(".concat(x, ", ").concat(y, ", ").concat(z, ")"));
-  };
-
   var addClass = function addClass($el, className) {
     if ($el.classList && $el.classList.add) {
       $el.classList.add(className);
@@ -10310,15 +10298,10 @@
           initialSlide: 0,
           slidesPerView: 10,
           autoHeight: true,
-          // autoplay: {
-          //   delay: 0,
-          //   //reverseDirection: false,
-          //   // waitForTransition: false,
-          // },
-          // speed: 8000,
           slideClass: 'ny-panorama__slide',
           wrapperClass: 'ny-panorama__track',
           freeMode: true,
+          watchOverflow: true,
           mousewheel: true,
           breakpoints: {
             960: {
@@ -10335,8 +10318,7 @@
             }
           },
           on: {
-            imagesReady: this.initAfterSlider.bind(this),
-            transitionEnd: this.toggleScroll.bind(this)
+            imagesReady: this.initAfterSlider.bind(this)
           }
         });
       }
@@ -10347,76 +10329,63 @@
 
         this.$track = this.$el.querySelector('.ny-panorama__track');
         this.trackWidth = this.$track.scrollWidth;
+        this.trackPosition = 0;
         this.viewPortWidth = this.$el.offsetWidth;
-        this.transitionDuration = 10;
-        this.avgDuration = this.transitionDuration / Math.abs(this.viewPortWidth - this.trackWidth);
+        this.trackOffset = Math.abs(this.viewPortWidth - this.trackWidth);
         this.$el.querySelectorAll('.ny-panorama__pick').forEach(function ($pick) {
           return new PanoramaPick($pick, _this2.$el);
         });
         this.initEvents();
-        this.toggleScroll();
       }
     }, {
       key: "initEvents",
       value: function initEvents() {
-        var _this3 = this;
-
         var $imgs = this.$el.querySelectorAll('.ny-panorama__slide-img');
         $imgs.forEach(function (el) {
           el.addEventListener('click', function () {
             sendMessage('popup:close');
           });
         });
-        this.$el.addEventListener('mouseover', function () {
-          _this3.allowScroll = false;
-
-          _this3.pauseScroll();
-        }, false);
-        this.$el.addEventListener('mouseout', function () {
-          _this3.allowScroll = true;
-
-          _this3.continueScroll();
-        }, false);
-        this.$track.addEventListener('transitionend', this.toggleScroll.bind(this), false);
+        this.$el.addEventListener('mouseover', this.pauseScroll.bind(this), false);
+        this.$el.addEventListener('mouseout', this.continueScroll.bind(this), false);
+        this.timer = setInterval(this.moveTrack.bind(this), 30);
       }
     }, {
-      key: "scrollLeft",
-      value: function scrollLeft() {
-        this.scrollDirection = 'left';
-        this.slider.setTranslate(0);
-      }
-    }, {
-      key: "scrollRight",
-      value: function scrollRight() {
-        this.scrollDirection = 'right';
-        this.slider.setTranslate(this.viewPortWidth - this.trackWidth);
-      }
-    }, {
-      key: "toggleScroll",
-      value: function toggleScroll() {
+      key: "moveTrack",
+      value: function moveTrack() {
         if (!this.allowScroll) return;
-        this.$track.style.transitionDuration = "".concat(this.transitionDuration, "s");
 
         if (this.scrollDirection == 'left') {
-          this.scrollRight();
-        } else this.scrollLeft();
+          this.trackPosition -= 1;
+          this.slider.setTranslate(this.trackPosition);
+
+          if (Math.abs(this.trackPosition) >= this.trackOffset) {
+            this.scrollDirection = 'right';
+          }
+        } else {
+          this.trackPosition += 1;
+          this.slider.setTranslate(this.trackPosition);
+
+          if (this.trackPosition >= 0) {
+            this.scrollDirection = 'left';
+          }
+        }
       }
     }, {
       key: "pauseScroll",
       value: function pauseScroll() {
         this.allowScroll = false;
-        this.currStyles = window.getComputedStyle(this.$track);
-        this.$track.style.transform = this.currStyles.transform;
-        this.$track.style.transitionDuration = 0;
       }
     }, {
       key: "continueScroll",
       value: function continueScroll() {
-        if (this.currStyles) {
-          this.allowScroll = true;
-          var pathPart = parseFloat(this.currStyles.transform.split(',')[4]);
-          this.$track.style.transform = this.currStyles.transform; //this.$track.style.transitionDuration = `${pathPart * this.avgDuration}s`;
-        }
+        var _this3 = this;
+
+        this.allowScroll = true;
+        this.trackPosition = Math.ceil(this.slider.getTranslate());
+        ["transitionDuration", "msTransitionDuration", "webkitTransitionDuration", "mozTransitionDuration", "oTransitionDuration"].forEach(function (transitionDuration) {
+          if (document.body.style[transitionDuration]) _this3.$track.style[transitionDuration] = 0;
+        });
       }
     }]);
 

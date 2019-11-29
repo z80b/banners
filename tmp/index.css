@@ -11,10 +11,10 @@
   -moz-transition-property: transform, -moz-transform;
   transition-property: transform;
   transition-property: transform, -webkit-transform, -moz-transform, -o-transform;
-  -webkit-transition-duration: 8s;
-     -moz-transition-duration: 8s;
-       -o-transition-duration: 8s;
-          transition-duration: 8s;
+  -webkit-transition-duration: 0;
+     -moz-transition-duration: 0;
+       -o-transition-duration: 0;
+          transition-duration: 0;
   -webkit-transition-timing-function: linear;
      -moz-transition-timing-function: linear;
        -o-transition-timing-function: linear;

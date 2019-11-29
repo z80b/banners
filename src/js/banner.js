@@ -1,6 +1,5 @@
 import Dom from '@js/dom.js';
 import { sendMessage } from '@js/utils/events.js';
-import { translate3d } from '@js/utils/animations.js';
 import PanoramaPick from '@js/panorama-pick.js';
 import Swiper from 'swiper';
 
@@ -23,15 +22,10 @@ class Banner extends Dom {
       initialSlide: 0,
       slidesPerView: 10,
       autoHeight: true,
-      // autoplay: {
-      //   delay: 0,
-      //   //reverseDirection: false,
-      //   // waitForTransition: false,
-      // },
-      // speed: 8000,
       slideClass: 'ny-panorama__slide',
       wrapperClass: 'ny-panorama__track',
       freeMode: true,
+      watchOverflow: true,
       mousewheel: true,
       breakpoints: {
         960: {
@@ -49,7 +43,6 @@ class Banner extends Dom {
       },
       on: {
         imagesReady: this.initAfterSlider.bind(this),
-        transitionEnd: this.toggleScroll.bind(this),
       }
     });
   }
@@ -57,14 +50,13 @@ class Banner extends Dom {
   initAfterSlider() {
     this.$track = this.$el.querySelector('.ny-panorama__track');
     this.trackWidth = this.$track.scrollWidth;
+    this.trackPosition = 0;
     this.viewPortWidth = this.$el.offsetWidth;
-    this.transitionDuration = 10;
-    this.avgDuration = this.transitionDuration / Math.abs(this.viewPortWidth - this.trackWidth);
+    this.trackOffset = Math.abs(this.viewPortWidth - this.trackWidth);
     this.$el
       .querySelectorAll('.ny-panorama__pick')
       .forEach($pick => new PanoramaPick($pick, this.$el));
     this.initEvents();
-    this.toggleScroll();
   }
 
   initEvents() {
@@ -74,52 +66,46 @@ class Banner extends Dom {
         sendMessage('popup:close');
       });
     });
-    this.$el.addEventListener('mouseover', () => {
-      this.allowScroll = false;
-      this.pauseScroll();
-    }, false);
-    this.$el.addEventListener('mouseout', () => {
-      this.allowScroll = true;
-      this.continueScroll();
-    }, false);
-    this.$track.addEventListener('transitionend', this.toggleScroll.bind(this), false);
+    this.$el.addEventListener('mouseover',this.pauseScroll.bind(this), false);
+    this.$el.addEventListener('mouseout', this.continueScroll.bind(this), false);
+    this.timer = setInterval(this.moveTrack.bind(this), 30);
   }
 
-  scrollLeft() {
-    this.scrollDirection = 'left';
-    this.slider.setTranslate(0);
-  }
-
-  scrollRight() {
-    this.scrollDirection = 'right';
-    this.slider.setTranslate(this.viewPortWidth - this.trackWidth);
-  }
-
-  toggleScroll() {
+  moveTrack() {
+    
     if (!this.allowScroll) return;
-    this.$track.style.transitionDuration = `${this.transitionDuration}s`;
+    
     if (this.scrollDirection == 'left') {
-      this.scrollRight();
-    } else this.scrollLeft();
+      this.trackPosition -= 1;
+      this.slider.setTranslate(this.trackPosition);
+      if (Math.abs(this.trackPosition) >= this.trackOffset) {
+        this.scrollDirection = 'right';
+      }
+    } else {
+      this.trackPosition += 1;
+      this.slider.setTranslate(this.trackPosition);
+      if (this.trackPosition >= 0) {
+        this.scrollDirection = 'left';
+      }
+    }
   }
 
   pauseScroll() {
     this.allowScroll = false;
-    this.currStyles = window.getComputedStyle(this.$track);
-    this.$track.style.transform = this.currStyles.transform;
-    this.$track.style.transitionDuration = 0;
-    
   }
 
   continueScroll() {
-    if (this.currStyles) {
-      this.allowScroll = true;
-      const pathPart = parseFloat(this.currStyles.transform.split(',')[4]);
-      this.$track.style.transform = this.currStyles.transform;
-      //this.$track.style.transitionDuration = `${pathPart * this.avgDuration}s`;
-      
-
-    }
+    this.allowScroll = true;
+    this.trackPosition = Math.ceil(this.slider.getTranslate());
+    [
+      "transitionDuration",
+      "msTransitionDuration",
+      "webkitTransitionDuration",
+      "mozTransitionDuration",
+      "oTransitionDuration"
+    ].forEach(transitionDuration => {
+      if (document.body.style[transitionDuration]) this.$track.style[transitionDuration] = 0;
+    });
   }
 }
 
