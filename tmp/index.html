@@ -24,6 +24,16 @@
 .ny-panorama__track {
   font-size: 0;
   white-space: nowrap;
+  -webkit-transition-property: -webkit-transform;
+  transition-property: -webkit-transform;
+  -o-transition-property: -o-transform;
+  -moz-transition-property: transform, -moz-transform;
+  transition-property: transform;
+  transition-property: transform, -webkit-transform, -moz-transform, -o-transform;
+  -webkit-transition-duration: 8s;
+     -moz-transition-duration: 8s;
+       -o-transition-duration: 8s;
+          transition-duration: 8s;
   -webkit-transition-timing-function: linear;
      -moz-transition-timing-function: linear;
        -o-transition-timing-function: linear;
@@ -2137,13 +2147,29 @@
     window.addEventListener(name, callback, false);
   };
 
+  var getTransformName = function getTransformName($el) {
+    ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"].forEach(function (transform) {
+      if (document.body.style[transform]) return transform;
+    });
+    return '';
+  };
+  var translate3d = function translate3d($el, x, y, z) {
+    var transform = getTransformName($el);
+    $el.style[transform] = "translate3d(".concat(x, ", ").concat(y, ", ").concat(z, ")");
+    console.log('translate3D', $el.style[transform], "translate3d(".concat(x, ", ").concat(y, ", ").concat(z, ")"));
+  };
+
   var addClass = function addClass($el, className) {
-    if ($el.className.search(className) < 0) {
+    if ($el.classList && $el.classList.add) {
+      $el.classList.add(className);
+    } else if ($el.className.search(className) < 0) {
       $el.className += " ".concat(className);
     }
   };
   var removeClass = function removeClass($el, className) {
-    if ($el.className.search(className) >= 0) {
+    if ($el.classList && $el.classList.add) {
+      $el.classList.remove(className);
+    } else if ($el.className.search(className) >= 0) {
       $el.className = $el.className.replace(" ".concat(className), '');
     }
   };
@@ -10834,17 +10860,18 @@
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Banner).call(this, el));
       _this.slidesCount = 10;
       _this.visibleSlides = 4;
+      _this.scrollDirection = 'left';
+      _this.slider = _this.initSlider();
 
-      _this.init();
+      _this.initEvents();
 
-      _this.initSlider();
-
+      console.log('constructor:', _assertThisInitialized(_this));
       return _possibleConstructorReturn(_this, _assertThisInitialized(_this));
     }
 
     _createClass(Banner, [{
-      key: "init",
-      value: function init() {
+      key: "initEvents",
+      value: function initEvents() {
         var $imgs = this.$el.querySelectorAll('.ny-panorama__slide-img');
         $imgs.forEach(function (el) {
           el.addEventListener('click', function () {
@@ -10855,16 +10882,16 @@
     }, {
       key: "initSlider",
       value: function initSlider() {
-        this.slider = new Swiper('.ny-panorama__content', {
+        return new Swiper('.ny-panorama__content', {
           initialSlide: 0,
           slidesPerView: 10,
           autoHeight: true,
-          autoplay: {
-            delay: 0 //reverseDirection: false,
-            // waitForTransition: false,
-
-          },
-          speed: 8000,
+          // autoplay: {
+          //   delay: 0,
+          //   //reverseDirection: false,
+          //   // waitForTransition: false,
+          // },
+          // speed: 8000,
           slideClass: 'ny-panorama__slide',
           wrapperClass: 'ny-panorama__track',
           freeMode: true,
@@ -10884,20 +10911,48 @@
             }
           },
           on: {
-            init: this.initPicks.bind(this)
+            imagesReady: this.initAfterSlider.bind(this),
+            transitionEnd: this.toggleScroll.bind(this)
           }
-        }); // this.initPicks();
-        // this.$el.addEventListener('mouseover', this.slider.autoplay.start);
-        // this.$el.addEventListener('mouseout', this.slider.autoplay.stop);
+        });
       }
     }, {
-      key: "initPicks",
-      value: function initPicks() {
+      key: "initAfterSlider",
+      value: function initAfterSlider() {
         var _this2 = this;
 
+        this.$track = this.$el.querySelector('.ny-panorama__track');
+        this.trackWidth;
         this.$el.querySelectorAll('.ny-panorama__pick').forEach(function ($pick) {
           return new PanoramaPick($pick, _this2.$el);
         });
+        this.toggleScroll();
+      }
+    }, {
+      key: "scrollLeft",
+      value: function scrollLeft() {
+        var trackWidth = this.$track.scrollWidth;
+        var viewPortWidth = this.$el.offsetWidth;
+        this.scrollDirection = 'left'; // console.log('scrollLeft:', trackWidth, viewPortWidth);
+        // translate3d(this.$track, `-${trackWidth - viewPortWidth}px`, 0, 0);
+
+        console.log('Swiper2:', this.slider.getTranslate());
+        this.slider.setTranslate(trackWidth - viewPortWidth);
+      }
+    }, {
+      key: "scrollRight",
+      value: function scrollRight() {
+        var trackWidth = this.$track.scrollWidth;
+        var viewPortWidth = this.$el.offsetWidth;
+        this.scrollDirection = 'right';
+        this.slider.setTranslate(viewPortWidth - trackWidth);
+      }
+    }, {
+      key: "toggleScroll",
+      value: function toggleScroll() {
+        if (this.scrollDirection == 'left') {
+          this.scrollRight();
+        } else this.scrollLeft();
       }
     }]);
 

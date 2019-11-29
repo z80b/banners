@@ -5,6 +5,16 @@
 .ny-panorama__track {
   font-size: 0;
   white-space: nowrap;
+  -webkit-transition-property: -webkit-transform;
+  transition-property: -webkit-transform;
+  -o-transition-property: -o-transform;
+  -moz-transition-property: transform, -moz-transform;
+  transition-property: transform;
+  transition-property: transform, -webkit-transform, -moz-transform, -o-transform;
+  -webkit-transition-duration: 8s;
+     -moz-transition-duration: 8s;
+       -o-transition-duration: 8s;
+          transition-duration: 8s;
   -webkit-transition-timing-function: linear;
      -moz-transition-timing-function: linear;
        -o-transition-timing-function: linear;
