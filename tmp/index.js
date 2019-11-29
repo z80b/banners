@@ -10304,25 +10304,6 @@
     }
 
     _createClass(Banner, [{
-      key: "initEvents",
-      value: function initEvents() {
-        var _this2 = this;
-
-        var $imgs = this.$el.querySelectorAll('.ny-panorama__slide-img');
-        $imgs.forEach(function (el) {
-          el.addEventListener('click', function () {
-            sendMessage('popup:close');
-          });
-        });
-        this.$el.addEventListener('mouseover', function () {
-          return _this2.allowScroll = false;
-        });
-        this.$el.addEventListener('mouseout', function () {
-          return _this2.allowScroll = true;
-        });
-        this.$track.addEventListener('transitionend', this.toggleScroll.bind(this));
-      }
-    }, {
       key: "initSlider",
       value: function initSlider() {
         return new Swiper('.ny-panorama__content', {
@@ -10362,39 +10343,59 @@
     }, {
       key: "initAfterSlider",
       value: function initAfterSlider() {
-        var _this3 = this;
+        var _this2 = this;
 
         this.$track = this.$el.querySelector('.ny-panorama__track');
-        this.trackWidth;
+        this.trackWidth = this.$track.scrollWidth;
+        this.viewPortWidth = this.$el.offsetWidth;
+        this.transitionDuration = 10;
+        this.avgDuration = this.transitionDuration / Math.abs(this.viewPortWidth - this.trackWidth);
         this.$el.querySelectorAll('.ny-panorama__pick').forEach(function ($pick) {
-          return new PanoramaPick($pick, _this3.$el);
+          return new PanoramaPick($pick, _this2.$el);
         });
         this.initEvents();
         this.toggleScroll();
       }
     }, {
+      key: "initEvents",
+      value: function initEvents() {
+        var _this3 = this;
+
+        var $imgs = this.$el.querySelectorAll('.ny-panorama__slide-img');
+        $imgs.forEach(function (el) {
+          el.addEventListener('click', function () {
+            sendMessage('popup:close');
+          });
+        });
+        this.$el.addEventListener('mouseover', function () {
+          _this3.allowScroll = false;
+
+          _this3.pauseScroll();
+        }, false);
+        this.$el.addEventListener('mouseout', function () {
+          _this3.allowScroll = true;
+
+          _this3.continueScroll();
+        }, false);
+        this.$track.addEventListener('transitionend', this.toggleScroll.bind(this), false);
+      }
+    }, {
       key: "scrollLeft",
       value: function scrollLeft() {
-        var trackWidth = this.$track.scrollWidth;
-        var viewPortWidth = this.$el.offsetWidth;
-        this.scrollDirection = 'left'; // console.log('scrollLeft:', trackWidth, viewPortWidth);
-        // translate3d(this.$track, `-${trackWidth - viewPortWidth}px`, 0, 0);
-
-        console.log('Swiper2:', this.slider.getTranslate());
+        this.scrollDirection = 'left';
         this.slider.setTranslate(0);
       }
     }, {
       key: "scrollRight",
       value: function scrollRight() {
-        var trackWidth = this.$track.scrollWidth;
-        var viewPortWidth = this.$el.offsetWidth;
         this.scrollDirection = 'right';
-        this.slider.setTranslate(viewPortWidth - trackWidth);
+        this.slider.setTranslate(this.viewPortWidth - this.trackWidth);
       }
     }, {
       key: "toggleScroll",
       value: function toggleScroll() {
         if (!this.allowScroll) return;
+        this.$track.style.transitionDuration = "".concat(this.transitionDuration, "s");
 
         if (this.scrollDirection == 'left') {
           this.scrollRight();
@@ -10402,11 +10403,20 @@
       }
     }, {
       key: "pauseScroll",
-      value: function pauseScroll() {//-----
+      value: function pauseScroll() {
+        this.allowScroll = false;
+        this.currStyles = window.getComputedStyle(this.$track);
+        this.$track.style.transform = this.currStyles.transform;
+        this.$track.style.transitionDuration = 0;
       }
     }, {
       key: "continueScroll",
-      value: function continueScroll() {//-----
+      value: function continueScroll() {
+        if (this.currStyles) {
+          this.allowScroll = true;
+          var pathPart = parseFloat(this.currStyles.transform.split(',')[4]);
+          this.$track.style.transform = this.currStyles.transform; //this.$track.style.transitionDuration = `${pathPart * this.avgDuration}s`;
+        }
       }
     }]);
 

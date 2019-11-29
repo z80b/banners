@@ -18,18 +18,6 @@ class Banner extends Dom {
     return this;
   }
 
-  initEvents() {
-    const $imgs = this.$el.querySelectorAll('.ny-panorama__slide-img');
-    $imgs.forEach(el => {
-      el.addEventListener('click', () => {
-        sendMessage('popup:close');
-      });
-    });
-    this.$el.addEventListener('mouseover', () => this.allowScroll = false);
-    this.$el.addEventListener('mouseout', () => this.allowScroll = true);
-    this.$track.addEventListener('transitionend', this.toggleScroll.bind(this));
-  }
-
   initSlider() {
     return new Swiper('.ny-panorama__content', {
       initialSlide: 0,
@@ -68,7 +56,10 @@ class Banner extends Dom {
 
   initAfterSlider() {
     this.$track = this.$el.querySelector('.ny-panorama__track');
-    this.trackWidth
+    this.trackWidth = this.$track.scrollWidth;
+    this.viewPortWidth = this.$el.offsetWidth;
+    this.transitionDuration = 10;
+    this.avgDuration = this.transitionDuration / Math.abs(this.viewPortWidth - this.trackWidth);
     this.$el
       .querySelectorAll('.ny-panorama__pick')
       .forEach($pick => new PanoramaPick($pick, this.$el));
@@ -76,36 +67,59 @@ class Banner extends Dom {
     this.toggleScroll();
   }
 
+  initEvents() {
+    const $imgs = this.$el.querySelectorAll('.ny-panorama__slide-img');
+    $imgs.forEach(el => {
+      el.addEventListener('click', () => {
+        sendMessage('popup:close');
+      });
+    });
+    this.$el.addEventListener('mouseover', () => {
+      this.allowScroll = false;
+      this.pauseScroll();
+    }, false);
+    this.$el.addEventListener('mouseout', () => {
+      this.allowScroll = true;
+      this.continueScroll();
+    }, false);
+    this.$track.addEventListener('transitionend', this.toggleScroll.bind(this), false);
+  }
+
   scrollLeft() {
-    const trackWidth = this.$track.scrollWidth;
-    const viewPortWidth = this.$el.offsetWidth;
     this.scrollDirection = 'left';
-    // console.log('scrollLeft:', trackWidth, viewPortWidth);
-    // translate3d(this.$track, `-${trackWidth - viewPortWidth}px`, 0, 0);
-    console.log('Swiper2:', this.slider.getTranslate());
     this.slider.setTranslate(0);
   }
 
   scrollRight() {
-    const trackWidth = this.$track.scrollWidth;
-    const viewPortWidth = this.$el.offsetWidth;
     this.scrollDirection = 'right';
-    this.slider.setTranslate(viewPortWidth - trackWidth);
+    this.slider.setTranslate(this.viewPortWidth - this.trackWidth);
   }
 
   toggleScroll() {
     if (!this.allowScroll) return;
+    this.$track.style.transitionDuration = `${this.transitionDuration}s`;
     if (this.scrollDirection == 'left') {
       this.scrollRight();
     } else this.scrollLeft();
   }
 
   pauseScroll() {
-    //-----
+    this.allowScroll = false;
+    this.currStyles = window.getComputedStyle(this.$track);
+    this.$track.style.transform = this.currStyles.transform;
+    this.$track.style.transitionDuration = 0;
+    
   }
 
   continueScroll() {
-    //-----
+    if (this.currStyles) {
+      this.allowScroll = true;
+      const pathPart = parseFloat(this.currStyles.transform.split(',')[4]);
+      this.$track.style.transform = this.currStyles.transform;
+      //this.$track.style.transitionDuration = `${pathPart * this.avgDuration}s`;
+      
+
+    }
   }
 }
 
