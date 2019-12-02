@@ -1,0 +1,68 @@
+.ny-calendar-slider
+  position relative
+  padding 10px 0
+
+  &__button
+    absolute width 60px height 60px
+    background no-repeat
+    background-color #fff
+    border-radius 50%
+    background-size 13px 25px
+    z-index 3
+    outline none
+    cursor pointer
+    transition .5s all ease
+
+    &--prev
+      top 180px
+      left 0
+      background-position 45% 50%
+      background-image inline-image('imgs/left.svg')
+
+      &:hover
+        left -3px
+
+    &--next
+      top 270px
+      right 0
+      background-position 55% 50%
+      background-image inline-image('imgs/right.svg')
+
+      &:hover
+        right -3px
+
+    &--disabled
+      opacity .5
+
+
+.ny-calendar-slide
+  position relative
+  z-index 1
+
+  &:hover
+    z-index 2
+
+  &[href]
+    cursor pointer
+
+  &__image
+    absolute top 15px
+    transition .5s all ease
+    box-shadow 0 0 20px 0 #890002
+
+  &--active, &--prev
+    .ny-calendar-slide__image
+      top 0
+
+  &--active
+    .ny-calendar-slide__image
+      right -30px
+      transform scale(.98)
+    
+    &:hover
+      .ny-calendar-slide__image
+        transform scale(1)
+  &--next
+    .ny-calendar-slide__image
+      left -30px
+      top 90px

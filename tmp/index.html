@@ -17,550 +17,176 @@
 <body>
   <div class="page">
     <div class="page__banner-slot">
-      <style>.ny-panorama__content {
-  width: 100%;
-  overflow: hidden;
+      <style>.ny-calendar {
+  background-color: #c71b1e;
 }
-.ny-panorama__track {
-  font-size: 0;
-  white-space: nowrap;
-  -webkit-transition-property: -webkit-transform;
-  transition-property: -webkit-transform;
-  -o-transition-property: -o-transform;
-  -moz-transition-property: transform, -moz-transform;
-  transition-property: transform;
-  transition-property: transform, -webkit-transform, -moz-transform, -o-transform;
-  -webkit-transition-duration: 0;
-     -moz-transition-duration: 0;
-       -o-transition-duration: 0;
-          transition-duration: 0;
-  -webkit-transition-timing-function: linear;
-     -moz-transition-timing-function: linear;
-       -o-transition-timing-function: linear;
-          transition-timing-function: linear;
+.ny-calendar__title {
+  font-size: 64px;
+  font-weight: 700;
+  text-align: center;
+  color: #ffe49a;
+  margin: 0;
+  padding: 0;
 }
-.ny-panorama__slide {
+.ny-calendar__body {
   position: relative;
-  display: inline-block;
-  width: 25%;
+  width: 960px;
+  margin: 0 auto;
+  padding: 50px 0;
 }
-.ny-panorama__slide-img {
-  display: block;
-  width: 100%;
-}
-.ny-panorama__pick {
-  position: absolute;
-}
-.ny-panorama__popup {
-  z-index: 4;
-}
-.ny-panorama__dot {
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  width: 16px;
-  height: 16px;
-  background-color: #000;
-  -webkit-border-radius: 50%;
-     -moz-border-radius: 50%;
-          border-radius: 50%;
-  -webkit-transition: 0.5s -webkit-transform ease;
-  transition: 0.5s -webkit-transform ease;
-  -o-transition: 0.5s -o-transform ease;
-  -moz-transition: 0.5s transform ease, 0.5s -moz-transform ease;
-  transition: 0.5s transform ease;
-  transition: 0.5s transform ease, 0.5s -webkit-transform ease, 0.5s -moz-transform ease, 0.5s -o-transform ease;
-  -webkit-transform: scale(1);
-     -moz-transform: scale(1);
-      -ms-transform: scale(1);
-       -o-transform: scale(1);
-          transform: scale(1);
-  z-index: 3;
-}
-.ny-panorama__dot::before,
-.ny-panorama__dot::after {
+.ny-calendar__body::after,
+.ny-calendar__body::before {
   content: '';
   display: block;
   position: absolute;
+  background: 50% 50% no-repeat;
+  z-index: 0;
+}
+.ny-calendar__body::before {
+  left: 140px;
+  bottom: 10px;
+  width: 227px;
+  height: 145px;
+  background-image: url("/static/golden-stars_2.png");
+}
+.ny-calendar__body::after {
+  right: 90px;
+  top: 80px;
+  width: 303px;
+  height: 60px;
+  background-image: url("/static/golden-stars.png");
+}
+.ny-calendar__slider {
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 0;
+  z-index: 1;
+}
+.ny-calendar__slide {
+  display: inline-block;
+  position: relative;
+  width: 480px;
+  height: 410px;
+  z-index: 1;
+}
+.ny-calendar-slider {
+  position: relative;
+  padding: 10px 0;
+}
+.ny-calendar-slider__button {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: no-repeat;
   background-color: #fff;
+  -webkit-border-radius: 50%;
+     -moz-border-radius: 50%;
+          border-radius: 50%;
+  -webkit-background-size: 13px 25px;
+     -moz-background-size: 13px 25px;
+          background-size: 13px 25px;
+  z-index: 3;
+  outline: none;
+  cursor: pointer;
+  -webkit-transition: 0.5s all ease;
+  -o-transition: 0.5s all ease;
+  -moz-transition: 0.5s all ease;
+  transition: 0.5s all ease;
+}
+.ny-calendar-slider__button--prev {
+  top: 180px;
+  left: 0;
+  background-position: 45% 50%;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iNDIiIHZpZXdCb3g9IjAgMCAyMiA0MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIxIDQxTDEgMjFMMjEgMSIgc3Ryb2tlPSJibGFjayIvPgo8L3N2Zz4K");
+}
+.ny-calendar-slider__button--prev:hover {
+  left: -3px;
+}
+.ny-calendar-slider__button--next {
+  top: 270px;
+  right: 0;
+  background-position: 55% 50%;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iNDIiIHZpZXdCb3g9IjAgMCAyMiA0MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEgMUwyMSAyMUwxIDQxIiBzdHJva2U9ImJsYWNrIi8+Cjwvc3ZnPgo=");
+}
+.ny-calendar-slider__button--next:hover {
+  right: -3px;
+}
+.ny-calendar-slider__button--disabled {
+  opacity: 0.5;
+}
+.ny-calendar-slide {
+  position: relative;
+  z-index: 1;
+}
+.ny-calendar-slide:hover {
+  z-index: 2;
+}
+.ny-calendar-slide[href] {
   cursor: pointer;
 }
-.ny-panorama__dot::before {
+.ny-calendar-slide__image {
   position: absolute;
-  top: 7px;
-  left: 3px;
-  width: 10px;
-  height: 2px;
+  top: 15px;
+  -webkit-transition: 0.5s all ease;
+  -o-transition: 0.5s all ease;
+  -moz-transition: 0.5s all ease;
+  transition: 0.5s all ease;
+  -webkit-box-shadow: 0 0 20px 0 #890002;
+     -moz-box-shadow: 0 0 20px 0 #890002;
+          box-shadow: 0 0 20px 0 #890002;
 }
-.ny-panorama__dot::after {
-  position: absolute;
-  top: 3px;
-  left: 7px;
-  width: 2px;
-  height: 10px;
-}
-.ny-panorama__dot:hover {
-  -webkit-transform: scale(1.625);
-     -moz-transform: scale(1.625);
-      -ms-transform: scale(1.625);
-       -o-transform: scale(1.625);
-          transform: scale(1.625);
-}
-.ny-panorama-popup {
-  position: absolute;
+.ny-calendar-slide--active .ny-calendar-slide__image,
+.ny-calendar-slide--prev .ny-calendar-slide__image {
   top: 0;
-  left: 0;
-  width: 140px;
-  height: 214px;
-  padding: 32px 10px 24px 10px;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-  background-color: #fff;
-  z-index: 2;
-  white-space: normal;
-  -webkit-transition: 0.3s -webkit-transform ease;
-  transition: 0.3s -webkit-transform ease;
-  -o-transition: 0.3s -o-transform ease;
-  -moz-transition: 0.3s transform ease, 0.3s -moz-transform ease;
-  transition: 0.3s transform ease;
-  transition: 0.3s transform ease, 0.3s -webkit-transform ease, 0.3s -moz-transform ease, 0.3s -o-transform ease;
-  -webkit-transform-origin: 0 0;
-     -moz-transform-origin: 0 0;
-      -ms-transform-origin: 0 0;
-       -o-transform-origin: 0 0;
-          transform-origin: 0 0;
-  -webkit-transform: scale(0);
-     -moz-transform: scale(0);
-      -ms-transform: scale(0);
-       -o-transform: scale(0);
-          transform: scale(0);
-  -webkit-box-shadow: 0px 0px 15px 0px #000;
-     -moz-box-shadow: 0px 0px 15px 0px #000;
-          box-shadow: 0px 0px 15px 0px #000;
 }
-.ny-panorama-popup--opened {
-  -webkit-transition: 0.5s -webkit-transform ease;
-  transition: 0.5s -webkit-transform ease;
-  -o-transition: 0.5s -o-transform ease;
-  -moz-transition: 0.5s transform ease, 0.5s -moz-transform ease;
-  transition: 0.5s transform ease;
-  transition: 0.5s transform ease, 0.5s -webkit-transform ease, 0.5s -moz-transform ease, 0.5s -o-transform ease;
+.ny-calendar-slide--active .ny-calendar-slide__image {
+  right: -30px;
+  -webkit-transform: scale(0.98);
+     -moz-transform: scale(0.98);
+      -ms-transform: scale(0.98);
+       -o-transform: scale(0.98);
+          transform: scale(0.98);
+}
+.ny-calendar-slide--active:hover .ny-calendar-slide__image {
   -webkit-transform: scale(1);
      -moz-transform: scale(1);
       -ms-transform: scale(1);
        -o-transform: scale(1);
           transform: scale(1);
 }
-[data-direction=up] .ny-panorama-popup {
-  -webkit-transform-origin: 0 100%;
-     -moz-transform-origin: 0 100%;
-      -ms-transform-origin: 0 100%;
-       -o-transform-origin: 0 100%;
-          transform-origin: 0 100%;
-  top: auto;
-  bottom: 0;
-}
-.ny-panorama-popup__image {
-  display: block;
-  height: 65px;
-}
-.ny-panorama-popup__title {
-  font-size: 8px;
-  font-weight: 700;
-  color: #000;
-  padding: 10px 0 0;
-}
-.ny-panorama-popup__text {
-  font-size: 8px;
-  font-weight: 500;
-  color: #000;
-  padding: 10px 0;
-}
-.ny-panorama-popup__button {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
-  display: block;
-  font-size: 8px;
-  font-weight: 700;
-  line-height: 24px;
-  text-align: center;
-  text-decoration: none;
-  color: #000;
-  background-color: #f0d382;
-  cursor: pointer;
-  -webkit-transition: 0.5s background-color ease;
-  -o-transition: 0.5s background-color ease;
-  -moz-transition: 0.5s background-color ease;
-  transition: 0.5s background-color ease;
-}
-.ny-panorama-popup__button:hover {
-  background-color: #e8bc40;
+.ny-calendar-slide--next .ny-calendar-slide__image {
+  left: -30px;
+  top: 90px;
 }
 </style>
-<div class="ny-panorama" data-image="/static/lending_photo.png">
-  <div class="ny-panorama__content" id="">
-    <div class="ny-panorama__track">
-      <div class="ny-panorama__slide">
-        <img class="ny-panorama__slide-img" src="/static/panorama-slide-01.jpg"/>
-        <div
-          class="ny-panorama__pick"
-          data-skus="TO029AWGRVG9,MP002XW0MXOS,BA007EWHEJH2"
-          data-position="100,54"></div>
-
-      </div>
-      <div class="ny-panorama__slide">
-          <img class="ny-panorama__slide-img" src="/static/panorama-slide-02.jpg"/>
-          <div
-            class="ny-panorama__pick"
-            data-image="/static/MP002XW1247P_9518641_1_v1.png"
-            data-title="Массивные кроссовки"
-            data-text="Коллекция, объединила в себе женственные силуэты и спортивный стиль."
-            data-href="#"
-            data-position="4,22"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image="/static/MP002XW1247P_9518641_1_v1.png"
-            data-title="Массивные кроссовки"
-            data-text="Коллекция, объединила в себе женственные силуэты и спортивный стиль."
-            data-href="#"
-            data-position="34,36"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image="/static/MP002XW1247P_9518641_1_v1.png"
-            data-title="Массивные кроссовки"
-            data-text="Коллекция, объединила в себе женственные силуэты и спортивный стиль."
-            data-href="#"
-            data-position="14,80"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="52,52"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="55,22"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="61,84"></div>
-      </div>
-      <div class="ny-panorama__slide">
-          <img class="ny-panorama__slide-img" src="/static/panorama-slide-03.jpg"/>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="20,20"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="33,90"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="33,46"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="43,27"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="55,68"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="79,60"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="80,24"></div>
-      </div>
-      <div class="ny-panorama__slide">
-          <img class="ny-panorama__slide-img" src="/static/panorama-slide-04.jpg"/>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="2,27"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="5,39"></div>
-      </div>
-      <div class="ny-panorama__slide">
-          <img class="ny-panorama__slide-img" src="/static/panorama-slide-05.jpg"/>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="29,25"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="48,45"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="19,62"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="46,85"></div>
-      </div>
-      <div class="ny-panorama__slide">
-          <img class="ny-panorama__slide-img" src="/static/panorama-slide-06.jpg"/>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="17,14"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="40,21"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="25,33"></div>
-          <div
-            class="ny-panorama__pick"
-              data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="38,55"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="22,84"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="83,8"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="100,28"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="78,68"></div>
-      </div>
-      <div class="ny-panorama__slide">
-          <img class="ny-panorama__slide-img" src="/static/panorama-slide-07.jpg"/>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="88,27"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="90,40"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="100,73"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="92,85"></div>
-      </div>
-      <div class="ny-panorama__slide">
-          <img class="ny-panorama__slide-img" src="/static/panorama-slide-08.jpg"/>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="2,63"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="54,37"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="53,47"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="42,64"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="33,82"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="76,64"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="85,84"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="81,90"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="64,94"></div>
-      </div>
-      <div class="ny-panorama__slide">
-          <img class="ny-panorama__slide-img" src="/static/panorama-slide-09.jpg"/>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="48,24"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="33,55"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="57,84"></div>
-      </div>
-      <div class="ny-panorama__slide">
-          <img class="ny-panorama__slide-img" src="/static/panorama-slide-10.jpg"/>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="2,20"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="0,56"></div>
-          <div
-            class="ny-panorama__pick"
-            data-image=""
-            data-title=""
-            data-text=""
-            data-href="#"
-            data-position="3,91"></div>
+<div class="ny-calendar">
+  <h2 class="ny-calendar__title">Зимние акции</h2>
+  <div class="ny-calendar__body">
+    <div class="ny-calendar__slider">
+      <div class="ny-calendar__track">
+        <a class="ny-calendar__slide ny-calendar-slide" href="#">
+          <img class="ny-calendar-slide__image" src="/static/banner-action-01.png"/>
+        </a>
+        <a class="ny-calendar__slide ny-calendar-slide" href="#">
+          <img class="ny-calendar-slide__image" src="/static/banner-action-02.png"/>
+        </a>
+        <a class="ny-calendar__slide ny-calendar-slide" href="#">
+          <img class="ny-calendar-slide__image" src="/static/banner-action-01.png"/>
+        </a>
+        <a class="ny-calendar__slide ny-calendar-slide" href="#">
+          <img class="ny-calendar-slide__image" src="/static/banner-action-02.png"/>
+        </a>
+        <a class="ny-calendar__slide ny-calendar-slide" href="#">
+          <img class="ny-calendar-slide__image" src="/static/banner-action-01.png"/>
+        </a>
+        <a class="ny-calendar__slide ny-calendar-slide" href="#">
+          <img class="ny-calendar-slide__image" src="/static/banner-action-02.png"/>
+        </a>
       </div>
     </div>
+    <div class="ny-calendar-slider__button ny-calendar-slider__button--prev"></div>
+    <div class="ny-calendar-slider__button ny-calendar-slider__button--next"></div>
   </div>
 </div>
 <script>(function () {
@@ -2135,126 +1761,6 @@
     return Dom;
   }();
 
-  var sendMessage = function sendMessage(name) {
-    var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var event = new CustomEvent(name, {
-      bubbles: true,
-      detail: props
-    });
-    window.dispatchEvent(event);
-  };
-  var waitMessage = function waitMessage(name, callback) {
-    window.addEventListener(name, callback, false);
-  };
-
-  var addClass = function addClass($el, className) {
-    if ($el.classList && $el.classList.add) {
-      $el.classList.add(className);
-    } else if ($el.className.search(className) < 0) {
-      $el.className += " ".concat(className);
-    }
-  };
-  var removeClass = function removeClass($el, className) {
-    if ($el.classList && $el.classList.add) {
-      $el.classList.remove(className);
-    } else if ($el.className.search(className) >= 0) {
-      $el.className = $el.className.replace(" ".concat(className), '');
-    }
-  };
-
-  function panoramaPick(props){
-  var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-  __p+='<div class="ny-panorama__popup ny-panorama-popup">\n  <img class="ny-panorama-popup__image" src="'+
-  ((__t=( props.image ))==null?'':__t)+
-  '"/>\n  <div class="ny-panorama-popup__title">'+
-  ((__t=( props.title ))==null?'':__t)+
-  '</div>\n  <div class="ny-panorama-popup__text">'+
-  ((__t=( props.text ))==null?'':__t)+
-  '</div>\n  <a class="ny-panorama-popup__button" href="'+
-  ((__t=( props.href ))==null?'':__t)+
-  '">Смотреть подборку</a>\n</div>\n<div class="ny-panorama__dot"></div>';
-  return __p;
-  };
-
-  var PanoramaPick =
-  /*#__PURE__*/
-  function (_Dom) {
-    _inherits(PanoramaPick, _Dom);
-
-    function PanoramaPick(el, $parent) {
-      var _this;
-
-      _classCallCheck(this, PanoramaPick);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(PanoramaPick).call(this, el));
-      _this.$parent = $parent;
-      _this.inAction = false;
-      waitMessage('popup:close', _this.hidePopup.bind(_assertThisInitialized(_this)));
-
-      _this.render();
-
-      return _this;
-    }
-
-    _createClass(PanoramaPick, [{
-      key: "afterRender",
-      value: function afterRender() {
-        this.$dot = this.$el.querySelector('.ny-panorama__dot');
-        this.$popup = this.$el.querySelector('.ny-panorama-popup');
-
-        if (this.$el.offsetTop + this.$popup.clientHeight > this.$parent.clientHeight) {
-          this.$el.setAttribute('data-direction', 'up');
-        } else this.$el.setAttribute('data-direction', 'down');
-
-        this.$popup.style.display = 'none';
-        this.$dot.addEventListener('click', this.showPopup.bind(this));
-      }
-    }, {
-      key: "render",
-      value: function render() {
-        this.setPosition();
-        this.$el.innerHTML = panoramaPick(this.$el.dataset);
-        this.afterRender();
-      }
-    }, {
-      key: "setPosition",
-      value: function setPosition() {
-        var position = this.$el.getAttribute('data-position').split(',');
-        this.$el.style.top = "".concat(position[1], "%");
-        this.$el.style.left = "".concat(position[0], "%");
-      }
-    }, {
-      key: "showPopup",
-      value: function showPopup() {
-        var _this2 = this;
-
-        this.inAction = true;
-        sendMessage('popup:close');
-        this.$el.style.zIndex = 5;
-        this.$popup.style.display = 'block';
-        setTimeout(function () {
-          addClass(_this2.$popup, 'ny-panorama-popup--opened');
-          _this2.inAction = false;
-        }, 100);
-      }
-    }, {
-      key: "hidePopup",
-      value: function hidePopup() {
-        var _this3 = this;
-
-        if (!this.inAction) {
-          this.$el.style.zIndex = 'auto';
-          removeClass(this.$popup, 'ny-panorama-popup--opened');
-          setTimeout(function () {
-            _this3.$popup.style.display = 'none';
-          }, 500);
-        }
-      }
-    }]);
-
-    return PanoramaPick;
-  }(Dom);
-
   /**
    * SSR Window 1.0.1
    * Better handling for window object in SSR environment
@@ -2433,7 +1939,7 @@
   }
 
   // Classes and attributes
-  function addClass$1(className) {
+  function addClass(className) {
     if (typeof className === 'undefined') {
       return this;
     }
@@ -2445,7 +1951,7 @@
     }
     return this;
   }
-  function removeClass$1(className) {
+  function removeClass(className) {
     const classes = className.split(' ');
     for (let i = 0; i < classes.length; i += 1) {
       for (let j = 0; j < this.length; j += 1) {
@@ -3687,8 +3193,8 @@
    */
 
   const Methods = {
-    addClass: addClass$1,
-    removeClass: removeClass$1,
+    addClass,
+    removeClass,
     hasClass,
     toggleClass,
     attr,
@@ -10846,11 +10352,8 @@
       _classCallCheck(this, Banner);
 
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Banner).call(this, el));
-      _this.slidesCount = 10;
-      _this.visibleSlides = 4;
-      _this.scrollDirection = 'left';
-      _this.allowScroll = true;
-      _this.slider = _this.initSlider(); // this.initEvents();
+
+      _this.initSlider();
 
       console.log('constructor:', _assertThisInitialized(_this));
       return _possibleConstructorReturn(_this, _assertThisInitialized(_this));
@@ -10859,28 +10362,22 @@
     _createClass(Banner, [{
       key: "initSlider",
       value: function initSlider() {
-        return new Swiper('.ny-panorama__content', {
+        return new Swiper('.ny-calendar__slider', {
           initialSlide: 0,
-          slidesPerView: 10,
-          autoHeight: true,
-          slideClass: 'ny-panorama__slide',
-          wrapperClass: 'ny-panorama__track',
-          freeMode: true,
+          slidesPerView: 2,
+          spaceBetween: 30,
+          watchSlidesVisibility: true,
+          slideClass: 'ny-calendar-slide',
+          slideActiveClass: 'ny-calendar-slide--active',
+          slideVisibleClass: 'ny-calendar-slide--visible',
+          slideNextClass: 'ny-calendar-slide--next',
+          slidePrevClass: 'ny-calendar-slide--prev',
+          wrapperClass: 'ny-calendar__track',
           watchOverflow: true,
-          mousewheel: true,
-          breakpoints: {
-            960: {
-              slidesPerView: 4
-            },
-            1206: {
-              slidesPerView: 5
-            },
-            2500: {
-              slidesPerView: 7
-            },
-            5000: {
-              slidesPerView: 10
-            }
+          navigation: {
+            nextEl: '.ny-calendar-slider__button--next',
+            prevEl: '.ny-calendar-slider__button--prev',
+            disabledClass: 'ny-calendar-slider__button--disabled'
           },
           on: {
             imagesReady: this.initAfterSlider.bind(this)
@@ -10890,68 +10387,11 @@
     }, {
       key: "initAfterSlider",
       value: function initAfterSlider() {
-        var _this2 = this;
-
-        this.$track = this.$el.querySelector('.ny-panorama__track');
-        this.trackWidth = this.$track.scrollWidth;
-        this.trackPosition = 0;
-        this.viewPortWidth = this.$el.offsetWidth;
-        this.trackOffset = Math.abs(this.viewPortWidth - this.trackWidth);
-        this.$el.querySelectorAll('.ny-panorama__pick').forEach(function ($pick) {
-          return new PanoramaPick($pick, _this2.$el);
-        });
         this.initEvents();
       }
     }, {
       key: "initEvents",
-      value: function initEvents() {
-        var $imgs = this.$el.querySelectorAll('.ny-panorama__slide-img');
-        $imgs.forEach(function (el) {
-          el.addEventListener('click', function () {
-            sendMessage('popup:close');
-          });
-        });
-        this.$el.addEventListener('mouseover', this.pauseScroll.bind(this), false);
-        this.$el.addEventListener('mouseout', this.continueScroll.bind(this), false);
-        this.timer = setInterval(this.moveTrack.bind(this), 30);
-      }
-    }, {
-      key: "moveTrack",
-      value: function moveTrack() {
-        if (!this.allowScroll) return;
-
-        if (this.scrollDirection == 'left') {
-          this.trackPosition -= 1;
-          this.slider.setTranslate(this.trackPosition);
-
-          if (Math.abs(this.trackPosition) >= this.trackOffset) {
-            this.scrollDirection = 'right';
-          }
-        } else {
-          this.trackPosition += 1;
-          this.slider.setTranslate(this.trackPosition);
-
-          if (this.trackPosition >= 0) {
-            this.scrollDirection = 'left';
-          }
-        }
-      }
-    }, {
-      key: "pauseScroll",
-      value: function pauseScroll() {
-        this.allowScroll = false;
-      }
-    }, {
-      key: "continueScroll",
-      value: function continueScroll() {
-        var _this3 = this;
-
-        this.allowScroll = true;
-        this.trackPosition = Math.ceil(this.slider.getTranslate());
-        ["transitionDuration", "msTransitionDuration", "webkitTransitionDuration", "mozTransitionDuration", "oTransitionDuration"].forEach(function (transitionDuration) {
-          if (document.body.style[transitionDuration]) _this3.$track.style[transitionDuration] = 0;
-        });
-      }
+      value: function initEvents() {}
     }]);
 
     return Banner;
@@ -10960,9 +10400,7 @@
   //Date.prototype.getTime = () => Date.parse('2019.11.25');
 
   document.addEventListener('DOMContentLoaded', function (event) {
-    var banner = new Banner('.ny-panorama', {
-      slides: 4
-    });
+    var banner = new Banner('.ny-calendar');
   }, false);
 
 }());

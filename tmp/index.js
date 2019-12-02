@@ -1570,126 +1570,6 @@
     return Dom;
   }();
 
-  var sendMessage = function sendMessage(name) {
-    var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var event = new CustomEvent(name, {
-      bubbles: true,
-      detail: props
-    });
-    window.dispatchEvent(event);
-  };
-  var waitMessage = function waitMessage(name, callback) {
-    window.addEventListener(name, callback, false);
-  };
-
-  var addClass = function addClass($el, className) {
-    if ($el.classList && $el.classList.add) {
-      $el.classList.add(className);
-    } else if ($el.className.search(className) < 0) {
-      $el.className += " ".concat(className);
-    }
-  };
-  var removeClass = function removeClass($el, className) {
-    if ($el.classList && $el.classList.add) {
-      $el.classList.remove(className);
-    } else if ($el.className.search(className) >= 0) {
-      $el.className = $el.className.replace(" ".concat(className), '');
-    }
-  };
-
-  function panoramaPick(props){
-  var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-  __p+='<div class="ny-panorama__popup ny-panorama-popup">\n  <img class="ny-panorama-popup__image" src="'+
-  ((__t=( props.image ))==null?'':__t)+
-  '"/>\n  <div class="ny-panorama-popup__title">'+
-  ((__t=( props.title ))==null?'':__t)+
-  '</div>\n  <div class="ny-panorama-popup__text">'+
-  ((__t=( props.text ))==null?'':__t)+
-  '</div>\n  <a class="ny-panorama-popup__button" href="'+
-  ((__t=( props.href ))==null?'':__t)+
-  '">Смотреть подборку</a>\n</div>\n<div class="ny-panorama__dot"></div>';
-  return __p;
-  };
-
-  var PanoramaPick =
-  /*#__PURE__*/
-  function (_Dom) {
-    _inherits(PanoramaPick, _Dom);
-
-    function PanoramaPick(el, $parent) {
-      var _this;
-
-      _classCallCheck(this, PanoramaPick);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(PanoramaPick).call(this, el));
-      _this.$parent = $parent;
-      _this.inAction = false;
-      waitMessage('popup:close', _this.hidePopup.bind(_assertThisInitialized(_this)));
-
-      _this.render();
-
-      return _this;
-    }
-
-    _createClass(PanoramaPick, [{
-      key: "afterRender",
-      value: function afterRender() {
-        this.$dot = this.$el.querySelector('.ny-panorama__dot');
-        this.$popup = this.$el.querySelector('.ny-panorama-popup');
-
-        if (this.$el.offsetTop + this.$popup.clientHeight > this.$parent.clientHeight) {
-          this.$el.setAttribute('data-direction', 'up');
-        } else this.$el.setAttribute('data-direction', 'down');
-
-        this.$popup.style.display = 'none';
-        this.$dot.addEventListener('click', this.showPopup.bind(this));
-      }
-    }, {
-      key: "render",
-      value: function render() {
-        this.setPosition();
-        this.$el.innerHTML = panoramaPick(this.$el.dataset);
-        this.afterRender();
-      }
-    }, {
-      key: "setPosition",
-      value: function setPosition() {
-        var position = this.$el.getAttribute('data-position').split(',');
-        this.$el.style.top = "".concat(position[1], "%");
-        this.$el.style.left = "".concat(position[0], "%");
-      }
-    }, {
-      key: "showPopup",
-      value: function showPopup() {
-        var _this2 = this;
-
-        this.inAction = true;
-        sendMessage('popup:close');
-        this.$el.style.zIndex = 5;
-        this.$popup.style.display = 'block';
-        setTimeout(function () {
-          addClass(_this2.$popup, 'ny-panorama-popup--opened');
-          _this2.inAction = false;
-        }, 100);
-      }
-    }, {
-      key: "hidePopup",
-      value: function hidePopup() {
-        var _this3 = this;
-
-        if (!this.inAction) {
-          this.$el.style.zIndex = 'auto';
-          removeClass(this.$popup, 'ny-panorama-popup--opened');
-          setTimeout(function () {
-            _this3.$popup.style.display = 'none';
-          }, 500);
-        }
-      }
-    }]);
-
-    return PanoramaPick;
-  }(Dom);
-
   /**
    * SSR Window 1.0.1
    * Better handling for window object in SSR environment
@@ -1868,7 +1748,7 @@
   }
 
   // Classes and attributes
-  function addClass$1(className) {
+  function addClass(className) {
     if (typeof className === 'undefined') {
       return this;
     }
@@ -1880,7 +1760,7 @@
     }
     return this;
   }
-  function removeClass$1(className) {
+  function removeClass(className) {
     const classes = className.split(' ');
     for (let i = 0; i < classes.length; i += 1) {
       for (let j = 0; j < this.length; j += 1) {
@@ -3122,8 +3002,8 @@
    */
 
   const Methods = {
-    addClass: addClass$1,
-    removeClass: removeClass$1,
+    addClass,
+    removeClass,
     hasClass,
     toggleClass,
     attr,
@@ -10281,11 +10161,8 @@
       _classCallCheck(this, Banner);
 
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Banner).call(this, el));
-      _this.slidesCount = 10;
-      _this.visibleSlides = 4;
-      _this.scrollDirection = 'left';
-      _this.allowScroll = true;
-      _this.slider = _this.initSlider(); // this.initEvents();
+
+      _this.initSlider();
 
       console.log('constructor:', _assertThisInitialized(_this));
       return _possibleConstructorReturn(_this, _assertThisInitialized(_this));
@@ -10294,28 +10171,22 @@
     _createClass(Banner, [{
       key: "initSlider",
       value: function initSlider() {
-        return new Swiper('.ny-panorama__content', {
+        return new Swiper('.ny-calendar__slider', {
           initialSlide: 0,
-          slidesPerView: 10,
-          autoHeight: true,
-          slideClass: 'ny-panorama__slide',
-          wrapperClass: 'ny-panorama__track',
-          freeMode: true,
+          slidesPerView: 2,
+          spaceBetween: 30,
+          watchSlidesVisibility: true,
+          slideClass: 'ny-calendar-slide',
+          slideActiveClass: 'ny-calendar-slide--active',
+          slideVisibleClass: 'ny-calendar-slide--visible',
+          slideNextClass: 'ny-calendar-slide--next',
+          slidePrevClass: 'ny-calendar-slide--prev',
+          wrapperClass: 'ny-calendar__track',
           watchOverflow: true,
-          mousewheel: true,
-          breakpoints: {
-            960: {
-              slidesPerView: 4
-            },
-            1206: {
-              slidesPerView: 5
-            },
-            2500: {
-              slidesPerView: 7
-            },
-            5000: {
-              slidesPerView: 10
-            }
+          navigation: {
+            nextEl: '.ny-calendar-slider__button--next',
+            prevEl: '.ny-calendar-slider__button--prev',
+            disabledClass: 'ny-calendar-slider__button--disabled'
           },
           on: {
             imagesReady: this.initAfterSlider.bind(this)
@@ -10325,68 +10196,11 @@
     }, {
       key: "initAfterSlider",
       value: function initAfterSlider() {
-        var _this2 = this;
-
-        this.$track = this.$el.querySelector('.ny-panorama__track');
-        this.trackWidth = this.$track.scrollWidth;
-        this.trackPosition = 0;
-        this.viewPortWidth = this.$el.offsetWidth;
-        this.trackOffset = Math.abs(this.viewPortWidth - this.trackWidth);
-        this.$el.querySelectorAll('.ny-panorama__pick').forEach(function ($pick) {
-          return new PanoramaPick($pick, _this2.$el);
-        });
         this.initEvents();
       }
     }, {
       key: "initEvents",
-      value: function initEvents() {
-        var $imgs = this.$el.querySelectorAll('.ny-panorama__slide-img');
-        $imgs.forEach(function (el) {
-          el.addEventListener('click', function () {
-            sendMessage('popup:close');
-          });
-        });
-        this.$el.addEventListener('mouseover', this.pauseScroll.bind(this), false);
-        this.$el.addEventListener('mouseout', this.continueScroll.bind(this), false);
-        this.timer = setInterval(this.moveTrack.bind(this), 30);
-      }
-    }, {
-      key: "moveTrack",
-      value: function moveTrack() {
-        if (!this.allowScroll) return;
-
-        if (this.scrollDirection == 'left') {
-          this.trackPosition -= 1;
-          this.slider.setTranslate(this.trackPosition);
-
-          if (Math.abs(this.trackPosition) >= this.trackOffset) {
-            this.scrollDirection = 'right';
-          }
-        } else {
-          this.trackPosition += 1;
-          this.slider.setTranslate(this.trackPosition);
-
-          if (this.trackPosition >= 0) {
-            this.scrollDirection = 'left';
-          }
-        }
-      }
-    }, {
-      key: "pauseScroll",
-      value: function pauseScroll() {
-        this.allowScroll = false;
-      }
-    }, {
-      key: "continueScroll",
-      value: function continueScroll() {
-        var _this3 = this;
-
-        this.allowScroll = true;
-        this.trackPosition = Math.ceil(this.slider.getTranslate());
-        ["transitionDuration", "msTransitionDuration", "webkitTransitionDuration", "mozTransitionDuration", "oTransitionDuration"].forEach(function (transitionDuration) {
-          if (document.body.style[transitionDuration]) _this3.$track.style[transitionDuration] = 0;
-        });
-      }
+      value: function initEvents() {}
     }]);
 
     return Banner;
@@ -10395,9 +10209,7 @@
   //Date.prototype.getTime = () => Date.parse('2019.11.25');
 
   document.addEventListener('DOMContentLoaded', function (event) {
-    var banner = new Banner('.ny-panorama', {
-      slides: 4
-    });
+    var banner = new Banner('.ny-calendar');
   }, false);
 
 }());
