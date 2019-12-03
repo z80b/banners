@@ -27,16 +27,8 @@ const rollupPlugins = [
   }),
 
   babel({
-    babelrc: false,
     presets: [
-      '@babel/env', {
-        //modules: false,
-        targets: {
-          browsers: '> 1%, IE 11, not op_mini all, not dead',
-          node: 8,
-        },
-        useBuiltIns: "usage",
-      }
+      '@babel/env',
     ],
     exclude: 'node_modules/**',
   }),

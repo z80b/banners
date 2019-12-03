@@ -1,9 +1,14 @@
 import Dom from '@js/dom.js';
 import Swiper from 'swiper';
+import BannerSlide from '@js/banner-slide.js';
 
 class Banner extends Dom {
   constructor(el) {
     super(el);
+    this.slides = [];
+    this.$el.querySelectorAll('.ny-calendar__slide').forEach(($slide, index) => {
+      this.slides.push(new BannerSlide($slide, index, this));
+    });
     this.initSlider();
     console.log('constructor:', this);
     return this;
@@ -28,7 +33,7 @@ class Banner extends Dom {
         disabledClass: 'ny-calendar-slider__button--disabled',
       },
       on: {
-        imagesReady: ::this.initAfterSlider,
+        imagesReady: this.initAfterSlider.bind(this),
       }
     });
   }
