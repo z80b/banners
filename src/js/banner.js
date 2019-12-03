@@ -28,7 +28,7 @@ class Banner extends Dom {
         disabledClass: 'ny-calendar-slider__button--disabled',
       },
       on: {
-        imagesReady: this.initAfterSlider.bind(this),
+        imagesReady: ::this.initAfterSlider,
       }
     });
   }
