@@ -10,6 +10,7 @@ class BannerSlide extends Dom {
     this.startTime   = Date.parse(`2019/${dt[1]}/${dt[2]} 00:00:00`);
     this.endTime     = Date.parse(`2019/${dt[3]}/${dt[4]} 23:59:59`);
     this.currentTime = getMoscowTime();
+    this.position = index;
     this.href = this.$el.getAttribute('data-href');
     this.started = false;
     this.checkTime();
@@ -19,8 +20,10 @@ class BannerSlide extends Dom {
   checkTime() {
     this.currentTime = getMoscowTime();
     if (this.currentTime >= this.startTime && this.currentTime <= this.endTime) {
-      this.started = true;
-      sendMessage('action:started', { position: this.position });
+      if (!this.started) {
+        this.started = true;
+        sendMessage('action:started', { position: this.position });
+      }
       this.$el.setAttribute('href', this.href);
       addClass(this.$el, 'ny-calendar-slide--started');
     } else if (this.currentTime < this.startTime) {

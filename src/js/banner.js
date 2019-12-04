@@ -1,5 +1,6 @@
 import Dom from '@js/dom.js';
 import Swiper from 'swiper';
+import { waitMessage } from '@js/utils/events.js';
 import BannerSlide from '@js/banner-slide.js';
 
 class Banner extends Dom {
@@ -51,7 +52,7 @@ class Banner extends Dom {
         }
       },
       on: {
-        imagesReady: this.initAfterSlider.bind(this),
+        imagesReady: this.initEvents.bind(this),
       }
     });
   }
@@ -61,7 +62,12 @@ class Banner extends Dom {
   }
 
   initEvents() {
+    console.log('initEvents');
+    window.addEventListener('action:started', this.changePosition.bind(this));
+  }
 
+  changePosition(e, props) {
+    console.log('changePosition:', e.detail.position);
   }
 }
 

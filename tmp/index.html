@@ -67,13 +67,39 @@
 }
 @media (max-width: 960px) {
   .ny-calendar__body {
+    position: relative;
     width: 100%;
     padding: 7em 0;
     background: 100% 5% no-repeat;
-    background-image: url("/static/golden-stars_2.png");
     -webkit-background-size: 60% auto;
        -moz-background-size: 60% auto;
             background-size: 60% auto;
+  }
+  .ny-calendar__body::after,
+  .ny-calendar__body::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: no-repeat;
+    z-index: 0;
+  }
+  .ny-calendar__body::before {
+    background-image: url("/static/golden-stars-01.png");
+    background-position: 14% 95%;
+    -webkit-background-size: 15% auto;
+       -moz-background-size: 15% auto;
+            background-size: 15% auto;
+  }
+  .ny-calendar__body::after {
+    background-image: url("/static/golden-stars-02.png");
+    background-position: 90% 0;
+    -webkit-background-size: 45% auto;
+       -moz-background-size: 45% auto;
+            background-size: 45% auto;
   }
 }
 .ny-calendar__slider {
@@ -144,6 +170,24 @@
   .ny-calendar-slider__button--disabled {
     opacity: 0.5;
   }
+}
+.ny-calendar-slider__bullets {
+  padding: 1.6em 0;
+  text-align: center;
+}
+.ny-calendar-slider__bullet {
+  display: inline-block;
+  font-size: 0;
+  width: 9px;
+  height: 9px;
+  margin: 0 3px;
+  -webkit-border-radius: 50%;
+     -moz-border-radius: 50%;
+          border-radius: 50%;
+  background-color: #9c0a0d;
+}
+.ny-calendar-slider__bullet--active {
+  background-color: #ffe49a;
 }
 @media (min-width: 960px) {
   .ny-calendar-slide {
@@ -10914,6 +10958,7 @@
       bubbles: true,
       detail: props
     });
+    console.log('sendMessage:', event);
     window.dispatchEvent(event);
   };
   var waitMessage = function waitMessage(name, callback) {
@@ -10939,8 +10984,9 @@
     var dt = new Date();
     var timeString = dt.toLocaleTimeString('ru-RU', {
       timeZone: 'Europe/Moscow'
-    });
-    return Date.parse("".concat(getDate(dt), " ").concat(timeString));
+    }); //return Date.parse(`${getDate(dt)} ${timeString}`);
+
+    return Date.parse('2019.12.09 19:16:00');
   };
   var getDate = function getDate() {
     var dt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
@@ -10967,6 +11013,7 @@
       _this.startTime = Date.parse("2019/".concat(dt[1], "/").concat(dt[2], " 00:00:00"));
       _this.endTime = Date.parse("2019/".concat(dt[3], "/").concat(dt[4], " 23:59:59"));
       _this.currentTime = getMoscowTime();
+      _this.position = index;
       _this.href = _this.$el.getAttribute('data-href');
       _this.started = false;
 
@@ -10982,10 +11029,13 @@
         this.currentTime = getMoscowTime();
 
         if (this.currentTime >= this.startTime && this.currentTime <= this.endTime) {
-          this.started = true;
-          sendMessage('action:started', {
-            position: this.position
-          });
+          if (!this.started) {
+            this.started = true;
+            sendMessage('action:started', {
+              position: this.position
+            });
+          }
+
           this.$el.setAttribute('href', this.href);
           addClass$1(this.$el, 'ny-calendar-slide--started');
         } else if (this.currentTime < this.startTime) {
@@ -11061,7 +11111,7 @@
             }
           },
           on: {
-            imagesReady: this.initAfterSlider.bind(this)
+            imagesReady: this.initEvents.bind(this)
           }
         });
       }
@@ -11072,7 +11122,15 @@
       }
     }, {
       key: "initEvents",
-      value: function initEvents() {}
+      value: function initEvents() {
+        console.log('initEvents');
+        window.addEventListener('action:started', this.changePosition.bind(this));
+      }
+    }, {
+      key: "changePosition",
+      value: function changePosition(e, props) {
+        console.log('changePosition:', e.detail.position);
+      }
     }]);
 
     return Banner;

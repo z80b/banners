@@ -10639,6 +10639,7 @@
       bubbles: true,
       detail: props
     });
+    console.log('sendMessage:', event);
     window.dispatchEvent(event);
   };
   var waitMessage = function waitMessage(name, callback) {
@@ -10664,8 +10665,9 @@
     var dt = new Date();
     var timeString = dt.toLocaleTimeString('ru-RU', {
       timeZone: 'Europe/Moscow'
-    });
-    return Date.parse("".concat(getDate(dt), " ").concat(timeString));
+    }); //return Date.parse(`${getDate(dt)} ${timeString}`);
+
+    return Date.parse('2019.12.09 19:16:00');
   };
   var getDate = function getDate() {
     var dt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
@@ -10692,6 +10694,7 @@
       _this.startTime = Date.parse("2019/".concat(dt[1], "/").concat(dt[2], " 00:00:00"));
       _this.endTime = Date.parse("2019/".concat(dt[3], "/").concat(dt[4], " 23:59:59"));
       _this.currentTime = getMoscowTime();
+      _this.position = index;
       _this.href = _this.$el.getAttribute('data-href');
       _this.started = false;
 
@@ -10707,10 +10710,13 @@
         this.currentTime = getMoscowTime();
 
         if (this.currentTime >= this.startTime && this.currentTime <= this.endTime) {
-          this.started = true;
-          sendMessage('action:started', {
-            position: this.position
-          });
+          if (!this.started) {
+            this.started = true;
+            sendMessage('action:started', {
+              position: this.position
+            });
+          }
+
           this.$el.setAttribute('href', this.href);
           addClass$1(this.$el, 'ny-calendar-slide--started');
         } else if (this.currentTime < this.startTime) {
@@ -10786,7 +10792,7 @@
             }
           },
           on: {
-            imagesReady: this.initAfterSlider.bind(this)
+            imagesReady: this.initEvents.bind(this)
           }
         });
       }
@@ -10797,7 +10803,15 @@
       }
     }, {
       key: "initEvents",
-      value: function initEvents() {}
+      value: function initEvents() {
+        console.log('initEvents');
+        window.addEventListener('action:started', this.changePosition.bind(this));
+      }
+    }, {
+      key: "changePosition",
+      value: function changePosition(e, props) {
+        console.log('changePosition:', e.detail.position);
+      }
     }]);
 
     return Banner;

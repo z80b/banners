@@ -38,6 +38,21 @@
       &--disabled
         opacity .5
 
+  &__bullets
+    padding 1.6em 0
+    text-align center
+
+  &__bullet
+    display inline-block
+    font-size 0
+    size 9px 9px
+    margin 0 3px
+    border-radius 50%
+    background-color: #9c0a0d
+
+    &--active
+      background-color: #ffe49a
+
 
 @media (min-width: 960px)
   .ny-calendar-slide
@@ -83,7 +98,7 @@
 @media (max-width: 960px)
   .ny-calendar-slide
     padding 5% 0
-    
+
     &__image
       display block
       width 100%

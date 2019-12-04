@@ -1,7 +1,8 @@
 export const getMoscowTime = () => {
   const dt = new Date();
   const timeString = dt.toLocaleTimeString('ru-RU', { timeZone: 'Europe/Moscow' });
-  return Date.parse(`${getDate(dt)} ${timeString}`);
+  //return Date.parse(`${getDate(dt)} ${timeString}`);
+  return Date.parse('2019.12.09 19:16:00');
 }
 
 export const getDate = (dt = new Date()) => {
