@@ -1,41 +1,61 @@
 .ny-calendar {
+  font-size: 10px;
   background-color: #c71b1e;
 }
 .ny-calendar__title {
-  font-size: 64px;
-  font-weight: 700;
-  text-align: center;
-  color: #ffe49a;
-  margin: 0;
-  padding: 0;
+  display: none;
 }
-.ny-calendar__body {
-  position: relative;
-  width: 960px;
-  margin: 0 auto;
-  padding: 50px 0;
+@media (min-width: 960px) {
+  .ny-calendar__title {
+    display: block;
+    font-size: 64px;
+    font-weight: 700;
+    text-align: center;
+    color: #ffe49a;
+    margin: 0;
+    padding: 0;
+  }
 }
-.ny-calendar__body::after,
-.ny-calendar__body::before {
-  content: '';
-  display: block;
-  position: absolute;
-  background: 50% 50% no-repeat;
-  z-index: 0;
+@media (min-width: 960px) {
+  .ny-calendar__body {
+    position: relative;
+    width: 960px;
+    margin: 0 auto;
+    padding: 50px 0;
+  }
+  .ny-calendar__body::after,
+  .ny-calendar__body::before {
+    content: '';
+    display: block;
+    position: absolute;
+    background: 50% 50% no-repeat;
+    z-index: 0;
+  }
+  .ny-calendar__body::before {
+    left: 140px;
+    bottom: 10px;
+    width: 227px;
+    height: 145px;
+    background-image: url("/static/golden-stars_2.png");
+  }
+  .ny-calendar__body::after {
+    right: 90px;
+    top: 80px;
+    width: 303px;
+    height: 60px;
+    background-image: url("/static/golden-stars.png");
+  }
 }
-.ny-calendar__body::before {
-  left: 140px;
-  bottom: 10px;
-  width: 227px;
-  height: 145px;
-  background-image: url("/static/golden-stars_2.png");
-}
-.ny-calendar__body::after {
-  right: 90px;
-  top: 80px;
-  width: 303px;
-  height: 60px;
-  background-image: url("/static/golden-stars.png");
+@media (max-width: 960px) {
+  .ny-calendar__body {
+    width: 100%;
+    padding: 7em 0;
+    background: 100% 5% no-repeat;
+    background-image: url("/static/golden-stars_2.png");
+    -webkit-background-size: 60% auto;
+       -moz-background-size: 60% auto;
+            background-size: 60% auto;
+  }
 }
 .ny-calendar__slider {
   position: relative;
@@ -47,105 +67,141 @@
 .ny-calendar__slide {
   display: inline-block;
   position: relative;
-  width: 480px;
-  height: 410px;
   z-index: 1;
+}
+@media (min-width: 960px) {
+  .ny-calendar__slide {
+    width: 480px;
+    height: 410px;
+  }
 }
 .ny-calendar-slider {
   position: relative;
   padding: 10px 0;
 }
 .ny-calendar-slider__button {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  background: no-repeat;
-  background-color: #fff;
-  -webkit-border-radius: 50%;
-     -moz-border-radius: 50%;
-          border-radius: 50%;
-  -webkit-background-size: 13px 25px;
-     -moz-background-size: 13px 25px;
-          background-size: 13px 25px;
-  z-index: 3;
-  outline: none;
-  cursor: pointer;
-  -webkit-transition: 0.5s all ease;
-  -o-transition: 0.5s all ease;
-  -moz-transition: 0.5s all ease;
-  transition: 0.5s all ease;
+  display: none;
 }
-.ny-calendar-slider__button--prev {
-  top: 180px;
-  left: 0;
-  background-position: 45% 50%;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iNDIiIHZpZXdCb3g9IjAgMCAyMiA0MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIxIDQxTDEgMjFMMjEgMSIgc3Ryb2tlPSJibGFjayIvPgo8L3N2Zz4K");
+@media (min-width: 960px) {
+  .ny-calendar-slider__button {
+    display: block;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: no-repeat;
+    background-color: #fff;
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+    -webkit-background-size: 13px 25px;
+       -moz-background-size: 13px 25px;
+            background-size: 13px 25px;
+    z-index: 3;
+    outline: none;
+    cursor: pointer;
+    -webkit-transition: 0.5s all ease;
+    -o-transition: 0.5s all ease;
+    -moz-transition: 0.5s all ease;
+    transition: 0.5s all ease;
+  }
+  .ny-calendar-slider__button--prev {
+    top: 180px;
+    left: 0;
+    background-position: 45% 50%;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iNDIiIHZpZXdCb3g9IjAgMCAyMiA0MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIxIDQxTDEgMjFMMjEgMSIgc3Ryb2tlPSJibGFjayIvPgo8L3N2Zz4K");
+  }
+  .ny-calendar-slider__button--prev:hover {
+    left: -3px;
+  }
+  .ny-calendar-slider__button--next {
+    top: 270px;
+    right: 0;
+    background-position: 55% 50%;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iNDIiIHZpZXdCb3g9IjAgMCAyMiA0MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEgMUwyMSAyMUwxIDQxIiBzdHJva2U9ImJsYWNrIi8+Cjwvc3ZnPgo=");
+  }
+  .ny-calendar-slider__button--next:hover {
+    right: -3px;
+  }
+  .ny-calendar-slider__button--disabled {
+    opacity: 0.5;
+  }
 }
-.ny-calendar-slider__button--prev:hover {
-  left: -3px;
+@media (min-width: 960px) {
+  .ny-calendar-slide {
+    position: relative;
+    z-index: 1;
+  }
+  .ny-calendar-slide:hover {
+    z-index: 2;
+  }
+  .ny-calendar-slide[href] {
+    cursor: pointer;
+  }
+  .ny-calendar-slide__image {
+    position: absolute;
+    top: 15px;
+    width: 450px;
+    -webkit-transition: 0.5s all ease;
+    -o-transition: 0.5s all ease;
+    -moz-transition: 0.5s all ease;
+    transition: 0.5s all ease;
+    background-color: #c71b1e;
+    -webkit-box-shadow: 0 0 20px 0 #890002;
+       -moz-box-shadow: 0 0 20px 0 #890002;
+            box-shadow: 0 0 20px 0 #890002;
+    -webkit-filter: grayscale(1);
+            filter: grayscale(1);
+  }
+  .ny-calendar-slide--started .ny-calendar-slide__image,
+  .ny-calendar-slide--coming .ny-calendar-slide__image {
+    -webkit-filter: none;
+            filter: none;
+  }
+  .ny-calendar-slide--active .ny-calendar-slide__image,
+  .ny-calendar-slide--prev .ny-calendar-slide__image {
+    top: 15px;
+  }
+  .ny-calendar-slide--active .ny-calendar-slide__image {
+    right: -30px;
+    -webkit-transform: scale(0.95);
+       -moz-transform: scale(0.95);
+        -ms-transform: scale(0.95);
+         -o-transform: scale(0.95);
+            transform: scale(0.95);
+  }
+  .ny-calendar-slide--active:hover .ny-calendar-slide__image {
+    -webkit-transform: scale(1);
+       -moz-transform: scale(1);
+        -ms-transform: scale(1);
+         -o-transform: scale(1);
+            transform: scale(1);
+  }
+  .ny-calendar-slide--next .ny-calendar-slide__image {
+    left: -30px;
+    top: 90px;
+  }
 }
-.ny-calendar-slider__button--next {
-  top: 270px;
-  right: 0;
-  background-position: 55% 50%;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iNDIiIHZpZXdCb3g9IjAgMCAyMiA0MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEgMUwyMSAyMUwxIDQxIiBzdHJva2U9ImJsYWNrIi8+Cjwvc3ZnPgo=");
-}
-.ny-calendar-slider__button--next:hover {
-  right: -3px;
-}
-.ny-calendar-slider__button--disabled {
-  opacity: 0.5;
-}
-.ny-calendar-slide {
-  position: relative;
-  z-index: 1;
-}
-.ny-calendar-slide:hover {
-  z-index: 2;
-}
-.ny-calendar-slide[href] {
-  cursor: pointer;
-}
-.ny-calendar-slide__image {
-  position: absolute;
-  top: 15px;
-  width: 450px;
-  -webkit-transition: 0.5s all ease;
-  -o-transition: 0.5s all ease;
-  -moz-transition: 0.5s all ease;
-  transition: 0.5s all ease;
-  background-color: #c71b1e;
-  -webkit-box-shadow: 0 0 20px 0 #890002;
-     -moz-box-shadow: 0 0 20px 0 #890002;
-          box-shadow: 0 0 20px 0 #890002;
-  -webkit-filter: grayscale(1);
-          filter: grayscale(1);
-}
-.ny-calendar-slide--started .ny-calendar-slide__image,
-.ny-calendar-slide--coming .ny-calendar-slide__image {
-  -webkit-filter: none;
-          filter: none;
-}
-.ny-calendar-slide--active .ny-calendar-slide__image,
-.ny-calendar-slide--prev .ny-calendar-slide__image {
-  top: 0;
-}
-.ny-calendar-slide--active .ny-calendar-slide__image {
-  right: -30px;
-  -webkit-transform: scale(0.95);
-     -moz-transform: scale(0.95);
-      -ms-transform: scale(0.95);
-       -o-transform: scale(0.95);
-          transform: scale(0.95);
-}
-.ny-calendar-slide--active:hover .ny-calendar-slide__image {
-  -webkit-transform: scale(1);
-     -moz-transform: scale(1);
-      -ms-transform: scale(1);
-       -o-transform: scale(1);
-          transform: scale(1);
-}
-.ny-calendar-slide--next .ny-calendar-slide__image {
-  left: -30px;
-  top: 90px;
+@media (max-width: 960px) {
+  .ny-calendar-slide {
+    padding: 5% 0;
+  }
+  .ny-calendar-slide__image {
+    display: block;
+    width: 100%;
+    -webkit-transition: 0.5s all ease;
+    -o-transition: 0.5s all ease;
+    -moz-transition: 0.5s all ease;
+    transition: 0.5s all ease;
+    background-color: #c71b1e;
+    -webkit-box-shadow: 0 0 20px 0 #890002;
+       -moz-box-shadow: 0 0 20px 0 #890002;
+            box-shadow: 0 0 20px 0 #890002;
+    -webkit-filter: grayscale(1);
+            filter: grayscale(1);
+  }
+  .ny-calendar-slide--started .ny-calendar-slide__image,
+  .ny-calendar-slide--coming .ny-calendar-slide__image {
+    -webkit-filter: none;
+            filter: none;
+  }
 }

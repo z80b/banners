@@ -1,38 +1,51 @@
 .ny-calendar
+  font-size 10px
   background-color #c71b1e
 
   &__title
-    font-size 64px
-    font-weight 700
-    text-align center
-    color #ffe49a
-    margin 0
-    padding 0
+    display none
+
+    @media (min-width: 960px)
+      display block
+      font-size 64px
+      font-weight 700
+      text-align center
+      color #ffe49a
+      margin 0
+      padding 0
 
   &__body
-    position relative
-    width 960px
-    margin 0 auto
-    padding 50px 0
+    @media (min-width: 960px)
+      position relative
+      width 960px
+      margin 0 auto
+      padding 50px 0
 
-    &::after, &::before
-      content ''
-      display block
-      position absolute
-      background 50% 50% no-repeat
-      z-index 0
+      &::after, &::before
+        content ''
+        display block
+        position absolute
+        background 50% 50% no-repeat
+        z-index 0
 
-    &::before
-      left 140px
-      bottom 10px
-      size 227px 145px
+      &::before
+        left 140px
+        bottom 10px
+        size 227px 145px
+        background-image url('/static/golden-stars_2.png')
+
+      &::after
+        right 90px
+        top 80px
+        size 303px 60px
+        background-image url('/static/golden-stars.png')
+
+    @media (max-width: 960px)
+      width 100%
+      padding 7em 0
+      background 100% 5% no-repeat
       background-image url('/static/golden-stars_2.png')
-
-    &::after
-      right 90px
-      top 80px
-      size 303px 60px
-      background-image url('/static/golden-stars.png')
+      background-size 60% auto
 
   &__slider
     position relative
@@ -43,5 +56,9 @@
 
   &__slide
     display inline-block
-    relative width 480px height 410px
+    position relative
     z-index 1
+
+    @media (min-width: 960px)
+      width 480px
+      height 410px
