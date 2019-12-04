@@ -10935,6 +10935,21 @@
     }
   };
 
+  var getMoscowTime = function getMoscowTime() {
+    var dt = new Date();
+    var timeString = dt.toLocaleTimeString('ru-RU', {
+      timeZone: 'Europe/Moscow'
+    });
+    return Date.parse("".concat(getDate(dt), " ").concat(timeString));
+  };
+  var getDate = function getDate() {
+    var dt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
+    return "".concat(dt.getFullYear(), "/").concat(two(dt.getMonth() + 1), "/").concat(two(dt.getDate()));
+  };
+  var two = function two(num) {
+    return parseInt(num) > 9 ? num : "0".concat(num);
+  };
+
   var BannerSlide =
   /*#__PURE__*/
   function (_Dom) {
@@ -10951,7 +10966,7 @@
 
       _this.startTime = Date.parse("2019/".concat(dt[1], "/").concat(dt[2], " 00:00:00"));
       _this.endTime = Date.parse("2019/".concat(dt[3], "/").concat(dt[4], " 23:59:59"));
-      _this.currentTime = new Date().getTime();
+      _this.currentTime = getMoscowTime();
       _this.href = _this.$el.getAttribute('data-href');
       _this.started = false;
 
@@ -10964,7 +10979,7 @@
     _createClass(BannerSlide, [{
       key: "checkTime",
       value: function checkTime() {
-        this.currentTime = new Date().getTime();
+        this.currentTime = getMoscowTime();
 
         if (this.currentTime >= this.startTime && this.currentTime <= this.endTime) {
           this.started = true;
