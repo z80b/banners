@@ -114,9 +114,17 @@
   -o-transition: 0.5s all ease;
   -moz-transition: 0.5s all ease;
   transition: 0.5s all ease;
+  background-color: #c71b1e;
   -webkit-box-shadow: 0 0 20px 0 #890002;
      -moz-box-shadow: 0 0 20px 0 #890002;
           box-shadow: 0 0 20px 0 #890002;
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
+}
+.ny-calendar-slide--started .ny-calendar-slide__image,
+.ny-calendar-slide--coming .ny-calendar-slide__image {
+  -webkit-filter: none;
+          filter: none;
 }
 .ny-calendar-slide--active .ny-calendar-slide__image,
 .ny-calendar-slide--prev .ny-calendar-slide__image {
