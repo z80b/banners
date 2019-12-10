@@ -57,13 +57,17 @@ if (args.mode == 'production') {
 function browserSync(done) {
   browsersync.init({
     server: {
-      baseDir: "./tmp/"
+      baseDir: './tmp/',
+      middleware: [{
+        route: '/blackfriday/preparequestions',
+        handle: console.log,
+      }],
     },
     port: 3000,
     serveStatic: [{
       route: '/static',
       dir: 'public'
-    }]
+    }],
   });
   done();
 }
